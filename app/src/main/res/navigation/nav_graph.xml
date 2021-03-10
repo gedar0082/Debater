@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/debateFragment">
+
+    <fragment
+        android:id="@+id/debateFragment"
+        android:name="com.gedar0082.debater.view.DebateFragment"
+        android:label="fragment_debate"
+        tools:layout="@layout/fragment_debate" >
+        <action
+            android:id="@+id/action_debateFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_debateFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_debateFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_debateFragment_to_thesisMapFragment"
+            app:destination="@id/thesisMapFragment" />
+        <action
+            android:id="@+id/action_debateFragment_self"
+            app:destination="@id/debateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.gedar0082.debater.view.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_debateFragment"
+            app:destination="@id/debateFragment" />
+        <action
+            android:id="@+id/action_userFragment_self"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.gedar0082.debater.view.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_debateFragment"
+            app:destination="@id/debateFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_self"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.gedar0082.debater.view.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" >
+        <action
+            android:id="@+id/action_infoFragment_to_debateFragment"
+            app:destination="@id/debateFragment" />
+        <action
+            android:id="@+id/action_infoFragment_self"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thesisMapFragment"
+        android:name="com.gedar0082.debater.view.ThesisMapFragment"
+        android:label="fragment_thesis_map"
+        tools:layout="@layout/fragment_thesis_map" >
+        <action
+            android:id="@+id/action_thesisMapFragment_to_debateFragment"
+            app:destination="@id/debateFragment" />
+        <action
+            android:id="@+id/action_thesisMapFragment_to_thesisFragment"
+            app:destination="@id/thesisFragment" />
+        <action
+            android:id="@+id/action_thesisMapFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_thesisMapFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_thesisMapFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thesisFragment"
+        android:name="com.gedar0082.debater.view.ThesisFragment"
+        android:label="fragment_thesis"
+        tools:layout="@layout/fragment_thesis" >
+        <action
+            android:id="@+id/action_thesisFragment_to_argumentMapFragment"
+            app:destination="@id/argumentMapFragment" />
+        <action
+            android:id="@+id/action_thesisFragment_to_thesisMapFragment"
+            app:destination="@id/thesisMapFragment" />
+        <action
+            android:id="@+id/action_thesisFragment_to_debateFragment"
+            app:destination="@id/debateFragment" />
+        <action
+            android:id="@+id/action_thesisFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_thesisFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_thesisFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_thesisFragment_to_infoFragment2"
+            app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_thesisFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_thesisFragment_to_userFragment2"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/argumentMapFragment"
+        android:name="com.gedar0082.debater.view.ArgumentMapFragment"
+        android:label="fragment_argument_map"
+        tools:layout="@layout/fragment_argument_map" >
+        <action
+            android:id="@+id/action_argumentMapFragment_to_thesisFragment"
+            app:destination="@id/thesisFragment" />
+        <action
+            android:id="@+id/action_argumentMapFragment_to_argumentFragment"
+            app:destination="@id/argumentFragment" />
+        <action
+            android:id="@+id/action_argumentMapFragment_to_debateFragment"
+            app:destination="@id/debateFragment" />
+        <action
+            android:id="@+id/action_argumentMapFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_argumentMapFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_argumentMapFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/argumentFragment"
+        android:name="com.gedar0082.debater.view.ArgumentFragment"
+        android:label="fragment_argument"
+        tools:layout="@layout/fragment_argument" >
+        <action
+            android:id="@+id/action_argumentFragment_to_argumentMapFragment"
+            app:destination="@id/argumentMapFragment" />
+        <action
+            android:id="@+id/action_argumentFragment_to_debateFragment"
+            app:destination="@id/debateFragment" />
+        <action
+            android:id="@+id/action_argumentFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_argumentFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_argumentFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+    </fragment>
+</navigation>

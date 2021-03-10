@@ -1,0 +1,26 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="myDialogStyle" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <!--buttons color-->
+        <item name="android:buttonBarPositiveButtonStyle">@style/positiveButtonStylo</item>
+        <!--dialog background-->
+        <item name="android:windowBackground">@drawable/card_round</item>
+    </style>
+
+    <style name="positiveButtonStylo" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/textPrimaryDark</item>
+        <item name="android:background">@drawable/btn_round</item>
+
+    </style>
+
+
+
+</resources>
