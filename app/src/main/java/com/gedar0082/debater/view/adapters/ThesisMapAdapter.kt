@@ -1,7 +1,12 @@
 package com.gedar0082.debater.view.adapters
 
+import android.content.Context
+import android.graphics.Point
+import android.util.DisplayMetrics
+import android.view.Display
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.ThesisMapNodeBinding
@@ -64,12 +69,33 @@ fun graphInit(list: List<DebateWithTheses>?): Graph{
     }else{
         llist = list.first().theses
     }
+
     val parent = Node(Thesis(100, 0, "suck", "my balls"))
+    val leftX = 100.0f
+    val rightX = 800.0f
+    var levelY = 100.0f
+    val verticalOffset = 300.0f
+    parent.x = 480.0f
+    parent.y = levelY
+//вынести это говно в noOpAlgo
     val graph = Graph()
     graph.addNode(parent)
+    var tempNode = parent
+    var counter = 0
     for (a in llist){
         val node = Node(a)
-        graph.addEdge(Edge(parent, node))
+        if (counter % 2 == 0){
+            node.x = leftX
+            node.y = levelY+verticalOffset
+        }else{
+            node.x = rightX
+            node.y = levelY+verticalOffset
+            levelY +=verticalOffset
+        }
+        counter++
+        graph.addEdge(Edge(tempNode, node))
+        tempNode = node
+
     }
     return graph
 }

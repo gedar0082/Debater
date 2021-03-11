@@ -9,7 +9,7 @@ import com.gedar0082.debater.model.local.entity.Thesis
 import com.gedar0082.debater.model.local.entityDao.DebateDao
 import com.gedar0082.debater.model.local.entityDao.ThesisDao
 
-@Database(entities = [Debate::class, Thesis::class], version = 1)
+@Database(entities = [Debate::class, Thesis::class], version = 2)
 abstract class DebateDB : RoomDatabase() {
 
     abstract fun debateDao(): DebateDao
@@ -24,7 +24,9 @@ abstract class DebateDB : RoomDatabase() {
             if (tempInstance != null) return tempInstance
             synchronized(this) {
                 val instance =
-                    Room.databaseBuilder(context, DebateDB::class.java, "database").build()
+                    Room.databaseBuilder(context, DebateDB::class.java, "database")
+                        .fallbackToDestructiveMigration()
+                        .build()
                 INSTANCE = instance
                 return instance
             }

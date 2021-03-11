@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="vm"
             type="com.gedar0082.debater.viewmodel.ThesisMapViewModel" />
-
     </data>
 
     <LinearLayout
-        android:id="@+id/tm_node"
-        android:layout_width="wrap_content"
+        android:id="@+id/thesis_open"
         android:layout_height="wrap_content"
-        android:background="@drawable/card_round"
-        android:orientation="vertical"
-        >
+        android:layout_width="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/node_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="temp">
+            android:id="@+id/thesis_name"
+            android:text="name">
 
         </TextView>
 
         <TextView
-            android:id="@+id/node_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="temp">
+            android:id="@+id/thesis_desc"
+            android:text="description">
 
         </TextView>
 
     </LinearLayout>
 </layout>
-

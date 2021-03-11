@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_thesisMapFragment_to_userFragment"
             app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_thesisMapFragment_to_argumentMapFragment"
+            app:destination="@id/argumentMapFragment" />
     </fragment>
     <fragment
         android:id="@+id/thesisFragment"
