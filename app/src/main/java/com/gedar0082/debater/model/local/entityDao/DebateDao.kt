@@ -3,6 +3,7 @@ package com.gedar0082.debater.model.local.entityDao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.gedar0082.debater.model.local.entity.Debate
+import com.gedar0082.debater.model.local.entity.DebateWithArguments
 import com.gedar0082.debater.model.local.entity.DebateWithTheses
 
 @Dao
@@ -30,5 +31,9 @@ interface DebateDao {
     @Transaction
     @Query("SELECT * FROM debate_table WHERE debate_id = :id")
     suspend fun getDebateWithTheses(id: Long) : List<DebateWithTheses>
+
+    @Transaction
+    @Query("SELECT * FROM debate_table WHERE debate_id = :id")
+    suspend fun getArgumentsByDebate(id: Long) : List<DebateWithArguments>
 
 }

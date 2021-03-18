@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -63,13 +65,13 @@ class ThesisMapFragment : Fragment() {
         thesisMapViewModel.getTheses(thesisMapViewModel.debateId)
         thesisMapViewModel.theses.observe(viewLifecycleOwner, {
             it?.let {
-                binding.graph.adapter = ThesisMapAdapter(it) { selected: Thesis ->
-                    Log.e("suka", selected.thesisName)
-                    val duration = Toast.LENGTH_SHORT
-                    val toast = Toast.makeText(context, "suka", duration)
+                binding.graph.adapter = ThesisMapAdapter(it, { selected: Thesis ->
                     openThesis(selected)
-                    toast.show()
-                }
+                    println("click passed")
+                }, { selected: Thesis ->
+                    thesisMapViewModel.createNewThesis(selected)
+                    println("long click passed")
+                })
 
             }
         })
@@ -84,9 +86,11 @@ class ThesisMapFragment : Fragment() {
 
     private fun displayTempGraph() {
         binding.graph.adapter =
-            ThesisMapAdapter(listOf()) { selected: Thesis ->
+            ThesisMapAdapter(listOf(), { selected: Thesis ->
                 println(selected.thesisName)
-            }
+            }, { selected: Thesis ->
+                println(selected.thesisName)
+            })
     }
 
     private fun openThesis(thesis: Thesis){
@@ -97,14 +101,20 @@ class ThesisMapFragment : Fragment() {
         confirm.setCancelable(true)
         promptView.setOnTouchListener(object: OnSwipeTouchListener(requireContext()){
             override fun onSwipeLeft() {
-                navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment)
+                val bundle = bundleOf(Pair("debate_id", thesisMapViewModel.debateId))
+                navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
 
             }
         })
         val textName = promptView.findViewById<TextView>(R.id.thesis_name)
         val textDesc = promptView.findViewById<TextView>(R.id.thesis_desc)
+//        thesisMapViewModel.clickableThesis = thesis
+        val btn = promptView.findViewById<Button>(R.id.btn_answer)
+        btn.setOnClickListener {
+            thesisMapViewModel.createNewThesis(thesis)
+        }
         textName.text = thesis.thesisName
-        textDesc.text = thesis.thesisDesc
+        textDesc.text = thesis.thesisIntro
         confirm.create()
         confirm.show()
     }

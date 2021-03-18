@@ -65,8 +65,5 @@ class DebateViewModel(private val debateRepository : DebateRepository, private v
         confirm.show()
     }
 
-    fun thesisInserter(debate: Debate):Job = viewModelScope.launch{
-        trepo.insert(Thesis(0, debate.id, "suuka", "blyyat"))
-    }
 
 }

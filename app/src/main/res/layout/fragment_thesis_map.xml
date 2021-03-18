@@ -31,14 +31,14 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/ic_add"
-            android:onClick="@{()->vm.createNewThesis()}"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.923"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.928" />
-
+        <!--            android:onClick="@{()->vm.createNewThesis()}"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

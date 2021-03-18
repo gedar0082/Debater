@@ -1,6 +1,7 @@
 package com.gedar0082.debater.repository
 
 import com.gedar0082.debater.model.local.entity.Debate
+import com.gedar0082.debater.model.local.entity.DebateWithArguments
 import com.gedar0082.debater.model.local.entity.DebateWithTheses
 import com.gedar0082.debater.model.local.entityDao.DebateDao
 
@@ -27,6 +28,10 @@ class DebateRepository(private val debateDao: DebateDao) {
 
     suspend fun getDebateWithTheses(id: Long): List<DebateWithTheses> {
         return debateDao.getDebateWithTheses(id)
+    }
+
+    suspend fun getDebateWithArguments(id: Long): List<DebateWithArguments>{
+        return debateDao.getArgumentsByDebate(id)
     }
 
 }

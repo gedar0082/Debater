@@ -24,6 +24,7 @@ class ThesisMapViewModel(
     private val debateRepository: DebateRepository
 ) : ViewModel(), Observable {
 
+//    lateinit var clickableThesis: Thesis
 
     lateinit var context: Context
     var theses = MutableLiveData<List<DebateWithTheses>>()
@@ -51,7 +52,13 @@ class ThesisMapViewModel(
     }
 
 
-    fun createNewThesis() {
+    fun createNewThesis(thesis: Thesis?) {
+        val thesiss: Thesis
+        if (thesis == null){
+            thesiss = Thesis(0, debateId, 0, thesisName.value!!, thesisDesc.value!!, null, null, null, null, null)
+        }else{
+            thesiss = thesis
+        }
         val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
         val li = LayoutInflater.from(context)
         val promptView: View = li.inflate(R.layout.name_fields, null)
@@ -63,7 +70,7 @@ class ThesisMapViewModel(
                     val text2: EditText? = promptView.findViewById(R.id.disDescription)
                     thesisName.value = text1?.text.toString()
                     thesisDesc.value = text2?.text.toString()
-                    insertThesis()
+                    insertThesis(thesiss)
                     dialog.cancel()
                 }
             }
@@ -73,8 +80,8 @@ class ThesisMapViewModel(
 
 
 
-    private fun insertThesis(): Job = viewModelScope.launch {
-        thesisRepository.insert(Thesis(0, debateId, thesisName.value!!, thesisDesc.value!!))
+    private fun insertThesis(thesis: Thesis): Job = viewModelScope.launch {
+        thesisRepository.insert(Thesis(0, debateId, thesis.tId, thesisName.value!!, thesisDesc.value!!, null, null, null, null, null))
         getTheses(debateId)
     }
 

@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.ArgumentMapFragment">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+        <variable
+            name="vm"
+            type="com.gedar0082.debater.viewmodel.ArgumentMapViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/new_arg"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.923"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.928"
+            android:onClick="@{()->vm.createNewArgument()}"/>
 
-</FrameLayout>
+        <com.otaliastudios.zoom.ZoomLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:hasClickableChildren="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+
+            <de.blox.graphview.GraphView
+                android:id="@+id/argument_map_graph"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:lineColor="@android:color/holo_blue_dark"
+                app:lineThickness="2dp"
+                app:useMaxSize="true" />
+
+        </com.otaliastudios.zoom.ZoomLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

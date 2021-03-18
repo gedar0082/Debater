@@ -6,12 +6,12 @@
     <data>
         <variable
             name="vm"
-            type="com.gedar0082.debater.viewmodel.ThesisMapViewModel" />
+            type="com.gedar0082.debater.viewmodel.ArgumentMapViewModel" />
 
     </data>
 
     <LinearLayout
-        android:id="@+id/thesis_open"
+        android:id="@+id/argument_open"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation="vertical">
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:id="@+id/thesis_name"
+            android:id="@+id/argument_name"
             android:text="name">
 
         </TextView>
@@ -29,21 +29,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/thesis_desc"
+            android:id="@+id/argument_desc"
             android:gravity="center"
             android:layout_gravity="center"
             android:text="description">
 
         </TextView>
         <Button
-            android:id="@+id/btn_answer"
+            android:id="@+id/btn_arg_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ответить">
         </Button>
 
         <Button
-            android:id="@+id/btn_new_arg"
+            android:id="@+id/btn_arg_new_arg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="new arg">
