@@ -11,18 +11,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
-            android:id="@+id/new_arg"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/ic_add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.923"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.928"
-            android:onClick="@{()->vm.createNewArgument()}"/>
 
         <com.otaliastudios.zoom.ZoomLayout
             android:layout_width="match_parent"
@@ -32,8 +20,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-
 
             <de.blox.graphview.GraphView
                 android:id="@+id/argument_map_graph"

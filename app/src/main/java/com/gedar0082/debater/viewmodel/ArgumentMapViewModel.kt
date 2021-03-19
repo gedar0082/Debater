@@ -49,7 +49,7 @@ class ArgumentMapViewModel( private val drepo : DebateRepository,
 
     }
 
-    fun createNewArgument(){
+    fun createNewArgument(argument: Argument?){
         val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
         val li = LayoutInflater.from(context)
         val promptView: View = li.inflate(R.layout.name_fields, null)
@@ -58,9 +58,8 @@ class ArgumentMapViewModel( private val drepo : DebateRepository,
             .setPositiveButton("Create"){ dialog, _ ->
                 run{
                     val text1: EditText? = promptView.findViewById(R.id.disName)
-                    val text2: EditText? = promptView.findViewById(R.id.disDescription)
                     argumentText.value = text1?.text.toString()
-                    insertArgument(Argument(0,0,0,debateId,argumentText.value!!))
+                    insertArgument(Argument(0,argument!!.aId,0,debateId,argumentText.value!!))
                     dialog.cancel()
 
                 }

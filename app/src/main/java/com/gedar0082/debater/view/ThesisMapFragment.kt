@@ -34,6 +34,7 @@ class ThesisMapFragment : Fragment() {
     private lateinit var binding: FragmentThesisMapBinding
     private lateinit var thesisMapViewModel: ThesisMapViewModel
     private lateinit var navController: NavController
+    var debateName = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,13 +60,14 @@ class ThesisMapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         thesisMapViewModel.debateId = arguments?.getLong("id")!!
+        debateName = arguments?.getString("name")!!
         Log.e("id", "${thesisMapViewModel.debateId}")
         navController = view.findNavController()
         thesisMapViewModel.context = requireContext()
         thesisMapViewModel.getTheses(thesisMapViewModel.debateId)
         thesisMapViewModel.theses.observe(viewLifecycleOwner, {
             it?.let {
-                binding.graph.adapter = ThesisMapAdapter(it, { selected: Thesis ->
+                binding.graph.adapter = ThesisMapAdapter(it, debateName, { selected: Thesis ->
                     openThesis(selected)
                     println("click passed")
                 }, { selected: Thesis ->
@@ -86,7 +88,7 @@ class ThesisMapFragment : Fragment() {
 
     private fun displayTempGraph() {
         binding.graph.adapter =
-            ThesisMapAdapter(listOf(), { selected: Thesis ->
+            ThesisMapAdapter(listOf(), debateName, { selected: Thesis ->
                 println(selected.thesisName)
             }, { selected: Thesis ->
                 println(selected.thesisName)
@@ -108,7 +110,6 @@ class ThesisMapFragment : Fragment() {
         })
         val textName = promptView.findViewById<TextView>(R.id.thesis_name)
         val textDesc = promptView.findViewById<TextView>(R.id.thesis_desc)
-//        thesisMapViewModel.clickableThesis = thesis
         val btn = promptView.findViewById<Button>(R.id.btn_answer)
         btn.setOnClickListener {
             thesisMapViewModel.createNewThesis(thesis)

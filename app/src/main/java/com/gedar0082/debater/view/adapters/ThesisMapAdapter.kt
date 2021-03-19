@@ -14,9 +14,10 @@ import de.blox.graphview.*
 
 class ThesisMapAdapter(
     list : List<DebateWithTheses>,
+    name : String,
     private val clickListener: (Thesis)->Unit,
     private val longClickListener: (Thesis)->Unit
-): GraphAdapter<GraphView.ViewHolder>(graphInit(list)) {
+): GraphAdapter<GraphView.ViewHolder>(graphInit(list, name)) {
 
 
     override fun getCount(): Int {
@@ -71,7 +72,7 @@ class ThesisMapAdapter(
 и друг за другом их расставляет по цепочке делая связи. Сейчас лень, потом понадобится
 в будущем распределение по пикселям надо будет вынести в алгоритм, а присваивать тезисы узлам здесь
  */
-fun graphInit(list: List<DebateWithTheses>?): Graph{
+fun graphInit(list: List<DebateWithTheses>?, name: String): Graph{
     val llist : List<Thesis>
     if(list == null || list.isEmpty()){
         llist = listOf()
@@ -79,12 +80,12 @@ fun graphInit(list: List<DebateWithTheses>?): Graph{
         llist = list.first().theses
     }
 
-    val parent = Node(Thesis(0, 0, 0, "el problema", "gracias", null, null, null, null, null))
+    val parent = Node(Thesis(0, 0, 0, name, "discussion", null, null, null, null, null))
     val leftX = 100.0f
     val rightX = 800.0f
     var levelY = 100.0f
-    val verticalOffset = 300.0f
-    parent.x = 480.0f
+    val verticalOffset = 400.0f
+    parent.x = 435.0f
     parent.y = levelY
 //вынести это говно в noOpAlgo
     val graph = Graph()

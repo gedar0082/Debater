@@ -63,9 +63,11 @@ class ArgumentMapFragment : Fragment() {
         argumentMapViewModel.getArguments(argumentMapViewModel.debateId)
         argumentMapViewModel.arguments.observe(viewLifecycleOwner, {
             it?.let {
-                binding.argumentMapGraph.adapter = ArgumentMapAdapter(it) { selected: Argument ->
+                binding.argumentMapGraph.adapter = ArgumentMapAdapter(it, { selected: Argument ->
                     openArgument(selected)
-                }
+                }, { selected: Argument ->
+                    argumentMapViewModel.createNewArgument(selected)
+                })
             }
         })
         argumentMapViewModel.getArguments(argumentMapViewModel.debateId)
@@ -81,9 +83,11 @@ class ArgumentMapFragment : Fragment() {
     }
 
     fun displayTempgraph(){
-        binding.argumentMapGraph.adapter = ArgumentMapAdapter(listOf()){ selected: Argument ->
+        binding.argumentMapGraph.adapter = ArgumentMapAdapter(listOf(), { selected: Argument ->
             println(selected.argText)
-        }
+        }, { selected: Argument ->
+            println(selected.argText)
+        })
     }
 
     fun openArgument(argument: Argument){

@@ -78,9 +78,8 @@ class DebateFragment : Fragment() {
     }
 
     private fun itemOnClick(debate: Debate){
-        val bundle: Bundle = bundleOf(Pair("id", debate.id))
+        val bundle: Bundle = bundleOf(Pair("id", debate.id), Pair("name", debate.name))
         Log.e("tag", "${debate.id}")
-//            debateViewModel.thesisInserter(debate)
         navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
     }
 
