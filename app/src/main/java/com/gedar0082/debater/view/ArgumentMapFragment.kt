@@ -21,6 +21,7 @@ import com.gedar0082.debater.model.local.entity.Argument
 import com.gedar0082.debater.repository.ArgumentRepository
 import com.gedar0082.debater.repository.DebateRepository
 import com.gedar0082.debater.repository.ThesisRepository
+import com.gedar0082.debater.util.InterScreenController
 import com.gedar0082.debater.view.adapters.ArgumentMapAdapter
 import com.gedar0082.debater.viewmodel.ArgumentMapViewModel
 import com.gedar0082.debater.viewmodel.factory.ArgumentMapFactory
@@ -64,7 +65,13 @@ class ArgumentMapFragment : Fragment() {
         argumentMapViewModel.arguments.observe(viewLifecycleOwner, {
             it?.let {
                 binding.argumentMapGraph.adapter = ArgumentMapAdapter(it, { selected: Argument ->
-                    openArgument(selected)
+                    if (InterScreenController.chooseAnswerArg == 1){
+                        InterScreenController.argumentPressed = selected
+                        InterScreenController.chooseAnswerArg = 2
+                        navController.popBackStack()
+                    }else{
+                        openArgument(selected)
+                    }
                 }, { selected: Argument ->
                     argumentMapViewModel.createNewArgument(selected)
                 })

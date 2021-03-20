@@ -9,6 +9,7 @@ import com.gedar0082.debater.databinding.ArgumentMapNodeBinding
 import com.gedar0082.debater.databinding.FragmentArgumentMapBinding
 import com.gedar0082.debater.model.local.entity.Argument
 import com.gedar0082.debater.model.local.entity.DebateWithArguments
+import com.gedar0082.debater.util.InterScreenController
 import de.blox.graphview.*
 
 class ArgumentMapAdapter(
@@ -82,9 +83,6 @@ fun graphInit(list: List<DebateWithArguments>?): Graph {
     }
     for(a in nodes) {
         val parentEdge = getParentNodeEdge(a, nodes)
-//        if (parentEdge != null){
-//            edges.add(parentEdge)
-//        }
         parentEdge?.let { edges.add(it) }
     }
     if (edges.isEmpty()){

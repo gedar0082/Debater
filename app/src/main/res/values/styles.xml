@@ -10,6 +10,7 @@
     <style name="myDialogStyle" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <!--buttons color-->
         <item name="android:buttonBarPositiveButtonStyle">@style/positiveButtonStylo</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/negativeButtonStylo</item>
         <!--dialog background-->
         <item name="android:windowBackground">@drawable/card_round</item>
     </style>
@@ -18,6 +19,13 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/textPrimaryDark</item>
         <item name="android:background">@drawable/btn_round</item>
+
+    </style>
+    <style name="negativeButtonStylo" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/textPrimaryDark</item>
+        <item name="android:background">@drawable/btn_round</item>
+
 
     </style>
 

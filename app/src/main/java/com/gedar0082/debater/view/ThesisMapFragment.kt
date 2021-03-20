@@ -19,8 +19,10 @@ import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.FragmentThesisMapBinding
 import com.gedar0082.debater.model.local.DebateDB
 import com.gedar0082.debater.model.local.entity.Thesis
+import com.gedar0082.debater.repository.ArgumentRepository
 import com.gedar0082.debater.repository.DebateRepository
 import com.gedar0082.debater.repository.ThesisRepository
+import com.gedar0082.debater.util.InterScreenController
 import com.gedar0082.debater.util.NoOpAlgorithm
 import com.gedar0082.debater.util.OnSwipeTouchListener
 import com.gedar0082.debater.view.adapters.ThesisMapAdapter
@@ -49,7 +51,8 @@ class ThesisMapFragment : Fragment() {
         )
         val debateRepo = DebateRepository(DebateDB.getDatabase(requireContext()).debateDao())
         val thesisRepo = ThesisRepository(DebateDB.getDatabase(requireContext()).thesisDao())
-        val factory = ThesisMapFactory(thesisRepo, debateRepo)
+        val argumentRepo = ArgumentRepository(DebateDB.getDatabase(requireContext()).argumentDao())
+        val factory = ThesisMapFactory(thesisRepo, debateRepo, argumentRepo)
         thesisMapViewModel = ViewModelProvider(this, factory).get(ThesisMapViewModel::class.java)
         binding.vm = thesisMapViewModel
         binding.lifecycleOwner = this
@@ -68,17 +71,27 @@ class ThesisMapFragment : Fragment() {
         thesisMapViewModel.theses.observe(viewLifecycleOwner, {
             it?.let {
                 binding.graph.adapter = ThesisMapAdapter(it, debateName, { selected: Thesis ->
-                    openThesis(selected)
-                    println("click passed")
+                    thesisMapViewModel.openThesis(selected, navController)
                 }, { selected: Thesis ->
-                    thesisMapViewModel.createNewThesis(selected)
-                    println("long click passed")
+                    thesisMapViewModel.createNewThesis(selected, navController)
                 })
 
             }
         })
         thesisMapViewModel.getTheses(thesisMapViewModel.debateId)
 
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (InterScreenController.chooseAnswerArg == 2){
+            InterScreenController.chooseAnswerArg = 3
+            thesisMapViewModel.createNewThesis(InterScreenController.thesisPressed!!, navController)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
     }
 
     private fun initGraph() {
@@ -95,30 +108,7 @@ class ThesisMapFragment : Fragment() {
             })
     }
 
-    private fun openThesis(thesis: Thesis){
-        val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
-        val li = LayoutInflater.from(context)
-        val promptView: View = li.inflate(R.layout.thesis_open, null)
-        confirm.setView(promptView)
-        confirm.setCancelable(true)
-        promptView.setOnTouchListener(object: OnSwipeTouchListener(requireContext()){
-            override fun onSwipeLeft() {
-                val bundle = bundleOf(Pair("debate_id", thesisMapViewModel.debateId))
-                navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
 
-            }
-        })
-        val textName = promptView.findViewById<TextView>(R.id.thesis_name)
-        val textDesc = promptView.findViewById<TextView>(R.id.thesis_desc)
-        val btn = promptView.findViewById<Button>(R.id.btn_answer)
-        btn.setOnClickListener {
-            thesisMapViewModel.createNewThesis(thesis)
-        }
-        textName.text = thesis.thesisName
-        textDesc.text = thesis.thesisIntro
-        confirm.create()
-        confirm.show()
-    }
 
 
 
