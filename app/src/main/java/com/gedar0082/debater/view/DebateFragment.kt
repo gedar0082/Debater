@@ -15,22 +15,18 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.FragmentDebateBinding
-import com.gedar0082.debater.model.local.DebateDB
-import com.gedar0082.debater.model.local.entity.Debate
-import com.gedar0082.debater.repository.DebateRepository
-import com.gedar0082.debater.repository.ThesisRepository
+import com.gedar0082.debater.model.net.notification.NotificationEvent
+import com.gedar0082.debater.model.net.pojo.DebateJson
 import com.gedar0082.debater.view.adapters.DebateAdapter
 import com.gedar0082.debater.viewmodel.DebateViewModel
-import com.gedar0082.debater.viewmodel.factory.DebateFactory
-
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
 
 class DebateFragment : Fragment() {
-
 
     private lateinit var binding: FragmentDebateBinding
     private lateinit var debateViewModel: DebateViewModel
     private lateinit var navController: NavController
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,33 +38,37 @@ class DebateFragment : Fragment() {
             container,
             false
         )
-        val dao = DebateDB.getDatabase(requireContext()).debateDao()
-        val repo = DebateRepository(dao)
-        val trepo = ThesisRepository(DebateDB.getDatabase(requireContext()).thesisDao())
-        val factory = DebateFactory(repo, trepo)
-        debateViewModel = ViewModelProvider(this, factory).get(DebateViewModel::class.java)
+        FirebaseMessaging.getInstance().subscribeToTopic("/topics/myTopic")
+        debateViewModel = ViewModelProvider(this).get(DebateViewModel::class.java)
         binding.debateViewModel = debateViewModel
         binding.lifecycleOwner = this
         initRecyclerView()
+        observeNotifications()
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         debateViewModel.context = requireContext()
+        debateViewModel.getDebates()
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         binding.debateRecycle.layoutManager = LinearLayoutManager(context)
         displayDiscussions()
     }
 
-    private fun displayDiscussions(){
-        val observer = Observer<List<Debate>>{
+    private fun observeNotifications(){
+        NotificationEvent.serviceEvent.observe(this, Observer<String>{
+            _ -> debateViewModel.getDebates()
+        })
+    }
+
+    private fun displayDiscussions() {
+        val observer = Observer<List<DebateJson>> {
             binding.debateRecycle.adapter =
-                DebateAdapter(it) { selectedItem: Debate ->
+                DebateAdapter(it) { selectedItem: DebateJson ->
                     run {
                         itemOnClick(selectedItem)
                     }
@@ -77,12 +77,10 @@ class DebateFragment : Fragment() {
         debateViewModel.debates.observe(viewLifecycleOwner, observer)
     }
 
-    private fun itemOnClick(debate: Debate){
+    private fun itemOnClick(debate: DebateJson) {
         val bundle: Bundle = bundleOf(Pair("id", debate.id), Pair("name", debate.name))
         Log.e("tag", "${debate.id}")
-        navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
+        //navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
     }
-
-
 
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/debateFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/debateFragment"
@@ -163,5 +163,14 @@
         <action
             android:id="@+id/action_argumentFragment_to_userFragment"
             app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.gedar0082.debater.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_debateFragment"
+            app:destination="@id/debateFragment" />
     </fragment>
 </navigation>

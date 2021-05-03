@@ -25,7 +25,7 @@
             android:textSize="28sp" />
 
         <EditText
-            android:id="@+id/disName"
+            android:id="@+id/debate_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
@@ -36,12 +36,11 @@
             android:fontFamily="@font/stix"
             android:inputType="text"
             android:shadowColor="@color/colorAccent"
-            android:text="nothing"
             android:textColor="@color/textPrimary"
             android:textColorHighlight="@color/textPrimary" />
 
         <EditText
-            android:id="@+id/disDescription"
+            android:id="@+id/debate_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
@@ -52,8 +51,12 @@
             android:fontFamily="@font/stix"
             android:inputType="text"
             android:shadowColor="@color/colorAccent"
-            android:text="nothing"
             android:textColor="@color/textPrimaryDark" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/debate_rule">
+        </Spinner>
 
     </LinearLayout>
 </layout>

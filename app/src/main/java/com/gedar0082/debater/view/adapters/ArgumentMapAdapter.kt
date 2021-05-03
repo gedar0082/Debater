@@ -51,7 +51,7 @@ class ArgumentMapAdapter(
 
             fun bind(data: Any, clickListener: (Argument) -> Unit, longClickListener: (Argument) -> Unit){
                 binding.argumentNodeText.text = if (data is Node) (data.data as Argument).argText else "dump"
-                binding.argumentNodeDesc.text = "suck"
+                binding.argumentNodeDesc.text = "dump"
                 binding.amNode.setOnClickListener {
                     clickListener((data as Node).data as Argument)
                 }

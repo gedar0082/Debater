@@ -5,15 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-/*
-таблица дебатов
- !добавить
- - дату начала
- - дату окончания
- - выбор типа
- - выбор правил
- - владельца
- */
+
 @Entity(tableName = "debate_table")
 data class Debate(
     @PrimaryKey(autoGenerate = true)

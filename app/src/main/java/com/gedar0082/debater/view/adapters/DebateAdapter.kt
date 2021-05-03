@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.DebateCardBinding
 import com.gedar0082.debater.model.local.entity.Debate
+import com.gedar0082.debater.model.net.pojo.DebateJson
 
 class DebateAdapter(
-    private val debates: List<Debate>,
-    private val clickListener: (Debate) -> Unit
+    private val debates: List<DebateJson>,
+    private val clickListener: (DebateJson) -> Unit
 ) : RecyclerView.Adapter<DebateAdapter.DebateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DebateViewHolder {
@@ -36,7 +37,7 @@ class DebateAdapter(
     class DebateViewHolder(private val binding: DebateCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(debate: Debate, clickListener: (Debate) -> Unit) {
+        fun bind(debate: DebateJson, clickListener: (DebateJson) -> Unit) {
             binding.disNameText.text = debate.name
             binding.disDescriptionText.text = debate.description
             binding.listItemLayout.setOnClickListener {
