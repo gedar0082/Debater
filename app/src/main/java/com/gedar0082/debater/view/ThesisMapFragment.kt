@@ -1,15 +1,10 @@
 package com.gedar0082.debater.view
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,18 +12,14 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.FragmentThesisMapBinding
-import com.gedar0082.debater.model.local.DebateDB
-import com.gedar0082.debater.model.local.entity.Thesis
-import com.gedar0082.debater.repository.ArgumentRepository
-import com.gedar0082.debater.repository.DebateRepository
-import com.gedar0082.debater.repository.ThesisRepository
+import com.gedar0082.debater.model.net.notification.FirebaseService
+import com.gedar0082.debater.model.net.notification.NotificationEvent
+import com.gedar0082.debater.model.net.pojo.ThesisJson
 import com.gedar0082.debater.util.InterScreenController
 import com.gedar0082.debater.util.NoOpAlgorithm
-import com.gedar0082.debater.util.OnSwipeTouchListener
 import com.gedar0082.debater.view.adapters.ThesisMapAdapter
 import com.gedar0082.debater.viewmodel.ThesisMapViewModel
-import com.gedar0082.debater.viewmodel.factory.ThesisMapFactory
-
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class ThesisMapFragment : Fragment() {
@@ -49,14 +40,19 @@ class ThesisMapFragment : Fragment() {
             container,
             false
         )
-        val debateRepo = DebateRepository(DebateDB.getDatabase(requireContext()).debateDao())
-        val thesisRepo = ThesisRepository(DebateDB.getDatabase(requireContext()).thesisDao())
-        val argumentRepo = ArgumentRepository(DebateDB.getDatabase(requireContext()).argumentDao())
-        val factory = ThesisMapFactory(thesisRepo, debateRepo, argumentRepo)
-        thesisMapViewModel = ViewModelProvider(this, factory).get(ThesisMapViewModel::class.java)
+        println("######################################################$")
+        println("suka blya v rot ebal" + arguments?.getLong("id")!!)
+        val debateId = arguments?.getLong("id")!!
+        val topic = "/topics/debate$debateId"
+        println("topic $topic")
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/myTopic")
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+        thesisMapViewModel = ViewModelProvider(this).get(ThesisMapViewModel::class.java)
         binding.vm = thesisMapViewModel
+        thesisMapViewModel.topic = topic
         binding.lifecycleOwner = this
         initGraph()
+
         return binding.root
     }
 
@@ -66,20 +62,20 @@ class ThesisMapFragment : Fragment() {
         debateName = arguments?.getString("name")!!
         Log.e("id", "${thesisMapViewModel.debateId}")
         navController = view.findNavController()
-        thesisMapViewModel.context = requireContext()
         thesisMapViewModel.getTheses(thesisMapViewModel.debateId)
+        observeNotifications(thesisMapViewModel.debateId)
+
+        thesisMapViewModel.context = requireContext()
         thesisMapViewModel.theses.observe(viewLifecycleOwner, {
             it?.let {
-                binding.graph.adapter = ThesisMapAdapter(it, debateName, { selected: Thesis ->
+                binding.graph.adapter = ThesisMapAdapter(it, debateName, { selected: ThesisJson ->
                     thesisMapViewModel.openThesis(selected, navController)
-                }, { selected: Thesis ->
+                }, { selected: ThesisJson ->
                     thesisMapViewModel.createNewThesis(selected, navController)
                 })
 
             }
         })
-        thesisMapViewModel.getTheses(thesisMapViewModel.debateId)
-
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -90,10 +86,6 @@ class ThesisMapFragment : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
-
     private fun initGraph() {
         binding.graph.setLayout(NoOpAlgorithm())
         displayTempGraph()
@@ -101,15 +93,17 @@ class ThesisMapFragment : Fragment() {
 
     private fun displayTempGraph() {
         binding.graph.adapter =
-            ThesisMapAdapter(listOf(), debateName, { selected: Thesis ->
-                println(selected.thesisName)
-            }, { selected: Thesis ->
-                println(selected.thesisName)
+            ThesisMapAdapter(listOf(), debateName, { selected: ThesisJson ->
+                println(selected.intro)
+            }, { selected: ThesisJson ->
+                println(selected.intro)
             })
     }
 
-
-
-
+    private fun observeNotifications(id: Long){
+        NotificationEvent.thesisEvent.observe(viewLifecycleOwner, {
+            _ -> thesisMapViewModel.getTheses(id)
+        })
+    }
 
 }

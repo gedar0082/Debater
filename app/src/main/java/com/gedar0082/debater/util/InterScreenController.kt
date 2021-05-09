@@ -1,13 +1,14 @@
 package com.gedar0082.debater.util
 
-import com.gedar0082.debater.model.local.entity.Argument
-import com.gedar0082.debater.model.local.entity.Thesis
+
+import com.gedar0082.debater.model.net.pojo.ArgumentJson
+import com.gedar0082.debater.model.net.pojo.ThesisJson
 
 object InterScreenController {
 
     var chooseAnswerArg = 0
-    var argumentPressed: Argument? = null
-    var thesisPressed: Thesis? = null
+    var argumentPressed: ArgumentJson? = null
+    var thesisPressed: ThesisJson? = null
 
 
 }

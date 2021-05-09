@@ -1,5 +1,6 @@
 package com.gedar0082.debater.model.net.api
 
+import com.gedar0082.debater.model.local.entity.Thesis
 import com.gedar0082.debater.model.net.notification.PushNotification
 import com.gedar0082.debater.model.net.pojo.*
 import com.gedar0082.debater.util.Constants.Companion.CONTENT_TYPE
@@ -96,4 +97,33 @@ interface ApiService {
     @POST("insertRawPersonDebate")
     suspend fun insertRawPersonDebate(@Body personDebateRawJson: PersonDebateRawJson)
 
+    /*
+    thesis block
+     */
+
+    @GET("getThesesByDebateId")
+    suspend fun getThesesByDebateId(@Query("id") id: Long) : List<ThesisJson>
+
+    @POST("insertThesis")
+    suspend fun insertThesis(@Body thesisJson: ThesisJson) : ThesisJson
+
+    @POST("insertThesisRaw")
+    suspend fun insertThesisRaw(@Body thesisJsonRaw: ThesisJsonRaw): Long
+
+    @POST("insertThesisRaw2")
+    suspend fun insertThesisRaw2(@Body thesisJsonRaw: ThesisJsonRaw): Long
+
+
+    /*
+    argument block
+     */
+
+    @GET("getArgumentsByDebateId")
+    suspend fun getArgumentsByDebateId(@Query("id") id: Long) : List<ArgumentJson>
+
+    @POST("insertArgumentRaw")
+    suspend fun insertArgumentRaw(@Body argumentJsonRaw: ArgumentJsonRaw) : Long
+
+    @POST("insertArgumentWithoutAnswerRaw")
+    suspend fun insertArgumentWithoutAnswerRaw(@Body argumentJsonRaw: ArgumentJsonRaw): Long
 }

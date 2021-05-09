@@ -16,17 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.FragmentDebateBinding
 import com.gedar0082.debater.model.net.notification.NotificationEvent
+import com.gedar0082.debater.model.net.notification.Topics
 import com.gedar0082.debater.model.net.pojo.DebateJson
 import com.gedar0082.debater.view.adapters.DebateAdapter
 import com.gedar0082.debater.viewmodel.DebateViewModel
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingService
 
 class DebateFragment : Fragment() {
 
     private lateinit var binding: FragmentDebateBinding
     private lateinit var debateViewModel: DebateViewModel
     private lateinit var navController: NavController
+    private val topic = "/topics/maindebate"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +39,7 @@ class DebateFragment : Fragment() {
             container,
             false
         )
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/myTopic")
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
         debateViewModel = ViewModelProvider(this).get(DebateViewModel::class.java)
         binding.debateViewModel = debateViewModel
         binding.lifecycleOwner = this
@@ -50,6 +51,7 @@ class DebateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        debateViewModel.navController = navController
         debateViewModel.context = requireContext()
         debateViewModel.getDebates()
     }
@@ -59,8 +61,12 @@ class DebateFragment : Fragment() {
         displayDiscussions()
     }
 
+    /**
+     * In class NotificationEvent we have livedata. In Firebase service we post data to it, when
+     * receive message, and when data(any string) is posted, work this method and gets data
+     */
     private fun observeNotifications(){
-        NotificationEvent.serviceEvent.observe(this, Observer<String>{
+        NotificationEvent.serviceEvent.observe(viewLifecycleOwner,{
             _ -> debateViewModel.getDebates()
         })
     }
@@ -70,17 +76,29 @@ class DebateFragment : Fragment() {
             binding.debateRecycle.adapter =
                 DebateAdapter(it) { selectedItem: DebateJson ->
                     run {
-                        itemOnClick(selectedItem)
+                        debateViewModel.openDebate(selectedItem)
+                        //itemOnClick(selectedItem)
                     }
                 }
         }
         debateViewModel.debates.observe(viewLifecycleOwner, observer)
     }
 
-    private fun itemOnClick(debate: DebateJson) {
-        val bundle: Bundle = bundleOf(Pair("id", debate.id), Pair("name", debate.name))
-        Log.e("tag", "${debate.id}")
-        //navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
+//    private fun itemOnClick(debate: DebateJson) {
+//        val bundle: Bundle = bundleOf(Pair("id", debate.id), Pair("name", debate.name))
+//        Log.e("tag", "${debate.id}")
+//        navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
+//    }
+
+    override fun onStop() {
+        super.onStop()
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
     }
+
+    override fun onResume() {
+        super.onResume()
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+    }
+
 
 }

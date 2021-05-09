@@ -1,22 +1,22 @@
 package com.gedar0082.debater.view.adapters
 
-import android.content.Context
-import android.graphics.Point
-import android.util.DisplayMetrics
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.ThesisMapNodeBinding
-import com.gedar0082.debater.model.local.entity.DebateWithTheses
-import com.gedar0082.debater.model.local.entity.Thesis
+import com.gedar0082.debater.model.net.pojo.ThesisJson
+import com.gedar0082.debater.model.net.pojo.ThesisJsonRaw
+import com.gedar0082.debater.util.CurrentUser
+import com.gedar0082.debater.util.Util
 import de.blox.graphview.*
-
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 class ThesisMapAdapter(
-    list : List<DebateWithTheses>,
+    list : List<ThesisJson>,
     name : String,
-    private val clickListener: (Thesis)->Unit,
-    private val longClickListener: (Thesis)->Unit
+    private val clickListener: (ThesisJson)->Unit,
+    private val longClickListener: (ThesisJson)->Unit
 ): GraphAdapter<GraphView.ViewHolder>(graphInit(list, name)) {
 
 
@@ -51,14 +51,14 @@ class ThesisMapAdapter(
     class SimpleViewHolder(private val binding: ThesisMapNodeBinding) :
         GraphView.ViewHolder(binding.root) {
 
-        fun bind(data: Any, clickListener: (Thesis) -> Unit, longClickListener: (Thesis) -> Unit){
-            binding.nodeText.text = if (data is Node) (data.data as Thesis).thesisName else "dump"
-            binding.nodeDesc.text = if (data is Node) (data.data as Thesis).thesisIntro else "dump"
+        fun bind(data: Any, clickListener: (ThesisJson) -> Unit, longClickListener: (ThesisJson) -> Unit){
+            binding.nodeText.text = if (data is Node) (data.data as ThesisJson).intro else "dump"
+            binding.nodeDesc.text = if (data is Node) (data.data as ThesisJson).intro else "dump"
             binding.tmNode.setOnClickListener {
-                clickListener((data as Node).data as Thesis)
+                clickListener((data as Node).data as ThesisJson)
             }
             binding.tmNode.setOnLongClickListener{
-                longClickListener((data as Node).data as Thesis)
+                longClickListener((data as Node).data as ThesisJson)
                 return@setOnLongClickListener true
             }
 
@@ -72,15 +72,20 @@ class ThesisMapAdapter(
 и друг за другом их расставляет по цепочке делая связи. Сейчас лень, потом понадобится
 в будущем распределение по пикселям надо будет вынести в алгоритм, а присваивать тезисы узлам здесь
  */
-fun graphInit(list: List<DebateWithTheses>?, name: String): Graph{
-    val llist : List<Thesis>
+fun graphInit(list: List<ThesisJson>?, name: String): Graph{
+    val llist : List<ThesisJson>
     if(list == null || list.isEmpty()){
         llist = listOf()
     }else{
-        llist = list.first().theses
+        llist = list
     }
 
-    val parent = Node(Thesis(0, 0, 0, name, "discussion", null, null, null, null, null))
+    val parent = Node(
+        ThesisJson(0, "discussion", name, null, null,
+        null, null,  0, null,
+        null, null, Util.getCurrentDate())
+    )
+    println("parent = $parent")
     val leftX = 100.0f
     val rightX = 800.0f
     var levelY = 100.0f

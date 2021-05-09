@@ -7,49 +7,37 @@ import android.view.View
 import android.widget.EditText
 import androidx.databinding.Bindable
 import androidx.lifecycle.ViewModel
-import com.gedar0082.debater.repository.ArgumentRepository
-import com.gedar0082.debater.repository.DebateRepository
-import com.gedar0082.debater.repository.ThesisRepository
 import androidx.databinding.Observable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.gedar0082.debater.R
-import com.gedar0082.debater.model.local.entity.Argument
-import com.gedar0082.debater.model.local.entity.DebateWithArguments
+import com.gedar0082.debater.model.net.api.ApiFactory
+import com.gedar0082.debater.model.net.api.NotificationObject
+import com.gedar0082.debater.model.net.pojo.ArgumentJson
+import com.gedar0082.debater.model.net.pojo.ArgumentJsonRaw
+import com.gedar0082.debater.util.CurrentUser
+import com.gedar0082.debater.util.Util
 import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 
-class ArgumentMapViewModel( private val drepo : DebateRepository,
-                            private val trepo : ThesisRepository,
-                            private val arepo: ArgumentRepository) : ViewModel(), Observable {
+class ArgumentMapViewModel : ViewModel(), Observable, CoroutineScope {
 
     lateinit var context: Context
-    var arguments = MutableLiveData<List<DebateWithArguments>>()
+    var arguments = MutableLiveData<List<ArgumentJson>>()
     var debateId: Long = 0
-
+    var thesisId: Long = 0
     @Bindable
     val argumentText = MutableLiveData<String>()
 
-    init {
-        getArguments(debateId)
-    }
 
-    fun getArguments(id: Long){
-        GlobalScope.launch(Dispatchers.IO) {
-            val args = async(Dispatchers.IO) {
-                return@async drepo.getDebateWithArguments(id)
-            }.await()
-            withContext(Dispatchers.Main){
-                arguments.value = args
-            }
-        }
-        if (arguments.value != null){
-            println("arguments size from getArguments = ${arguments.value!!.first().arguments.size}")
-        }
+    override val coroutineContext: CoroutineContext
+        get() = Job()
 
-    }
+    private val apiFactory = ApiFactory.service
+    private val notificationObject = NotificationObject.service
 
-    fun createNewArgument(argument: Argument?){
+    fun createNewArgument(argument: ArgumentJson?){
         val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
         val li = LayoutInflater.from(context)
         val promptView: View = li.inflate(R.layout.name_fields, null)
@@ -59,7 +47,9 @@ class ArgumentMapViewModel( private val drepo : DebateRepository,
                 run{
                     val text1: EditText? = promptView.findViewById(R.id.disName)
                     argumentText.value = text1?.text.toString()
-                    insertArgument(Argument(0,argument!!.aId,0,debateId,argumentText.value!!))
+                    val newArgument = ArgumentJsonRaw(0, argumentText.value!!, "", "","", argument!!.id, debateId, thesisId, CurrentUser.id, Util.getCurrentDate())
+                    if (argument.id == Long.MAX_VALUE) saveArgumentWithoutAnswer(newArgument) else saveArgument(newArgument)
+                    getArguments(debateId)
                     dialog.cancel()
 
                 }
@@ -68,10 +58,34 @@ class ArgumentMapViewModel( private val drepo : DebateRepository,
         confirm.show()
     }
 
-    fun insertArgument(argument: Argument): Job = viewModelScope.launch{
-        arepo.insert(argument)
-        getArguments(debateId)
+    fun getArguments(id: Long){
+        launch {
+            runCatching { apiFactory.getArgumentsByDebateId(id) }.onSuccess {
+                println(it.toString())
+                arguments.postValue(it)
+            }.onFailure { it.printStackTrace() }
+        }
     }
+
+    private fun saveArgument(argumentJsonRaw: ArgumentJsonRaw): Long = runBlocking{
+        saveArgumentAsync(argumentJsonRaw).await()
+    }
+
+    private fun saveArgumentAsync(argumentJsonRaw: ArgumentJsonRaw) = async {
+        return@async apiFactory.insertArgumentRaw(argumentJsonRaw)
+    }
+
+    private fun saveArgumentWithoutAnswer(argumentJsonRaw: ArgumentJsonRaw): Long = runBlocking {
+        saveArgumentWithoutAnswerAsync(argumentJsonRaw).await()
+    }
+
+    private fun saveArgumentWithoutAnswerAsync(argumentJsonRaw: ArgumentJsonRaw) = async {
+        return@async apiFactory.insertArgumentWithoutAnswerRaw(argumentJsonRaw)
+    }
+
+
+
+
 
 
 

@@ -7,15 +7,14 @@ import androidx.databinding.DataBindingUtil
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.ArgumentMapNodeBinding
 import com.gedar0082.debater.databinding.FragmentArgumentMapBinding
-import com.gedar0082.debater.model.local.entity.Argument
-import com.gedar0082.debater.model.local.entity.DebateWithArguments
+import com.gedar0082.debater.model.net.pojo.ArgumentJson
 import com.gedar0082.debater.util.InterScreenController
 import de.blox.graphview.*
 
 class ArgumentMapAdapter(
-    list: List<DebateWithArguments>,
-    private val clickListener: (Argument) -> Unit,
-    private val longClickListener: (Argument) -> Unit
+    list: List<ArgumentJson>,
+    private val clickListener: (ArgumentJson) -> Unit,
+    private val longClickListener: (ArgumentJson) -> Unit
 ): GraphAdapter<GraphView.ViewHolder>(graphInit(list)) {
 
     override fun getCount(): Int {
@@ -49,14 +48,14 @@ class ArgumentMapAdapter(
     class ArgumentMapViewHolder(private val binding: ArgumentMapNodeBinding):
         GraphView.ViewHolder(binding.root){
 
-            fun bind(data: Any, clickListener: (Argument) -> Unit, longClickListener: (Argument) -> Unit){
-                binding.argumentNodeText.text = if (data is Node) (data.data as Argument).argText else "dump"
+            fun bind(data: Any, clickListener: (ArgumentJson) -> Unit, longClickListener: (ArgumentJson) -> Unit){
+                binding.argumentNodeText.text = if (data is Node) (data.data as ArgumentJson).statement else "dump"
                 binding.argumentNodeDesc.text = "dump"
                 binding.amNode.setOnClickListener {
-                    clickListener((data as Node).data as Argument)
+                    clickListener((data as Node).data as ArgumentJson)
                 }
                 binding.amNode.setOnLongClickListener{
-                    longClickListener((data as Node).data as Argument)
+                    longClickListener((data as Node).data as ArgumentJson)
                     return@setOnLongClickListener true
                 }
             }
@@ -64,42 +63,91 @@ class ArgumentMapAdapter(
 }
 
 
-fun graphInit(list: List<DebateWithArguments>?): Graph {
-    val argList: List<Argument>
-    val parentArg = Argument(Long.MAX_VALUE, 0, 0, 0, "problema")
+//fun graphInit(list: List<ArgumentJson>?): Graph {
+//    val argList: List<ArgumentJson>
+//    val parentArg = ArgumentJson(Long.MAX_VALUE, "фыв", "", "","", null, null,null, null, null)
+//    val graph = Graph()
+//    if(list == null || list.isEmpty()){
+//        graph.addNode(Node(parentArg))
+//        return graph
+//    }else{
+//        argList = list
+//    }
+//    val edges = mutableListOf<Edge>()
+//    val nodes = mutableListOf<Node>()
+//
+//    val newList = listOf(parentArg, *argList.toTypedArray())
+//    for (i in newList){
+//        nodes.add(Node(i))
+//    }
+//    for(a in nodes) {
+//        val parentEdge = getParentNodeEdge(a, nodes)
+//        parentEdge?.let { edges.add(it) }
+//    }
+//    if (edges.isEmpty()){
+//        graph.addNode(Node(parentArg))
+//    }else{
+//        graph.addEdges(*edges.toTypedArray())
+//    }
+//    println("edges number = ${edges.size}")
+//    return graph
+//}
+//
+//fun getParentNodeEdge(argument: Node, list: List<Node>): Edge?{
+//    for (a in list){
+//        if ((a.data as ArgumentJson).answer_id == null) return null
+//        if ((a.data as ArgumentJson).answer_id!!.id == (argument.data as ArgumentJson).id){ //нулпоинтер здесь, так как когда замковый узел попадает в .answer_id.id!!, у него его нет
+//            return Edge(a, argument)
+//        }
+//    }
+//    return null
+//
+//}
+
+fun graphInit(argumentList : List<ArgumentJson>?): Graph{
+    val strictArgumentList : List<ArgumentJson>
+    val parentArgument = ArgumentJson(Long.MAX_VALUE, "фыв", "",
+        "","", null, null,
+        null, null, null)
     val graph = Graph()
-    if(list == null || list.isEmpty()){
-        graph.addNode(Node(parentArg))
+    if(argumentList == null || argumentList.isEmpty()){
+        graph.addNode(Node(parentArgument))
         return graph
-    }else{
-        argList = list.first().arguments
     }
+    else strictArgumentList = listOf(parentArgument, *argumentList.toTypedArray())
+//    else strictArgumentList = listOf(*argumentList.toTypedArray())
     val edges = mutableListOf<Edge>()
     val nodes = mutableListOf<Node>()
 
-    val newList = listOf(parentArg, *argList.toTypedArray())
-    for (i in newList){
-        nodes.add(Node(i))
-    }
-    for(a in nodes) {
-        val parentEdge = getParentNodeEdge(a, nodes)
-        parentEdge?.let { edges.add(it) }
-    }
-    if (edges.isEmpty()){
-        graph.addNode(Node(parentArg))
-    }else{
-        graph.addEdges(*edges.toTypedArray())
-    }
-    println("edges number = ${edges.size}")
-    return graph
-}
-
-fun getParentNodeEdge(argument: Node, list: List<Node>): Edge?{
-    for (a in list){
-        if ((a.data as Argument).aId == (argument.data as Argument).answerTo){
-            return Edge(a, argument)
+    strictArgumentList.forEach { nodes.add(Node(it)) }
+    nodes.forEach {
+        getParentEdge(it, nodes)?.let { edge ->
+            edges.add(edge)
         }
     }
-    return null
+    return if(edges.isEmpty()){
+        graph.addNode(Node(parentArgument))
+        graph
+    } else{
+        graph.addEdges(*edges.toTypedArray())
+        graph
+    }
 
+}
+
+fun getParentEdge(node : Node, nodes: List<Node>) : Edge?{
+    if ((node.data as ArgumentJson).answer_id == null) {
+           if ((node.data as ArgumentJson) != (nodes.first().data as ArgumentJson)){
+               return Edge(nodes.first(), node)
+           }else return null
+    }
+    for (i in nodes){
+        if  ((i.data as ArgumentJson) == ((nodes.first()).data as ArgumentJson)) continue
+        if ((node.data as ArgumentJson).answer_id!!.id == (i.data as ArgumentJson).id ) return Edge(i, node)
+    }
+//    nodes.forEach {
+//        if ((it.data as ArgumentJson) == ((nodes.first()).data as ArgumentJson)) return@forEach
+//        if ((node.data as ArgumentJson).answer_id!!.id == (it.data as ArgumentJson).id ) return Edge(node, it)
+//    }
+    return null
 }

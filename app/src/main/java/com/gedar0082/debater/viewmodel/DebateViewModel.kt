@@ -2,17 +2,16 @@ package com.gedar0082.debater.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.NotificationChannel
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
+import androidx.core.os.bundleOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import com.gedar0082.debater.R
 import com.gedar0082.debater.model.net.api.ApiFactory
 import com.gedar0082.debater.model.net.api.NotificationObject
@@ -21,29 +20,27 @@ import com.gedar0082.debater.model.net.notification.PushNotification
 import com.gedar0082.debater.model.net.pojo.*
 import com.gedar0082.debater.util.CurrentUser
 import kotlinx.coroutines.*
-import okhttp3.WebSocket
 import org.json.JSONObject
-import java.sql.SQLOutput
+import org.w3c.dom.Text
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import kotlin.coroutines.CoroutineContext
 
 
-const val TOPIC = "/topics/myTopic"
+const val TOPIC = "/topics/maindebate"
 
-open class DebateViewModel : ViewModel(), CoroutineScope {
+class DebateViewModel : ViewModel(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Job()
 
-
-
-
     val debates = MutableLiveData<List<DebateJson>>()
     @SuppressLint("StaticFieldLeak")
     lateinit var context: Context
+    lateinit var navController: NavController
     private val apiFactory = ApiFactory.service
     private val notificationObject = NotificationObject.service
+
     var rule = "classic"
 
     fun getDebates(){
@@ -55,66 +52,6 @@ open class DebateViewModel : ViewModel(), CoroutineScope {
                 it.printStackTrace()
             }
         }
-    }
-
-    private fun saveDebate(debateJson: DebateJson) : Long {
-        launch {
-            runCatching { val debateJson = apiFactory.insertDebate(debateJson) }.onSuccess {
-                println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                return@onSuccess it
-            }.onFailure {
-                println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                it.printStackTrace()
-            }
-        }
-        return 0L
-    }
-
-    private fun saveDebateA(debateJson: DebateJson) : DebateJson = runBlocking {
-        saveDebateAsync(debateJson).await()
-    }
-
-    private fun saveDebateAsync(debateJson: DebateJson) = async {
-        return@async apiFactory.insertDebate(debateJson)
-    }
-
-    private fun savePersonDebate(id: Long){
-        launch {
-            runCatching {
-                val personDebateRawJson = PersonDebateRawJson(id, CurrentUser.id, 1)
-            }.onSuccess {
-                println("################################################3")
-                println("save personDebate")
-                println(it)
-
-            }.onFailure {
-                println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                it.printStackTrace()
-            }
-        }
-    }
-
-    private fun newNotification(): PushNotification{
-        println("NOTIFICATION")
-        val notificationData = NotificationData("sosi", "pisku")
-        return PushNotification(notificationData, TOPIC)
-    }
-
-    private fun createPersonDebate(debateJson: DebateJson) : PersonDebateJson{
-        val rightJson = RightJson(1, 1, 1, 1,1 )
-        val personJson = PersonJson(
-            nickname = CurrentUser.nickname,
-            id = CurrentUser.id,
-            email = CurrentUser.email,
-            password = CurrentUser.password
-        )
-        val personDebateJson = PersonDebateJson(
-            debateJson,
-            personJson,
-            rightJson
-        )
-        println(personDebateJson)
-        return personDebateJson
     }
 
     fun createNewDebate(){
@@ -134,14 +71,38 @@ open class DebateViewModel : ViewModel(), CoroutineScope {
                         getCurrentDate(),
                         getRegulationsJsonFromRule(rule))
                     println("save debate $debateJson")
-                    val id = saveDebateA(debateJson)
-                    savePersonDebate(id.id)
+                    val id = saveDebate(debateJson)
+                    savePersonDebate(id.id, 6)
                     sendNotification(newNotification())
                     dialog.cancel()
                 }
             }
         confirm.create()
         confirm.show()
+    }
+
+    fun openDebate(debateJson: DebateJson){
+        val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
+        val li = LayoutInflater.from(context)
+        val promptView: View = li.inflate(R.layout.debate_open, null)
+        confirm.setView(promptView)
+        confirm.setCancelable(true)
+        val debateOpenName = promptView.findViewById<TextView>(R.id.debate_open_name)
+        val debateOpenDescription = promptView.findViewById<TextView>(R.id.debate_open_description)
+        val debateOpenBtn = promptView.findViewById<Button>(R.id.debate_open_btn_enter)
+        debateOpenName.text = debateJson.name
+        debateOpenDescription.text = debateJson.description
+        confirm.create().apply {
+            setOnShowListener { dialog ->
+                debateOpenBtn.setOnClickListener {
+                    savePersonDebate(debateJson.id, 4)  //пока что на правила не реагирует. Решить возможно с помощью какого-то контейнера.
+                    navigate(debateJson)
+                    dialog.cancel()
+                }
+            }
+            show()
+        }
+
     }
 
     private fun getSpinnerAdapter() : ArrayAdapter<String>{
@@ -184,14 +145,45 @@ open class DebateViewModel : ViewModel(), CoroutineScope {
             if (response.isSuccessful){
                 Log.e("notification", "notification successfully sent")
             }else{
-                val jsonObject : JSONObject = JSONObject(response.errorBody()!!.string())
+                val jsonObject = JSONObject(response.errorBody()!!.string())
                 val st = jsonObject.getString("message")
                 Log.e("notification", "error in notification")
                 Log.e("notification Error", "${response.errorBody()}")
-                Log.e("notification Error", "$st")
                 Log.e("notification Error", "${response.code()}")
             }
         }
+    }
+
+    private fun saveDebate(debateJson: DebateJson) : DebateJson = runBlocking {
+        saveDebateAsync(debateJson).await()
+    }
+
+    private fun saveDebateAsync(debateJson: DebateJson) = async {
+        return@async apiFactory.insertDebate(debateJson)
+    }
+
+    private fun savePersonDebate(debateId: Long, rightsId: Long){
+        launch {
+            runCatching {
+                val personDebateRawJson = PersonDebateRawJson(debateId, CurrentUser.id, rightsId)
+                apiFactory.insertRawPersonDebate(personDebateRawJson)
+            }.onSuccess {
+                println(it)
+            }.onFailure {
+                it.printStackTrace()
+            }
+        }
+    }
+
+    private fun newNotification(): PushNotification{
+        println("NOTIFICATION")
+        val notificationData = NotificationData("debate", "pisku")
+        return PushNotification(notificationData, TOPIC)
+    }
+
+    private fun navigate(debateJson: DebateJson){
+        val bundle: Bundle = bundleOf(Pair("id", debateJson.id), Pair("name", debateJson.name))
+        navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
     }
 
 }

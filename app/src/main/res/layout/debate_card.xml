@@ -54,12 +54,29 @@
                     android:textColor="@color/textPrimary"
                     android:textSize="18sp" />
 
-                <ImageView
-                    android:id="@+id/imageView2"
+                <LinearLayout
+                    android:id="@+id/list_item_inner"
                     android:layout_width="match_parent"
-                    android:layout_height="380dp"
-                    android:layout_marginBottom="30dp"
-                    app:srcCompat="@mipmap/mascot" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/debate_date_start"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/debate_card_created_by"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="aaaaaaaaaaaaaaaaa"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="18sp">
+                    </TextView>
+
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -40,6 +40,8 @@ class DebateAdapter(
         fun bind(debate: DebateJson, clickListener: (DebateJson) -> Unit) {
             binding.disNameText.text = debate.name
             binding.disDescriptionText.text = debate.description
+            binding.debateDateStart.text = debate.dateStart.toString()
+            binding.debateCardCreatedBy.text = "by someone"
             binding.listItemLayout.setOnClickListener {
                 clickListener(debate)
             }
