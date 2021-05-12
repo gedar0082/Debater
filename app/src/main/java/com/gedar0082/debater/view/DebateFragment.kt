@@ -1,11 +1,9 @@
 package com.gedar0082.debater.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,8 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.FragmentDebateBinding
 import com.gedar0082.debater.model.net.notification.NotificationEvent
-import com.gedar0082.debater.model.net.notification.Topics
-import com.gedar0082.debater.model.net.pojo.DebateJson
+import com.gedar0082.debater.model.net.pojo.DebateWithPersons
 import com.gedar0082.debater.view.adapters.DebateAdapter
 import com.gedar0082.debater.viewmodel.DebateViewModel
 import com.google.firebase.messaging.FirebaseMessaging
@@ -53,7 +50,7 @@ class DebateFragment : Fragment() {
         navController = Navigation.findNavController(view)
         debateViewModel.navController = navController
         debateViewModel.context = requireContext()
-        debateViewModel.getDebates()
+        debateViewModel.getPersonDebate()
     }
 
     private fun initRecyclerView() {
@@ -67,28 +64,21 @@ class DebateFragment : Fragment() {
      */
     private fun observeNotifications(){
         NotificationEvent.serviceEvent.observe(viewLifecycleOwner,{
-            _ -> debateViewModel.getDebates()
+            debateViewModel.getPersonDebate()
         })
     }
 
     private fun displayDiscussions() {
-        val observer = Observer<List<DebateJson>> {
+        val observer = Observer<List<DebateWithPersons>> {
             binding.debateRecycle.adapter =
-                DebateAdapter(it) { selectedItem: DebateJson ->
+                DebateAdapter(it) { selectedItem: DebateWithPersons ->
                     run {
                         debateViewModel.openDebate(selectedItem)
-                        //itemOnClick(selectedItem)
                     }
                 }
         }
-        debateViewModel.debates.observe(viewLifecycleOwner, observer)
+        debateViewModel.debateWithPersons.observe(viewLifecycleOwner, observer)
     }
-
-//    private fun itemOnClick(debate: DebateJson) {
-//        val bundle: Bundle = bundleOf(Pair("id", debate.id), Pair("name", debate.name))
-//        Log.e("tag", "${debate.id}")
-//        navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
-//    }
 
     override fun onStop() {
         super.onStop()

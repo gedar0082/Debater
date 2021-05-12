@@ -50,7 +50,7 @@ class ArgumentMapAdapter(
 
             fun bind(data: Any, clickListener: (ArgumentJson) -> Unit, longClickListener: (ArgumentJson) -> Unit){
                 binding.argumentNodeText.text = if (data is Node) (data.data as ArgumentJson).statement else "dump"
-                binding.argumentNodeDesc.text = "dump"
+                binding.argumentNodeDesc.text = if (data is Node) (data.data as ArgumentJson).person_id?.nickname ?: "Arguments" else "dump"
                 binding.amNode.setOnClickListener {
                     clickListener((data as Node).data as ArgumentJson)
                 }
@@ -63,50 +63,15 @@ class ArgumentMapAdapter(
 }
 
 
-//fun graphInit(list: List<ArgumentJson>?): Graph {
-//    val argList: List<ArgumentJson>
-//    val parentArg = ArgumentJson(Long.MAX_VALUE, "фыв", "", "","", null, null,null, null, null)
-//    val graph = Graph()
-//    if(list == null || list.isEmpty()){
-//        graph.addNode(Node(parentArg))
-//        return graph
-//    }else{
-//        argList = list
-//    }
-//    val edges = mutableListOf<Edge>()
-//    val nodes = mutableListOf<Node>()
-//
-//    val newList = listOf(parentArg, *argList.toTypedArray())
-//    for (i in newList){
-//        nodes.add(Node(i))
-//    }
-//    for(a in nodes) {
-//        val parentEdge = getParentNodeEdge(a, nodes)
-//        parentEdge?.let { edges.add(it) }
-//    }
-//    if (edges.isEmpty()){
-//        graph.addNode(Node(parentArg))
-//    }else{
-//        graph.addEdges(*edges.toTypedArray())
-//    }
-//    println("edges number = ${edges.size}")
-//    return graph
-//}
-//
-//fun getParentNodeEdge(argument: Node, list: List<Node>): Edge?{
-//    for (a in list){
-//        if ((a.data as ArgumentJson).answer_id == null) return null
-//        if ((a.data as ArgumentJson).answer_id!!.id == (argument.data as ArgumentJson).id){ //нулпоинтер здесь, так как когда замковый узел попадает в .answer_id.id!!, у него его нет
-//            return Edge(a, argument)
-//        }
-//    }
-//    return null
-//
-//}
-
 fun graphInit(argumentList : List<ArgumentJson>?): Graph{
     val strictArgumentList : List<ArgumentJson>
-    val parentArgument = ArgumentJson(Long.MAX_VALUE, "фыв", "",
+    var parentName = "main arg"
+    if (argumentList != null){
+        if (argumentList.isNotEmpty()){
+            parentName = argumentList.first().debate_id!!.name
+        }
+    }
+    val parentArgument = ArgumentJson(Long.MAX_VALUE, parentName, "",
         "","", null, null,
         null, null, null)
     val graph = Graph()
@@ -115,7 +80,6 @@ fun graphInit(argumentList : List<ArgumentJson>?): Graph{
         return graph
     }
     else strictArgumentList = listOf(parentArgument, *argumentList.toTypedArray())
-//    else strictArgumentList = listOf(*argumentList.toTypedArray())
     val edges = mutableListOf<Edge>()
     val nodes = mutableListOf<Node>()
 
@@ -135,6 +99,7 @@ fun graphInit(argumentList : List<ArgumentJson>?): Graph{
 
 }
 
+
 fun getParentEdge(node : Node, nodes: List<Node>) : Edge?{
     if ((node.data as ArgumentJson).answer_id == null) {
            if ((node.data as ArgumentJson) != (nodes.first().data as ArgumentJson)){
@@ -145,9 +110,5 @@ fun getParentEdge(node : Node, nodes: List<Node>) : Edge?{
         if  ((i.data as ArgumentJson) == ((nodes.first()).data as ArgumentJson)) continue
         if ((node.data as ArgumentJson).answer_id!!.id == (i.data as ArgumentJson).id ) return Edge(i, node)
     }
-//    nodes.forEach {
-//        if ((it.data as ArgumentJson) == ((nodes.first()).data as ArgumentJson)) return@forEach
-//        if ((node.data as ArgumentJson).answer_id!!.id == (it.data as ArgumentJson).id ) return Edge(node, it)
-//    }
     return null
 }

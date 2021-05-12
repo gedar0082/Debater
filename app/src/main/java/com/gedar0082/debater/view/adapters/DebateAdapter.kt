@@ -6,12 +6,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.DebateCardBinding
-import com.gedar0082.debater.model.local.entity.Debate
-import com.gedar0082.debater.model.net.pojo.DebateJson
+import com.gedar0082.debater.model.net.pojo.DebateWithPersons
 
 class DebateAdapter(
-    private val debates: List<DebateJson>,
-    private val clickListener: (DebateJson) -> Unit
+    private val debates: List<DebateWithPersons>,
+    private val clickListener: (DebateWithPersons) -> Unit
 ) : RecyclerView.Adapter<DebateAdapter.DebateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DebateViewHolder {
@@ -37,11 +36,11 @@ class DebateAdapter(
     class DebateViewHolder(private val binding: DebateCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(debate: DebateJson, clickListener: (DebateJson) -> Unit) {
-            binding.disNameText.text = debate.name
-            binding.disDescriptionText.text = debate.description
-            binding.debateDateStart.text = debate.dateStart.toString()
-            binding.debateCardCreatedBy.text = "by someone"
+        fun bind(debate: DebateWithPersons, clickListener: (DebateWithPersons) -> Unit) {
+            binding.disNameText.text = debate.debate.name
+            binding.disDescriptionText.text = debate.debate.description
+            binding.debateDateStart.text = debate.debate.dateStart.toString()
+            binding.debateCardCreatedBy.text = "Created by ${debate.findCreator()?.nickname ?: "nobody"}" //debate.findCreator()?.nickname ?: "nobody"
             binding.listItemLayout.setOnClickListener {
                 clickListener(debate)
             }

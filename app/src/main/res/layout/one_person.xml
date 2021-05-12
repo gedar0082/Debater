@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/one_person_frame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_round15_dif_color"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/person_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:fontFamily="@font/stix"
+        android:text="name"
+        android:textColor="@color/textPrimary"
+        android:textSize="14sp">
+
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/person_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:fontFamily="@font/stix"
+        android:text="email"
+        android:textColor="@color/textPrimary"
+        android:textSize="12sp">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/person_rights"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:fontFamily="@font/stix"
+        android:text="rights"
+        android:textColor="@color/textPrimary"
+        android:textSize="12sp">
+
+    </TextView>
+
+</LinearLayout>

@@ -54,14 +54,16 @@ class ArgumentMapFragment : Fragment() {
         navController = view.findNavController()
         argumentMapViewModel.context = requireContext()
         argumentMapViewModel.getArguments(argumentMapViewModel.debateId)
+        argumentMapViewModel.navController = navController
         observeNotifications(argumentMapViewModel.debateId)
         argumentMapViewModel.arguments.observe(viewLifecycleOwner, {
             it?.let {
                 binding.argumentMapGraph.adapter = ArgumentMapAdapter(it, { selected: ArgumentJson ->
                     if (InterScreenController.chooseAnswerArg == 1){
                         InterScreenController.argumentPressed = selected
-                        InterScreenController.chooseAnswerArg = 2
-                        navController.popBackStack()
+                        argumentMapViewModel.createNewArgument(selected)
+
+
                     }else{
                         openArgument(selected)
                     }
@@ -96,8 +98,14 @@ class ArgumentMapFragment : Fragment() {
         val promptView: View = li.inflate(R.layout.argument_open, null)
         confirm.setView(promptView)
         confirm.setCancelable(true)
-        val textName = promptView.findViewById<TextView>(R.id.argument_name)
-        textName.text = argument.statement
+        val statementText = promptView.findViewById<TextView>(R.id.arg_statement)
+        val clarificationText = promptView.findViewById<TextView>(R.id.arg_clarification)
+        val evidenceText = promptView.findViewById<TextView>(R.id.arg_evidence)
+        val summaryText = promptView.findViewById<TextView>(R.id.arg_summary)
+        statementText.text = argument.statement
+        clarificationText.text = argument.clarification
+        evidenceText.text = argument.evidence
+        summaryText.text = argument.summary
         confirm.create()
         confirm.show()
     }

@@ -8,6 +8,7 @@ object InterScreenController {
 
     var chooseAnswerArg = 0
     var argumentPressed: ArgumentJson? = null
+    var argumentPassed: ArgumentJson? = null
     var thesisPressed: ThesisJson? = null
 
 

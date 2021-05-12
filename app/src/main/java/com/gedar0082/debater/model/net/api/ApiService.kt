@@ -88,14 +88,29 @@ interface ApiService {
     suspend fun getPersonDebateByPersonId(@Query("person_id") personId: Long)
             : List<PersonDebateJson>
 
-    @DELETE("deletePersonDebate")
+    @GET("getPersonDebate")
+    suspend fun getPersonDebate(): List<PersonDebateJson>
+
+    @HTTP(method = "DELETE", path = "deletePersonDebate", hasBody = true)
     suspend fun deletePersonDebate(@Body personDebateRawJson: PersonDebateRawJson)
+
+//    @DELETE("deletePersonDebate")
+//    suspend fun deletePersonDebate(@Body personDebateRawJson: PersonDebateRawJson)
 
     @PUT("updatePersonDebate")
     suspend fun updatePersonDebate(@Body personDebateJson: PersonDebateJson)
 
     @POST("insertRawPersonDebate")
     suspend fun insertRawPersonDebate(@Body personDebateRawJson: PersonDebateRawJson)
+
+
+
+    /*
+    rights block
+     */
+
+    @DELETE("deleteRightById")
+    suspend fun deleteRightById(@Query("id") id: Long)
 
     /*
     thesis block

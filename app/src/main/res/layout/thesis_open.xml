@@ -10,45 +10,96 @@
 
     </data>
 
-    <LinearLayout
-        android:id="@+id/thesis_open"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="vertical">
 
-        <TextView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_round">
+
+        <LinearLayout
+            android:id="@+id/thesis_open"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:id="@+id/thesis_name"
-            android:text="name">
+            android:orientation="vertical">
 
-        </TextView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/thesis_desc"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="description">
 
-        </TextView>
-        <Button
-            android:id="@+id/btn_answer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ответить">
-        </Button>
+            <TextView
+                android:id="@+id/thesis_open_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/stix"
+                android:textSize="14sp"
+                android:textColor="@color/textPrimary"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"/>
 
-        <Button
-            android:id="@+id/btn_new_arg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="new arg">
+            <TextView
+                android:id="@+id/thesis_open_definition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/stix"
+                android:textSize="14sp"
+                android:textColor="@color/textPrimary"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"/>
 
-        </Button>
+            <TextView
+                android:id="@+id/thesis_open_problem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/stix"
+                android:textSize="14sp"
+                android:textColor="@color/textPrimary"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/thesis_open_plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/stix"
+                android:textSize="14sp"
+                android:textColor="@color/textPrimary"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"/>
+
+            <TextView
+                android:id="@+id/thesis_open_case_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/stix"
+                android:textSize="14sp"
+                android:textColor="@color/textPrimary"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"/>
+
+            <TextView
+                android:id="@+id/thesis_open_case_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/stix"
+                android:textSize="14sp"
+                android:textColor="@color/textPrimary"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"/>
+
+
+            <Button
+                android:id="@+id/btn_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+
+                android:background="@drawable/btn_round"
+                android:fontFamily="@font/stix"
+                android:text="answer">
+
+            </Button>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </layout>
