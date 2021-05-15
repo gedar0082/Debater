@@ -10,11 +10,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
 
         <com.otaliastudios.zoom.ZoomLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
             app:hasClickableChildren="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +27,7 @@
                 android:id="@+id/argument_map_graph"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:lineColor="@android:color/holo_blue_dark"
+                app:lineColor="@color/colorAccent"
                 app:lineThickness="2dp"
                 app:useMaxSize="true" />
 

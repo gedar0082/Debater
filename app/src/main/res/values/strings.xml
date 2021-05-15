@@ -11,6 +11,8 @@
 
     <string name="debate_card_created_by">Created by %1$s</string>
 
+    <string name="debate_string_cutter">%1$s… Read more</string>
+
     <!--  debate_open -->
     <string name="debate_open_btn_enter">Join</string>
 

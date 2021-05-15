@@ -1,5 +1,6 @@
 package com.gedar0082.debater.view.adapters
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -37,8 +38,10 @@ class DebateAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(debate: DebateWithPersons, clickListener: (DebateWithPersons) -> Unit) {
-            binding.disNameText.text = debate.debate.name
-            binding.disDescriptionText.text = debate.debate.description
+            val debateName = textCutter(debate.debate.name)
+            val nDebateName = debateName.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
+            binding.disNameText.text = Html.fromHtml(nDebateName)
+//            binding.disDescriptionText.text = debate.debate.description
             binding.debateDateStart.text = debate.debate.dateStart.toString()
             binding.debateCardCreatedBy.text = String.format(
                 binding.root.resources.getString(R.string.debate_card_created_by),
@@ -47,6 +50,16 @@ class DebateAdapter(
                 clickListener(debate)
             }
         }
+
+        private fun textCutter(string: String): String{
+            return if (string.length>100) String.format(
+                binding.root.resources.getString(R.string.debate_string_cutter),
+                string.substring(0, 120))
+            else string
+
+        }
     }
+
+
 }
 

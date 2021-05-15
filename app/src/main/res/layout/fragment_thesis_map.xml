@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <de.blox.graphview.GraphView
             android:id="@+id/graph"
@@ -20,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lineColor="@android:color/holo_blue_dark"
+            app:lineColor="@color/colorAccent"
             app:lineThickness="2dp"
             app:useMaxSize="true" />
 
@@ -29,7 +30,6 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/ic_baseline_settings_24"
-
             android:onClick="@{()->vm.thesisOptions()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
