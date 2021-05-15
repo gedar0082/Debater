@@ -64,9 +64,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
 
     fun getPersonDebate(id : Long) {
         val a = getDebateWithPersons(id)
-        Log.e("async", "getDebateWithPersons $a")
         val b = getListOfUniqueDebatesWithPersons(a)
-        Log.e("async", "getUnique $b")
         debateWithPersons = b
     }
 
@@ -80,7 +78,6 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         val creatorNameView: TextView = promptView.findViewById(R.id.creator_name)
         val creatorEmailView: TextView = promptView.findViewById(R.id.creator_email)
         val recyclerView : RecyclerView = promptView.findViewById(R.id.participants_recycler)
-        println("list lol : ${debateWithPersons.first().personsWithRights}")
         val myAdapter = ThesisOptionsAdapter(debateWithPersons.first().personsWithRights){
             changeRights(it)
         }

@@ -18,15 +18,12 @@
             android:id="@+id/argument_node_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="temp">
-
-        </TextView>
+            />
 
         <TextView
             android:id="@+id/argument_node_desc"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="temp" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </layout>

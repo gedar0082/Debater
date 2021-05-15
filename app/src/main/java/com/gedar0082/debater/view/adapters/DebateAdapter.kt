@@ -40,7 +40,9 @@ class DebateAdapter(
             binding.disNameText.text = debate.debate.name
             binding.disDescriptionText.text = debate.debate.description
             binding.debateDateStart.text = debate.debate.dateStart.toString()
-            binding.debateCardCreatedBy.text = "Created by ${debate.findCreator()?.nickname ?: "nobody"}" //debate.findCreator()?.nickname ?: "nobody"
+            binding.debateCardCreatedBy.text = String.format(
+                binding.root.resources.getString(R.string.debate_card_created_by),
+                debate.findCreator()?.nickname ?: "nobody")
             binding.listItemLayout.setOnClickListener {
                 clickListener(debate)
             }

@@ -24,7 +24,7 @@
                     android:layout_marginVertical="10dp"
                     android:fontFamily="@font/stix"
                     android:gravity="center"
-                    android:text="Create New"
+                    android:text="@string/Dialog_text_new_thesis"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="28sp" />
 
@@ -32,14 +32,12 @@
                     android:id="@+id/thesis_intro_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Thesis intro"
+                    android:text="@string/thesis_intro_text"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="20sp"
-                    >
-
-                </TextView>
+                    />
 
                 <EditText
                     android:id="@+id/thesis_intro_input"
@@ -55,20 +53,19 @@
                     android:isScrollContainer="true"
                     android:shadowColor="@color/colorAccent"
                     android:textColor="@color/textPrimary"
-                    android:textColorHighlight="@color/textPrimary" />
+                    android:textColorHighlight="@color/textPrimary"
+                    android:hint="@string/thesis_intro_input"/>
 
                 <TextView
                     android:id="@+id/thesis_definition_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Thesis definition"
+                    android:text="@string/thesis_definition_text"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="20sp"
-                    >
-
-                </TextView>
+                    />
 
                 <EditText
                     android:id="@+id/thesis_definition_input"
@@ -83,23 +80,19 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:isScrollContainer="true"
                     android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark" />
-
-<!--            ###############################################3    -->
-
+                    android:textColor="@color/textPrimaryDark"
+                    android:hint="@string/thesis_definition_input"/>
 
                 <TextView
                     android:id="@+id/thesis_problem_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Problem introduction"
+                    android:text="@string/thesis_problem_text"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="20sp"
-                    >
-
-                </TextView>
+                    />
 
                 <EditText
                     android:id="@+id/thesis_problem_input"
@@ -114,20 +107,19 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:isScrollContainer="true"
                     android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark" />
+                    android:textColor="@color/textPrimaryDark"
+                    android:hint="@string/thesis_problem_input"/>
 
                 <TextView
                     android:id="@+id/thesis_plan_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Plan"
+                    android:text="@string/thesis_plan_text"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="20sp"
-                    >
-
-                </TextView>
+                    />
 
                 <EditText
                     android:id="@+id/thesis_plan_input"
@@ -142,21 +134,19 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:isScrollContainer="true"
                     android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark" />
-
+                    android:textColor="@color/textPrimaryDark"
+                    android:hint="@string/thesis_plan_input"/>
 
                 <TextView
                     android:id="@+id/thesis_case_intro_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Case introduction"
+                    android:text="@string/thesis_case_intro_text"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="20sp"
-                    >
-
-                </TextView>
+                    />
 
                 <EditText
                     android:id="@+id/thesis_case_intro_input"
@@ -171,20 +161,19 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:isScrollContainer="true"
                     android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark" />
+                    android:textColor="@color/textPrimaryDark"
+                    android:hint="@string/thesis_case_intro_input"/>
 
                 <TextView
                     android:id="@+id/thesis_case_description_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Case description"
+                    android:text="@string/thesis_case_desc_text"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="20sp"
-                    >
-
-                </TextView>
+                    />
 
                 <EditText
                     android:id="@+id/thesis_case_description_input"
@@ -199,21 +188,19 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:isScrollContainer="true"
                     android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark" />
-
+                    android:textColor="@color/textPrimaryDark"
+                    android:hint="@string/thesis_case_desc_input"/>
 
                 <TextView
                     android:id="@+id/thesis_response_to_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="In response to"
+                    android:text="@string/thesis_response_to_text"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="20sp"
-                    >
-
-                </TextView>
+                    />
 
                 <TextView
                     android:id="@+id/thesis_response"
@@ -222,63 +209,60 @@
                     android:background="@drawable/card_round10"
                     android:clickable="true"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
-                    android:text="In response to"
+                    android:gravity="start"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp">
-
-                </TextView>
-
-<!--        ####################################################        -->
+                    android:textSize="20sp"
+                    />
 
                 <TextView
+                    android:id="@+id/thesis_args_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/thesis_args_text"
-                    android:text="Thesis arguments"
+                    android:text="@string/thesis_args_text"
                     android:fontFamily="@font/stix"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="20sp"
-                    >
-                </TextView>
+                    />
 
                 <Button
+                    android:id="@+id/btn_answer1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_answer1"
-                    android:text="answer to first argument">
-                </Button>
+                    android:text="@string/btn_answer1"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_answer_for1"/>
+                    android:id="@+id/text_answer_for1"
+                    />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_answer2"
-                    android:text="answer to first argument">
-                </Button>
+                    android:text="@string/btn_answer2"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_answer_for2"/>
+                    android:id="@+id/text_answer_for2"
+                    />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_answer3"
-                    android:text="answer to first argument">
-                </Button>
+                    android:text="@string/btn_answer3"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_answer_for3"/>
-
+                    android:id="@+id/text_answer_for3"
+                    />
 
             </LinearLayout>
         </ScrollView>

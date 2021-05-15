@@ -25,7 +25,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="find debate">
+            android:autofillHints="find debate"
+            android:hint="@string/debate_search">
 
         </EditText>
 

@@ -71,9 +71,6 @@
             android:id="@+id/action_thesisMapFragment_to_debateFragment"
             app:destination="@id/debateFragment" />
         <action
-            android:id="@+id/action_thesisMapFragment_to_thesisFragment"
-            app:destination="@id/thesisFragment" />
-        <action
             android:id="@+id/action_thesisMapFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
         <action
@@ -87,49 +84,10 @@
             app:destination="@id/argumentMapFragment" />
     </fragment>
     <fragment
-        android:id="@+id/thesisFragment"
-        android:name="com.gedar0082.debater.view.ThesisFragment"
-        android:label="fragment_thesis"
-        tools:layout="@layout/fragment_thesis" >
-        <action
-            android:id="@+id/action_thesisFragment_to_argumentMapFragment"
-            app:destination="@id/argumentMapFragment" />
-        <action
-            android:id="@+id/action_thesisFragment_to_thesisMapFragment"
-            app:destination="@id/thesisMapFragment" />
-        <action
-            android:id="@+id/action_thesisFragment_to_debateFragment"
-            app:destination="@id/debateFragment" />
-        <action
-            android:id="@+id/action_thesisFragment_to_infoFragment"
-            app:destination="@id/infoFragment" />
-        <action
-            android:id="@+id/action_thesisFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_thesisFragment_to_userFragment"
-            app:destination="@id/userFragment" />
-        <action
-            android:id="@+id/action_thesisFragment_to_infoFragment2"
-            app:destination="@id/infoFragment" />
-        <action
-            android:id="@+id/action_thesisFragment_to_settingsFragment2"
-            app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_thesisFragment_to_userFragment2"
-            app:destination="@id/userFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/argumentMapFragment"
         android:name="com.gedar0082.debater.view.ArgumentMapFragment"
         android:label="fragment_argument_map"
         tools:layout="@layout/fragment_argument_map" >
-        <action
-            android:id="@+id/action_argumentMapFragment_to_thesisFragment"
-            app:destination="@id/thesisFragment" />
-        <action
-            android:id="@+id/action_argumentMapFragment_to_argumentFragment"
-            app:destination="@id/argumentFragment" />
         <action
             android:id="@+id/action_argumentMapFragment_to_debateFragment"
             app:destination="@id/debateFragment" />
@@ -141,27 +99,6 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_argumentMapFragment_to_userFragment"
-            app:destination="@id/userFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/argumentFragment"
-        android:name="com.gedar0082.debater.view.ArgumentFragment"
-        android:label="fragment_argument"
-        tools:layout="@layout/fragment_argument" >
-        <action
-            android:id="@+id/action_argumentFragment_to_argumentMapFragment"
-            app:destination="@id/argumentMapFragment" />
-        <action
-            android:id="@+id/action_argumentFragment_to_debateFragment"
-            app:destination="@id/debateFragment" />
-        <action
-            android:id="@+id/action_argumentFragment_to_infoFragment"
-            app:destination="@id/infoFragment" />
-        <action
-            android:id="@+id/action_argumentFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_argumentFragment_to_userFragment"
             app:destination="@id/userFragment" />
     </fragment>
     <fragment

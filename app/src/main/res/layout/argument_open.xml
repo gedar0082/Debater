@@ -8,11 +8,7 @@
 
     </data>
 
-    <LinearLayout
-        android:id="@+id/argument_open"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="vertical">
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -20,6 +16,7 @@
             android:background="@drawable/card_round">
 
             <LinearLayout
+                android:id="@+id/argument_open"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:orientation="vertical">
@@ -65,5 +62,4 @@
 
 
         </ScrollView>
-    </LinearLayout>
 </layout>

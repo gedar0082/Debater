@@ -14,7 +14,7 @@
         android:layout_height="42dp"
         android:background="@drawable/card_round"
         android:fontFamily="@font/stix"
-        android:text="night mode"
+        android:text="@string/settings_day_night"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"

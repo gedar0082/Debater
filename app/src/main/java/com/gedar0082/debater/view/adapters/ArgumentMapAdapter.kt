@@ -46,8 +46,8 @@ class ArgumentMapAdapter(
         GraphView.ViewHolder(binding.root){
 
             fun bind(data: Any, clickListener: (ArgumentJson) -> Unit, longClickListener: (ArgumentJson) -> Unit){
-                binding.argumentNodeText.text = if (data is Node) (data.data as ArgumentJson).statement else "dump"
-                binding.argumentNodeDesc.text = if (data is Node) (data.data as ArgumentJson).person_id?.nickname ?: "Arguments" else "dump"
+                binding.argumentNodeText.text = if (data is Node) (data.data as ArgumentJson).statement else "nothing"
+                binding.argumentNodeDesc.text = if (data is Node) (data.data as ArgumentJson).person_id?.nickname ?: "Arguments" else "nothing"
                 binding.amNode.setOnClickListener {
                     clickListener((data as Node).data as ArgumentJson)
                 }
@@ -63,12 +63,14 @@ class ArgumentMapAdapter(
 fun graphInit(argumentList : List<ArgumentJson>?): Graph{
     val strictArgumentList : List<ArgumentJson>
     var parentName = "main arg"
+    var parentDescription = "parent description"
     if (argumentList != null){
         if (argumentList.isNotEmpty()){
             parentName = argumentList.first().debate_id!!.name
+            parentDescription = argumentList.first().debate_id!!.description
         }
     }
-    val parentArgument = ArgumentJson(Long.MAX_VALUE, parentName, "",
+    val parentArgument = ArgumentJson(Long.MAX_VALUE, parentName, parentDescription,
         "","", null, null,
         null, null, null)
     val graph = Graph()
@@ -99,9 +101,9 @@ fun graphInit(argumentList : List<ArgumentJson>?): Graph{
 
 fun getParentEdge(node : Node, nodes: List<Node>) : Edge?{
     if ((node.data as ArgumentJson).answer_id == null) {
-           if ((node.data as ArgumentJson) != (nodes.first().data as ArgumentJson)){
-               return Edge(nodes.first(), node)
-           }else return null
+        return if ((node.data as ArgumentJson) != (nodes.first().data as ArgumentJson)){
+            Edge(nodes.first(), node)
+        }else null
     }
     for (i in nodes){
         if  ((i.data as ArgumentJson) == ((nodes.first()).data as ArgumentJson)) continue

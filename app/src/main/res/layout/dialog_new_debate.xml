@@ -20,7 +20,7 @@
             android:layout_marginVertical="10dp"
             android:fontFamily="@font/stix"
             android:gravity="center"
-            android:text="Create New"
+            android:text="@string/Dialog_text"
             android:textColor="@color/textPrimaryDark"
             android:textSize="28sp" />
 
@@ -37,7 +37,8 @@
             android:inputType="text"
             android:shadowColor="@color/colorAccent"
             android:textColor="@color/textPrimary"
-            android:textColorHighlight="@color/textPrimary" />
+            android:textColorHighlight="@color/textPrimary"
+            android:hint="@string/debate_name"/>
 
         <EditText
             android:id="@+id/debate_description"
@@ -51,7 +52,9 @@
             android:fontFamily="@font/stix"
             android:inputType="text"
             android:shadowColor="@color/colorAccent"
-            android:textColor="@color/textPrimaryDark" />
+            android:textColor="@color/textPrimaryDark"
+            android:hint="@string/debate_description"/>
+
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/stix"
-            android:text="Referee"
+            android:text="@string/debate_hasReferee"
             android:textColor="@color/textPrimary" />
 
     </LinearLayout>

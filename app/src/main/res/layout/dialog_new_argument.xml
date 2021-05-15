@@ -23,7 +23,7 @@
                 android:layout_marginVertical="10dp"
                 android:fontFamily="@font/stix"
                 android:gravity="center"
-                android:text="Create New"
+                android:text="@string/create_new"
                 android:textColor="@color/textPrimaryDark"
                 android:textSize="28sp" />
 
@@ -31,14 +31,12 @@
                 android:id="@+id/argument_statement_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Argument statement"
+                android:text="@string/argument_statement_text"
                 android:fontFamily="@font/stix"
-                android:gravity="left"
+                android:gravity="start"
                 android:textColor="@color/textPrimaryDark"
                 android:textSize="20sp"
-                >
-
-            </TextView>
+                />
 
             <EditText
                 android:id="@+id/argument_statement_input"
@@ -54,20 +52,19 @@
                 android:isScrollContainer="true"
                 android:shadowColor="@color/colorAccent"
                 android:textColor="@color/textPrimary"
-                android:textColorHighlight="@color/textPrimary" />
+                android:textColorHighlight="@color/textPrimary"
+                android:hint="@string/argument_statement_input"/>
 
             <TextView
                 android:id="@+id/argument_clarification_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Thesis definition"
+                android:text="@string/argument_clarification_text"
                 android:fontFamily="@font/stix"
-                android:gravity="left"
+                android:gravity="start"
                 android:textColor="@color/textPrimaryDark"
                 android:textSize="20sp"
-                >
-
-            </TextView>
+                />
 
             <EditText
                 android:id="@+id/argument_clarification_input"
@@ -82,23 +79,19 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:isScrollContainer="true"
                 android:shadowColor="@color/colorAccent"
-                android:textColor="@color/textPrimaryDark" />
-
-            <!--            ###############################################3    -->
-
+                android:textColor="@color/textPrimaryDark"
+                android:hint="@string/argument_clarification_input"/>
 
             <TextView
                 android:id="@+id/argument_evidence_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Problem introduction"
+                android:text="@string/argument_evidence_text"
                 android:fontFamily="@font/stix"
-                android:gravity="left"
+                android:gravity="start"
                 android:textColor="@color/textPrimaryDark"
                 android:textSize="20sp"
-                >
-
-            </TextView>
+                />
 
             <EditText
                 android:id="@+id/argument_evidence_input"
@@ -113,20 +106,20 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:isScrollContainer="true"
                 android:shadowColor="@color/colorAccent"
-                android:textColor="@color/textPrimaryDark" />
+                android:textColor="@color/textPrimaryDark"
+                android:hint="@string/argument_evidence_input"
+                />
 
             <TextView
                 android:id="@+id/argument_summary_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Plan"
+                android:text="@string/argument_summary_text"
                 android:fontFamily="@font/stix"
-                android:gravity="left"
+                android:gravity="start"
                 android:textColor="@color/textPrimaryDark"
                 android:textSize="20sp"
-                >
-
-            </TextView>
+                />
 
             <EditText
                 android:id="@+id/argument_summary_input"
@@ -141,44 +134,32 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:isScrollContainer="true"
                 android:shadowColor="@color/colorAccent"
-                android:textColor="@color/textPrimaryDark" />
-
+                android:textColor="@color/textPrimaryDark"
+                android:hint="@string/argument_summary_input"/>
 
             <TextView
                 android:id="@+id/argument_response_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Responding to"
+                android:text="@string/argument_response_text"
                 android:fontFamily="@font/stix"
-                android:gravity="left"
+                android:gravity="start"
                 android:textColor="@color/textPrimaryDark"
                 android:textSize="20sp"
-                >
-
-            </TextView>
-
-
+                />
 
             <TextView
                 android:id="@+id/argument_response"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Response"
                 android:fontFamily="@font/stix"
-                android:gravity="left"
+                android:gravity="start"
                 android:textColor="@color/textPrimaryDark"
                 android:textSize="20sp"
-                >
+                />
 
-            </TextView>
         </LinearLayout>
 
-
-
-
-
     </ScrollView>
-
-
 
 </LinearLayout>

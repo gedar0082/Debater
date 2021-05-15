@@ -1,5 +1,6 @@
 package com.gedar0082.debater.model.net.notification
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
@@ -18,21 +19,24 @@ import kotlin.random.Random
 
 private const val CHANNEL_ID = "my_channel"
 
+@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class FirebaseService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         println("message data from firebase receive " + message.data)
-        if(message.data["title"] == "debate"){
-            println(message.data["title"] + " in if block in message receive ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;")
-            NotificationEvent.serviceEvent.postValue("fuck")
-        }else if (message.data["title"] == "thesis"){
-            println(message.data["title"] + " in if block in message receive ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4")
-            NotificationEvent.thesisEvent.postValue("fuck")
-        }else if(message.data["title"] == "argument"){
-            print(message.data["title"] + " in if block in message receive ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4")
-            NotificationEvent.argumentEvent.postValue("fuck")
-        }else{
-            println(message.data["title"] + " in if block in message receive NOT FOUND ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;")
+        when {
+            message.data["title"] == "debate" -> {
+                NotificationEvent.serviceEvent.postValue("fuck")
+            }
+            message.data["title"] == "thesis" -> {
+                NotificationEvent.thesisEvent.postValue("fuck")
+            }
+            message.data["title"] == "argument" -> {
+                NotificationEvent.argumentEvent.postValue("fuck")
+            }
+            else -> {
+                println(message.data["title"] + " in if block in message receive NOT FOUND")
+            }
         }
 
         super.onMessageReceived(message)
@@ -44,8 +48,6 @@ class FirebaseService : FirebaseMessagingService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             createNotificationChannel(notificationManager)
         }
-        println("#####################################################")
-        println("NOTIFICATION")
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)  // возможно при переходе по уведомлению будет открываться главное окно
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)

@@ -8,4 +8,95 @@
         %2$s
         %3$s
         %4$s</string>
+
+    <string name="debate_card_created_by">Created by %1$s</string>
+
+    <!--  debate_open -->
+    <string name="debate_open_btn_enter">Join</string>
+
+    <!--  dialog_new_argument  -->
+    <string name="create_new">Create New</string>
+    <string name="argument_statement_text">Argument statement</string>
+    <string name="argument_statement_input">Write here your statement</string>
+    <string name="argument_clarification_text">Argument clarification</string>
+    <string name="argument_clarification_input">Write here your clarification</string>
+    <string name="argument_evidence_text">Argument evidence</string>
+    <string name="argument_evidence_input">Write here your evidence</string>
+    <string name="argument_summary_text">Argument summary</string>
+    <string name="argument_summary_input">Write here your summary</string>
+    <string name="argument_response_text">Responding to</string>
+
+    <!--  dialog_new_debate  -->
+    <string name="Dialog_text">Create new</string>
+    <string name="debate_name">Enter debate name</string>
+    <string name="debate_description">Enter debate description</string>
+    <string name="debate_hasReferee">Referee</string>
+
+    <!--  dialog_new_thesis  -->
+    <string name="Dialog_text_new_thesis">Create new</string>
+    <string name="thesis_intro_text">Thesis intro</string>
+    <string name="thesis_intro_input">Write your intro here</string>
+    <string name="thesis_definition_text">Thesis definition</string>
+    <string name="thesis_definition_input">Write your definition here</string>
+    <string name="thesis_problem_text">Thesis problem</string>
+    <string name="thesis_problem_input">Write your problem here</string>
+    <string name="thesis_plan_text">Thesis plan</string>
+    <string name="thesis_plan_input">Write your plan here</string>
+    <string name="thesis_case_intro_text">Thesis case introduce</string>
+    <string name="thesis_case_intro_input">Write your case introduce here</string>
+    <string name="thesis_case_desc_text">Thesis case description</string>
+    <string name="thesis_case_desc_input">Write your case description here</string>
+    <string name="thesis_response_to_text">Answering to</string>
+    <string name="thesis_args_text">Thesis arguments</string>
+    <string name="btn_answer1">Response to first argument</string>
+    <string name="btn_answer2">Response to second argument</string>
+    <string name="btn_answer3">Response to third argument</string>
+
+    <!--  fragment_info  -->
+    <string name="mascot_image">mascot_image</string>
+    <string name="facepic1">facepic1</string>
+    <string name="facepic2">facepic2</string>
+    <string name="facepic3">facepic3</string>
+    <string name="info_hello">Hello</string>
+    <string name="info_text">It is a simple text-based debate project on the Internet that implements the structured approach to information needed to formalize the discussion. This is Ivan Trushin`s bachelor project, so don`t expect too much</string>
+    <string name="main_dev_text">Main Dev</string>
+    <string name="ui_designer_text">UI Designer</string>
+    <string name="backend_dev_text">Backend</string>
+
+    <!--  fragment_login  -->
+    <string name="hint_emailAddress">Enter Your email address</string>
+    <string name="editTextTextEmailAddress">johnDoe88@gmail.com</string>
+    <string name="hint_password">Enter Your password</string>
+    <string name="editTextTextPassword">12345Qwe</string>
+    <string name="hint_username">Enter Your nickname</string>
+    <string name="editTextTextPersonName">JohnDoe</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_login">Login</string>
+
+    <!--  fragment_settings  -->
+    <string name="settings_day_night">Night mode</string>
+
+    <!--  fragment_user  -->
+    <string name="profile_edit">Edit profile</string>
+    <string name="username">John Doe</string>
+    <string name="login">sator_rotas</string>
+
+    <!--  thesis_change_rights  -->
+    <string name="thesis_change_rights_write_checkbox">Write rights</string>
+    <string name="thesis_change_rights_no">No</string>
+    <string name="thesis_change_rights_ok">OK</string>
+
+    <!--  thesis_open  -->
+    <string name="btn_answer">Give a response</string>
+
+    <!--  thesis_options  -->
+    <string name="thesis_options_text3">List of participants</string>
+    <string name="thesis_options_text1">Creator</string>
+
+    <!--  fragment_debate  -->
+    <string name="debate_search">Find debate</string>
+
+    <!--  nav_draw_items  -->
+    <string name="item_settings">Settings</string>
+    <string name="item_discussions">Discussions</string>
 </resources>

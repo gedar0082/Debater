@@ -24,7 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@mipmap/mascot" />
+            android:src="@mipmap/mascot"
+            android:contentDescription="@string/mascot_image"/>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -44,7 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@mipmap/facepic3" />
+            android:src="@mipmap/facepic3"
+            android:contentDescription="@string/facepic3"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -64,7 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@mipmap/facepic2" />
+            android:src="@mipmap/facepic2"
+            android:contentDescription="@string/facepic2"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -83,7 +87,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@mipmap/facepic1" />
+            android:src="@mipmap/facepic1"
+            android:contentDescription="@string/facepic1"/>
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -92,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/stix"
-        android:text="Hello"
+        android:text="@string/info_hello"
         android:textColor="@color/textPrimary"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +113,7 @@
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/stix"
         android:gravity="center"
-        android:text="it is a simple text-based debate project on the Internet that implements the structured approach to information needed to formalize the discussion. This is Ivan Trushin's bachelor project, so don't expect too much"
+        android:text="@string/info_text"
         android:textColor="@color/textPrimary"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/stix"
-        android:text="Main Dev"
+        android:text="@string/main_dev_text"
         android:textColor="@color/textPrimary"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/stix"
-        android:text="UI Designer"
+        android:text="@string/ui_designer_text"
         android:textColor="@color/textPrimary"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +153,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/stix"
-        android:text="Backend"
+        android:text="@string/backend_dev_text"
         android:textColor="@color/textPrimary"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"

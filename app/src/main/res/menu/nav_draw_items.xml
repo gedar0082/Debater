@@ -3,10 +3,10 @@
     <group>
         <item
             android:id="@+id/item_settings"
-            android:title="Settings"/>
+            android:title="@string/item_settings"/>
         <item
             android:id="@+id/item_discussions"
-            android:title="Discussions"/>
+            android:title="@string/item_discussions"/>
 
     </group>
 </menu>

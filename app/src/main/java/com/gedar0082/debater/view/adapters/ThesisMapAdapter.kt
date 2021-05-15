@@ -49,9 +49,9 @@ class ThesisMapAdapter(
         GraphView.ViewHolder(binding.root) {
 
         fun bind(data: Any, clickListener: (ThesisJson) -> Unit, longClickListener: (ThesisJson) -> Unit){
-            binding.nodeText.text = if (data is Node) stringCutter((data.data as ThesisJson).intro) else "dump"
-            binding.nodeDesc.text = if (data is Node) stringCutter((data.data as ThesisJson).definition ?: "") else "dump"
-            binding.author.text = if (data is Node) stringCutter((data.data as ThesisJson).person?.nickname ?: "debate") else "dump"
+            binding.nodeText.text = if (data is Node) stringCutter((data.data as ThesisJson).intro) else "nothing"
+            binding.nodeDesc.text = if (data is Node) stringCutter((data.data as ThesisJson).definition ?: "") else "nothing"
+            binding.author.text = if (data is Node) stringCutter((data.data as ThesisJson).person?.nickname ?: "debate") else "nothing"
             binding.tmNode.setOnClickListener {
                 clickListener((data as Node).data as ThesisJson)
             }
@@ -64,12 +64,6 @@ class ThesisMapAdapter(
     }
 }
 
-
-/*
-функция должна быть переписана, так как в данный момент она просто подряд достаёт данные из листа
-и друг за другом их расставляет по цепочке делая связи. Сейчас лень, потом понадобится
-в будущем распределение по пикселям надо будет вынести в алгоритм, а присваивать тезисы узлам здесь
- */
 fun graphInit(list: List<ThesisJson>?, debate: DebateJson): Graph{
     val lList : List<ThesisJson> = if(list == null || list.isEmpty()){
         listOf()

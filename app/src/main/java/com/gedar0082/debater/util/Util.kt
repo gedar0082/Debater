@@ -8,7 +8,7 @@ object Util {
 
     @SuppressLint("SimpleDateFormat")
     fun getCurrentDate() : Timestamp {
-        val pattern = "yyyy-MM-dd HH:mm:ss.SSSSSSSSS"
+        val pattern = "yyyy-MM-dd HH:mm:ss.SSS"
         val simpleDateFormat = SimpleDateFormat(pattern)
         return Timestamp.valueOf(simpleDateFormat.format(System.currentTimeMillis()))
     }

@@ -16,13 +16,12 @@
         android:background="@color/colorPrimary"
         tools:context=".view.LoginFragment">
 
-
         <TextView
             android:id="@+id/hint_emailAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/stix"
-            android:text="Enter Your email address"
+            android:text="@string/hint_emailAddress"
             android:textColor="@color/textPrimary"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
@@ -42,14 +41,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:autofillHints="@string/editTextTextEmailAddress"
+            android:hint="@string/editTextTextEmailAddress"
+            />
 
         <TextView
             android:id="@+id/hint_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/stix"
-            android:text="Enter Your password"
+            android:text="@string/hint_password"
             android:textColor="@color/textPrimary"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
@@ -70,7 +72,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.7" />
+            app:layout_constraintVertical_bias="0.7"
+            android:autofillHints="@string/editTextTextPassword"
+            android:hint="@string/editTextTextPassword"/>
 
         <TextView
             android:id="@+id/text_access"
@@ -91,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/stix"
-            android:text="Enter Your nickname"
+            android:text="@string/hint_username"
             android:textColor="@color/textPrimary"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
@@ -112,7 +116,9 @@
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.3"
+            android:autofillHints="@string/editTextTextPersonName"
+            android:hint="@string/editTextTextPersonName"/>
 
         <Button
             android:id="@+id/btn_register"
@@ -120,7 +126,7 @@
             android:layout_height="61dp"
             android:background="@drawable/btn_round"
             android:fontFamily="@font/stix"
-            android:text="Register"
+            android:text="@string/btn_register"
             android:onClick="@{()->vm.registration()}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -136,7 +142,7 @@
             android:layout_height="61dp"
             android:background="@drawable/btn_round"
             android:fontFamily="@font/stix"
-            android:text="Login"
+            android:text="@string/btn_login"
             android:onClick="@{()->vm.login()}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -145,5 +151,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.90" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
