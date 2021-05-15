@@ -26,7 +26,7 @@
             android:id="@+id/argument_node_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="temp"></TextView>
+            android:text="temp" />
 
     </LinearLayout>
 </layout>

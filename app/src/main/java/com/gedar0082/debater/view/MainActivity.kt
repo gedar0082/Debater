@@ -1,19 +1,16 @@
 package com.gedar0082.debater.view
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.view.Window
-import android.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.gedar0082.debater.R
 import com.google.android.material.navigation.NavigationView

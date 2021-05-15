@@ -1,5 +1,7 @@
 package com.gedar0082.debater.util
 
+
+@Suppress("SpellCheckingInspection")
 class Constants {
     companion object{
         const val BASE_URL = "https://fcm.googleapis.com"

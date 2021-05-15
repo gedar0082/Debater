@@ -18,4 +18,18 @@ data class ArgumentJson (
     override fun equals(other: Any?): Boolean {
         return super.equals(other)
     }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + statement.hashCode()
+        result = 31 * result + (clarification?.hashCode() ?: 0)
+        result = 31 * result + (evidence?.hashCode() ?: 0)
+        result = 31 * result + (summary?.hashCode() ?: 0)
+        result = 31 * result + (answer_id?.hashCode() ?: 0)
+        result = 31 * result + (debate_id?.hashCode() ?: 0)
+        result = 31 * result + (thesis_id?.hashCode() ?: 0)
+        result = 31 * result + (person_id?.hashCode() ?: 0)
+        result = 31 * result + (date_time?.hashCode() ?: 0)
+        return result
+    }
 }

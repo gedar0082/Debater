@@ -1,14 +1,15 @@
+@file:Suppress("unused")
+
 package com.gedar0082.debater.model.net.api
 
-import com.gedar0082.debater.model.local.entity.Thesis
 import com.gedar0082.debater.model.net.notification.PushNotification
 import com.gedar0082.debater.model.net.pojo.*
 import com.gedar0082.debater.util.Constants.Companion.CONTENT_TYPE
 import com.gedar0082.debater.util.Constants.Companion.SERVER_KEY
 import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
+
 
 interface ApiService {
 

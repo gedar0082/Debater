@@ -2,13 +2,11 @@ package com.gedar0082.debater.view
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -46,9 +44,9 @@ class LoginFragment : Fragment() {
         val pref = activity?.getPreferences(Context.MODE_PRIVATE)
         loginViewModel.prefs = pref!!
         loginViewModel.navController = navController
-        loginViewModel.nicknameText.postValue((pref?.getString("nickname", "") ?: ""))
-        loginViewModel.emailText.postValue(pref?.getString("email", "") ?: "")
-        loginViewModel.password.postValue(pref?.getString("password", "") ?: "")
+        loginViewModel.nicknameText.postValue((pref.getString("nickname", "") ?: ""))
+        loginViewModel.emailText.postValue(pref.getString("email", "") ?: "")
+        loginViewModel.password.postValue(pref.getString("password", "") ?: "")
 
     }
 

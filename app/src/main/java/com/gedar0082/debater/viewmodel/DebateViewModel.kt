@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat
 import kotlin.coroutines.CoroutineContext
 
 
-const val TOPIC = "/topics/maindebate"
+const val TOPIC = "/topics/main_debate"
 
 class DebateViewModel : ViewModel(), CoroutineScope {
 
@@ -160,7 +160,7 @@ class DebateViewModel : ViewModel(), CoroutineScope {
 
     @SuppressLint("SimpleDateFormat")
     private fun getCurrentDate(): Timestamp {
-        val pattern = "yyyy-MM-dd HH:mm:ss.SSSSSSSSS"
+        val pattern = "yyyy-MM-dd HH:mm:ss.SSS"
         val simpleDateFormat = SimpleDateFormat(pattern)
         return Timestamp.valueOf(simpleDateFormat.format(System.currentTimeMillis())) // кажется вставляет локальное время, а не GMT. Надо будет проверить.
     }
@@ -215,7 +215,7 @@ class DebateViewModel : ViewModel(), CoroutineScope {
     }
 
     private fun newNotification(): PushNotification {
-        val notificationData = NotificationData("debate", "pisku")
+        val notificationData = NotificationData("debate", "new debate")
         return PushNotification(notificationData, TOPIC)
     }
 
@@ -229,9 +229,6 @@ class DebateViewModel : ViewModel(), CoroutineScope {
         val resultList = mutableListOf<DebateWithPersons>()
         val listOfUniqueDebates = mutableListOf<DebateJson>()
         list.forEach { if (!listOfUniqueDebates.contains(it.debate)) listOfUniqueDebates.add(it.debate) }
-        println("#############")
-        println("list of unique debates: $listOfUniqueDebates")
-        println("#############")
         listOfUniqueDebates.forEach {
             val personRightsJsonList = findPersonsOfDebate(list, it)
             resultList.add(DebateWithPersons(it, personRightsJsonList))

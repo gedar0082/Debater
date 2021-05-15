@@ -13,7 +13,6 @@ import de.blox.graphview.edgerenderer.StraightEdgeRenderer;
 import de.blox.graphview.util.Size;
 
 public class NoOpAlgorithm implements Layout {
-    private Size graphSize = new Size(0, 0);
     private EdgeRenderer edgeRenderer = new StraightEdgeRenderer(); // or ArrowEdgeRender() or custom implementation
 
     @Override

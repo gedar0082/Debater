@@ -71,7 +71,6 @@
                         android:id="@+id/debate_card_created_by"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="aaaaaaaaaaaaaaaaa"
                         android:textColor="@color/textPrimary"
                         android:textSize="18sp">
                     </TextView>

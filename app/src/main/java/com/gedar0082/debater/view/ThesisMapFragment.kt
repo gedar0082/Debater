@@ -9,13 +9,11 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.FragmentThesisMapBinding
-import com.gedar0082.debater.model.net.notification.FirebaseService
 import com.gedar0082.debater.model.net.notification.NotificationEvent
 import com.gedar0082.debater.model.net.pojo.ThesisJson
 import com.gedar0082.debater.util.InterScreenController
@@ -30,7 +28,7 @@ class ThesisMapFragment : Fragment() {
     private lateinit var binding: FragmentThesisMapBinding
     private lateinit var thesisMapViewModel: ThesisMapViewModel
     private lateinit var navController: NavController
-    var debateName = ""
+    private var debateName = ""
     private var rule = 0
 
     override fun onCreateView(
@@ -44,11 +42,8 @@ class ThesisMapFragment : Fragment() {
             container,
             false
         )
-        println("######################################################$")
-        println("suka blya v rot ebal" + arguments?.getLong("id")!!)
         val debateId = arguments?.getLong("id")!!
         val topic = "/topics/debate$debateId"
-        println("topic $topic")
         FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/myTopic")
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
         thesisMapViewModel = ViewModelProvider(this).get(ThesisMapViewModel::class.java)
@@ -78,6 +73,7 @@ class ThesisMapFragment : Fragment() {
         }
 
         thesisMapViewModel.context = requireContext()
+        thesisMapViewModel.res = context?.resources!!
         thesisMapViewModel.theses.observe(viewLifecycleOwner, {
             it?.let {
                 binding.graph.adapter = ThesisMapAdapter(it, thesisMapViewModel.debateWithPersons.first().debate, { selected: ThesisJson ->
@@ -117,7 +113,7 @@ class ThesisMapFragment : Fragment() {
 
     private fun observeNotifications(id: Long){
         NotificationEvent.thesisEvent.observe(viewLifecycleOwner, {
-            _ -> thesisMapViewModel.getTheses(id)
+            thesisMapViewModel.getTheses(id)
         })
     }
 

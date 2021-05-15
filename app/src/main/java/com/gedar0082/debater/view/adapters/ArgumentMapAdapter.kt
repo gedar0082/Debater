@@ -2,13 +2,10 @@ package com.gedar0082.debater.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.ArgumentMapNodeBinding
-import com.gedar0082.debater.databinding.FragmentArgumentMapBinding
 import com.gedar0082.debater.model.net.pojo.ArgumentJson
-import com.gedar0082.debater.util.InterScreenController
 import de.blox.graphview.*
 
 class ArgumentMapAdapter(

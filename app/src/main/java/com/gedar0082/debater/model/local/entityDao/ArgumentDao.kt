@@ -1,7 +1,9 @@
 package com.gedar0082.debater.model.local.entityDao
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Update
 import com.gedar0082.debater.model.local.entity.Argument
 
 @Dao

@@ -6,7 +6,7 @@ import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
-import kotlin.math.abs
+
 open class OnSwipeTouchListener(ctx: Context) : OnTouchListener {
 
     private val gestureDetector: GestureDetector

@@ -9,7 +9,7 @@
 
 
     <Button
-        android:id="@+id/settings_daynight"
+        android:id="@+id/settings_day_night"
         android:layout_width="130dp"
         android:layout_height="42dp"
         android:background="@drawable/card_round"

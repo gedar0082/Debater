@@ -24,7 +24,7 @@ class DebateFragment : Fragment() {
     private lateinit var binding: FragmentDebateBinding
     private lateinit var debateViewModel: DebateViewModel
     private lateinit var navController: NavController
-    private val topic = "/topics/maindebate"
+    private val topic = "/topics/main_debate"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +59,7 @@ class DebateFragment : Fragment() {
     }
 
     /**
-     * In class NotificationEvent we have livedata. In Firebase service we post data to it, when
+     * In class NotificationEvent we have liveData. In Firebase service we post data to it, when
      * receive message, and when data(any string) is posted, work this method and gets data
      */
     private fun observeNotifications(){

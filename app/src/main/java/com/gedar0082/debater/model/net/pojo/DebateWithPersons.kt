@@ -8,7 +8,7 @@ data class DebateWithPersons(
         return "\n List of DebateWithPerson =  $debate \n $personsWithRights"
     }
 
-    public fun findCreator(): PersonJson?{
+    fun findCreator(): PersonJson?{
         personsWithRights.forEach {
             if(it.rights.creator == 1) return it.person
         }
