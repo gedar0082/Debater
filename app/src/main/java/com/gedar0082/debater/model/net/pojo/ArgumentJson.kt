@@ -13,7 +13,8 @@ data class ArgumentJson (
     @JsonProperty("debate_id") val debate_id: DebateJson?,
     @JsonProperty("thesis_id") val thesis_id: ThesisJson?,
     @JsonProperty("person_id") val person_id: PersonJson?,
-    @JsonProperty("date_time") val date_time: Timestamp?
+    @JsonProperty("date_time") val date_time: Timestamp?,
+    @JsonProperty("type") val type : Int?
 ){
     override fun equals(other: Any?): Boolean {
         return super.equals(other)

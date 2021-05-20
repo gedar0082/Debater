@@ -6,4 +6,9 @@
     <color name="textPrimary">#272938</color>
     <color name="textPrimaryDark"> #1c1e2b</color>
     <color name="transparent">#00000000</color>
+
+<!--  thesis and arguments colors  -->
+    <color name="red">#DF1812</color>
+    <color name="green">#20DF12</color>
+    <color name="grey">#C6CAC6</color>
 </resources>

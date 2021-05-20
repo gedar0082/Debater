@@ -13,6 +13,16 @@
         android:layout_height="match_parent"
         >
 
+        <com.otaliastudios.zoom.ZoomLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            app:hasClickableChildren="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
         <de.blox.graphview.GraphView
             android:id="@+id/graph"
             android:layout_width="match_parent"
@@ -24,6 +34,7 @@
             app:lineColor="@color/colorAccent"
             app:lineThickness="2dp"
             app:useMaxSize="true" />
+        </com.otaliastudios.zoom.ZoomLayout>
 
         <Button
             android:id="@+id/new_thesis"

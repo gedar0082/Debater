@@ -8,11 +8,13 @@
     </data>
 
         <ScrollView
+            android:id="@+id/dialog_new_thesis_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/card_round">
 
             <LinearLayout
+                android:id="@+id/dialog_new_thesis_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -230,12 +232,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_answer1"
+                    android:background="@drawable/card_round10"
+                    android:textColor="@color/colorPrimaryDark"
                     />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/text_answer_for1"
+                    android:fontFamily="@font/stix"
+                    android:textSize="20sp"
+                    android:textColor="@color/textPrimaryDark"
                     />
 
                 <Button
@@ -243,12 +250,17 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_answer2"
                     android:text="@string/btn_answer2"
+                    android:background="@drawable/card_round10"
+                    android:textColor="@color/colorPrimaryDark"
                     />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/text_answer_for2"
+                    android:fontFamily="@font/stix"
+                    android:textSize="20sp"
+                    android:textColor="@color/textPrimaryDark"
                     />
 
                 <Button
@@ -256,12 +268,17 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_answer3"
                     android:text="@string/btn_answer3"
+                    android:background="@drawable/card_round10"
+                    android:textColor="@color/colorPrimaryDark"
                     />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/text_answer_for3"
+                    android:fontFamily="@font/stix"
+                    android:textSize="20sp"
+                    android:textColor="@color/textPrimaryDark"
                     />
 
             </LinearLayout>

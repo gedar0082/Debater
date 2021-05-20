@@ -91,6 +91,7 @@
                 android:layout_marginHorizontal="15dp"
                 android:background="@drawable/btn_round"
                 android:fontFamily="@font/stix"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/btn_answer">
 
             </Button>

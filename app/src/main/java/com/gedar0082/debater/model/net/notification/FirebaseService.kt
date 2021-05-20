@@ -26,13 +26,13 @@ class FirebaseService : FirebaseMessagingService() {
         println("message data from firebase receive " + message.data)
         when {
             message.data["title"] == "debate" -> {
-                NotificationEvent.serviceEvent.postValue("fuck")
+                NotificationEvent.serviceEvent.postValue("message")
             }
             message.data["title"] == "thesis" -> {
-                NotificationEvent.thesisEvent.postValue("fuck")
+                NotificationEvent.thesisEvent.postValue("message")
             }
             message.data["title"] == "argument" -> {
-                NotificationEvent.argumentEvent.postValue("fuck")
+                NotificationEvent.argumentEvent.postValue("message")
             }
             else -> {
                 println(message.data["title"] + " in if block in message receive NOT FOUND")

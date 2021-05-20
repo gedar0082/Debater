@@ -4,6 +4,7 @@ package com.gedar0082.debater.viewmodel
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
@@ -96,7 +97,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
 
     }
 
-    fun createNewThesis(thesis: ThesisJson, navController: NavController) {
+    fun createNewThesis(thesis: ThesisJson, navController: NavController, type: Int?) {
         val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
         val li = LayoutInflater.from(context)
         val promptView: View = li.inflate(R.layout.dialog_new_thesis, null)
@@ -229,7 +230,8 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                                         it.debate_id,
                                         currentThesisId,
                                         CurrentUser.id,
-                                        it.date_time)
+                                        it.date_time,
+                                        it.type ?: 1)
                                     )
                                 else saveArgument(ArgumentJsonRaw(
                                     0,
@@ -241,7 +243,9 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                                     it.debate_id,
                                     currentThesisId,
                                     CurrentUser.id,
-                                    it.date_time))
+                                    it.date_time,
+                                    it.type ?: 1)
+                                )
                             }
                         }
                         getTheses(debateId)
@@ -260,6 +264,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                 argBtn1.setOnClickListener{
                     InterScreenController.chooseAnswerArg = 1
                     InterScreenController.thesisPressed = thesis
+                    InterScreenController.type = if (type == 1 || type ==3) 2 else 3
 
                     thesisIntroLive.postValue(thesisIntroInput.text.toString())
                     thesisDefinitionLive.postValue(thesisDefinitionInput.text.toString())
@@ -312,15 +317,13 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    //TODO сделать так, чтобы при свайпе вправо на открытом тезисе диалог закрывался.
+
     fun openThesis(thesis: ThesisJson, navController: NavController){
         val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
         val li = LayoutInflater.from(context)
         val promptView: View = li.inflate(R.layout.thesis_open, null)
         confirm.setView(promptView)
         confirm.setCancelable(true)
-
-        promptView.setOnTouchListener(getOnSwipeTouchListener(context, navController, thesis.id))
 
         val textIntro = promptView.findViewById<TextView>(R.id.thesis_open_intro)
         val textDefinition = promptView.findViewById<TextView>(R.id.thesis_open_definition)
@@ -331,7 +334,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
 
         val btn = promptView.findViewById<Button>(R.id.btn_answer)
         btn.setOnClickListener {
-            createNewThesis(thesis, navController)
+            createNewThesis(thesis, navController, null)
         }
 
         textIntro.text = thesis.intro
@@ -341,8 +344,12 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         textCaseIntro.text = thesis.caseIntro
         textCaseDesc.text = thesis.caseDesc
 
-        confirm.create()
-        confirm.show()
+        confirm.create().apply {
+            setOnShowListener { dialog ->
+                promptView.setOnTouchListener(getOnSwipeTouchListener(context, navController, thesis.id, dialog))
+            }
+            show()
+        }
     }
 
     private fun changeRights(personRightsJson: PersonRightsJson){
@@ -411,11 +418,12 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    private fun getOnSwipeTouchListener(context: Context, navController: NavController, thesisId: Long)
+    private fun getOnSwipeTouchListener(context: Context, navController: NavController, thesisId: Long, listener: DialogInterface)
     = object : OnSwipeTouchListener(context) {
         override fun onSwipeLeft() {
             val bundle = bundleOf(Pair("debate_id", debateId), Pair("thesis_id", thesisId))
             navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
+            listener.cancel()
         }
     }
 

@@ -9,6 +9,7 @@ object InterScreenController {
     var chooseAnswerArg = 0
     var argumentPressed: ArgumentJson? = null
     var thesisPressed: ThesisJson? = null
+    var type : Int = 1
 
 
 }

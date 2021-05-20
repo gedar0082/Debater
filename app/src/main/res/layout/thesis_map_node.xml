@@ -22,25 +22,40 @@
         android:paddingBottom="10dp">
 
         <TextView
+            android:id="@+id/node_color"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            />
+
+        <TextView
             android:id="@+id/node_text"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/stix"
             />
 
-        <TextView
-            android:id="@+id/node_desc"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/stix"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/node_desc"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/stix"-->
+<!--            />-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/author"
+            />
+
+        <TextView
+            android:id="@+id/node_date"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/stix"
             />
 
     </LinearLayout>

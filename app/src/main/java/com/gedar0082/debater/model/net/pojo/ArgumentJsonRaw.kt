@@ -13,5 +13,6 @@ data class ArgumentJsonRaw (
     @JsonProperty("debate_id") val debate_id: Long?,
     @JsonProperty("thesis_id") val thesis_id: Long?,
     @JsonProperty("person_id") val person_id: Long?,
-    @JsonProperty("date_time") val date_time: Timestamp?
+    @JsonProperty("date_time") val date_time: Timestamp?,
+    @JsonProperty("type") val type : Int?
 )

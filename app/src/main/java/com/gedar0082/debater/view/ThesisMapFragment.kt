@@ -78,9 +78,9 @@ class ThesisMapFragment : Fragment() {
             it?.let {
                 binding.graph.adapter = ThesisMapAdapter(it, thesisMapViewModel.debateWithPersons.first().debate, { selected: ThesisJson ->
                     thesisMapViewModel.openThesis(selected, navController)
-                }, { selected: ThesisJson ->
+                }, { selected: ThesisJson, type: Int ->
                     if (thesisMapViewModel.checkRights()){
-                        thesisMapViewModel.createNewThesis(selected, navController)
+                        thesisMapViewModel.createNewThesis(selected, navController, type)
                     }else Toast.makeText(context, "You haven`t rights to write", Toast.LENGTH_SHORT).show()
 
                 })
@@ -93,7 +93,7 @@ class ThesisMapFragment : Fragment() {
         super.onViewStateRestored(savedInstanceState)
         if (InterScreenController.chooseAnswerArg == 2){
             InterScreenController.chooseAnswerArg = 3
-            thesisMapViewModel.createNewThesis(InterScreenController.thesisPressed!!, navController)
+            thesisMapViewModel.createNewThesis(InterScreenController.thesisPressed!!, navController, InterScreenController.type)
         }
     }
 
@@ -106,8 +106,8 @@ class ThesisMapFragment : Fragment() {
         binding.graph.adapter =
             ThesisMapAdapter(listOf(), thesisMapViewModel.debateWithPersons.first().debate, { selected: ThesisJson ->
                 println(selected.intro)
-            }, { selected: ThesisJson ->
-                println(selected.intro)
+            }, { selected: ThesisJson, type: Int? ->
+                println(selected.intro + type)
             })
     }
 

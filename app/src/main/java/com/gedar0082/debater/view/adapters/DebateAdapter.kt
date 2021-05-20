@@ -52,7 +52,7 @@ class DebateAdapter(
         }
 
         private fun textCutter(string: String): String{
-            return if (string.length>100) String.format(
+            return if (string.length>120) String.format(
                 binding.root.resources.getString(R.string.debate_string_cutter),
                 string.substring(0, 120))
             else string

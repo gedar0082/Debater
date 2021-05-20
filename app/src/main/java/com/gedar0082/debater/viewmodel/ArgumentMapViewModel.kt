@@ -6,8 +6,7 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
@@ -36,6 +35,7 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
     var arguments = MutableLiveData<List<ArgumentJson>>()
     var debateId: Long = 0
     var thesisId: Long = 0
+    var type = "neutral"
 
     override val coroutineContext: CoroutineContext
         get() = Job()
@@ -55,6 +55,10 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
         val evidence = promptView.findViewById<EditText>(R.id.argument_evidence_input)
         val summary = promptView.findViewById<EditText>(R.id.argument_summary_input)
 
+        val spinner = promptView.findViewById<Spinner>(R.id.argument_spinner)
+        spinner.adapter = getSpinnerAdapter()
+        spinner.onItemSelectedListener = getSpinnerOnItemSelectedListener()
+
         confirm.setPositiveButton("Create") { dialog, _ ->
             run {
                 if (InterScreenController.chooseAnswerArg == 1) {
@@ -64,7 +68,12 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
                             clarification.text.toString(),
                             evidence.text.toString(),
                             summary.text.toString(),
-                            argument!!.id, debateId, thesisId, CurrentUser.id, Util.getCurrentDate()
+                            argument!!.id,
+                            debateId,
+                            thesisId,
+                            CurrentUser.id,
+                            Util.getCurrentDate(),
+                            InterScreenController.type
                         )
                     )
                     dialog.cancel()
@@ -80,7 +89,8 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
                         argument!!.id, debateId,
                         null,
                         CurrentUser.id,
-                        Util.getCurrentDate()
+                        Util.getCurrentDate(),
+                        getIntType()
                     )
                     if (argument.id == Long.MAX_VALUE) saveArgumentWithoutAnswer(newArgument)
                     else saveArgument(newArgument)
@@ -117,6 +127,37 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
                 println(it.toString())
                 arguments.postValue(it)
             }.onFailure { it.printStackTrace() }
+        }
+    }
+
+    private fun getSpinnerAdapter(): ArrayAdapter<String> {
+        val spinnerList = listOf("neutral", "confirmation", "refutation")
+        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, spinnerList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        return adapter
+    }
+
+    private fun getSpinnerOnItemSelectedListener(): AdapterView.OnItemSelectedListener {
+        return object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                type = parent.getItemAtPosition(position) as String
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    private fun getIntType(): Int{
+        return when(type){
+            "neutral" -> 1
+            "confirmation" -> 2
+            "refutation" -> 3
+            else -> 1
         }
     }
 

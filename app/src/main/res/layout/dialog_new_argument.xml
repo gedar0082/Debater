@@ -16,6 +16,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <Spinner
+                android:id="@+id/argument_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <TextView
                 android:id="@+id/Dialog_text"
                 android:layout_width="match_parent"

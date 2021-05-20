@@ -1,6 +1,10 @@
 package com.gedar0082.debater.view.adapters
 
+import android.content.res.Resources
+import android.text.Html
 import android.view.*
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.ThesisMapNodeBinding
@@ -13,7 +17,7 @@ class ThesisMapAdapter(
     list : List<ThesisJson>,
     debate : DebateJson,
     private val clickListener: (ThesisJson)->Unit,
-    private val longClickListener: (ThesisJson)->Unit
+    private val longClickListener: (ThesisJson, Int)->Unit
 ): GraphAdapter<GraphView.ViewHolder>(graphInit(list, debate)) {
 
 
@@ -30,7 +34,7 @@ class ThesisMapAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: GraphView.ViewHolder, data: Any, position: Int) {
-        (viewHolder as SimpleViewHolder).bind(data, clickListener, longClickListener)
+        (viewHolder as SimpleViewHolder).bind(data, clickListener, longClickListener, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GraphView.ViewHolder {
@@ -48,22 +52,50 @@ class ThesisMapAdapter(
     class SimpleViewHolder(private val binding: ThesisMapNodeBinding) :
         GraphView.ViewHolder(binding.root) {
 
-        fun bind(data: Any, clickListener: (ThesisJson) -> Unit, longClickListener: (ThesisJson) -> Unit){
-            binding.nodeText.text = if (data is Node) stringCutter((data.data as ThesisJson).intro) else "nothing"
-            binding.nodeDesc.text = if (data is Node) stringCutter((data.data as ThesisJson).definition ?: "") else "nothing"
-            binding.author.text = if (data is Node) stringCutter((data.data as ThesisJson).person?.nickname ?: "debate") else "nothing"
+        fun bind(data: Any, clickListener: (ThesisJson) -> Unit, longClickListener: (ThesisJson, Int) -> Unit, position: Int){
+
+            val thesisText = textCutter(if (data is Node) (data.data as ThesisJson).intro else "nothing")
+            val thesisTextFormat = thesisText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
+
+            binding.nodeText.text = Html.fromHtml(thesisTextFormat)
+//            binding.nodeDesc.text = if (data is Node) stringCutter((data.data as ThesisJson).definition ?: "") else "nothing"
+//            binding.author.text = if (data is Node) (data.data as ThesisJson).person?.nickname ?: "debate" else "nothing"
+            binding.author.text = String.format(
+                binding.root.resources.getString(R.string.debate_card_created_by),
+                if (data is Node) (data.data as ThesisJson).person?.nickname ?: "debate" else "nothing")
+            binding.nodeDate.text = if (data is Node) (data.data as ThesisJson).dateTime.toString() else "nothing"
             binding.tmNode.setOnClickListener {
                 clickListener((data as Node).data as ThesisJson)
             }
             binding.tmNode.setOnLongClickListener{
-                longClickListener((data as Node).data as ThesisJson)
+                val type = when{
+                    position == 0 -> 1
+                    position % 2 == 1 -> 2
+                    position % 2 == 0 -> 3
+                    else -> 1
+                }
+
+                longClickListener((data as Node).data as ThesisJson, type)
                 return@setOnLongClickListener true
             }
+
+            when {
+                position == 0 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.grey, null))
+                position % 2 == 1 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.green, null))
+                position % 2 == 0 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.red, null))
+            }
+        }
+
+        private fun textCutter(string: String): String{
+            return if (string.length>120) String.format(
+                binding.root.resources.getString(R.string.debate_string_cutter),
+                string.substring(0, 120))
+            else string
 
         }
     }
 }
-
+//логика распределения узлов в этом месте больше не используется, перенес все в NoOpAlgorithm
 fun graphInit(list: List<ThesisJson>?, debate: DebateJson): Graph{
     val lList : List<ThesisJson> = if(list == null || list.isEmpty()){
         listOf()
@@ -104,7 +136,3 @@ fun graphInit(list: List<ThesisJson>?, debate: DebateJson): Graph{
     return graph
 }
 
-private fun stringCutter(st: String): String{
-    return if (st.length > 15) st.substring(0, 15)
-    else st
-}
