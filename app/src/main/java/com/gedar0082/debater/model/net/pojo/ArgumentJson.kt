@@ -1,4 +1,4 @@
-package com.gedar0082.debater.model.net.pojo
+ package com.gedar0082.debater.model.net.pojo
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.sql.Timestamp

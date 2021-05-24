@@ -46,7 +46,7 @@ class DebateViewModel : ViewModel(), CoroutineScope {
     fun getPersonDebate() {
         launch {
             runCatching { apiFactory.getPersonDebate() }.onSuccess {
-                println(it)
+
                 debateWithPersons.postValue(getListOfUniqueDebatesWithPersons(it))
             }.onFailure {
                 it.printStackTrace()
@@ -73,7 +73,6 @@ class DebateViewModel : ViewModel(), CoroutineScope {
                         getCurrentDate(),
                         getRegulationsJsonFromRule(rule, hasReferee)
                     )
-                    println("save debate $debateJson")
                     val id = saveDebate(debateJson)
                     savePersonDebate(id.id, 6)
                     sendNotification(newNotification())
@@ -207,7 +206,7 @@ class DebateViewModel : ViewModel(), CoroutineScope {
                 val personDebateRawJson = PersonDebateRawJson(debateId, CurrentUser.id, rightsId)
                 apiFactory.insertRawPersonDebate(personDebateRawJson)
             }.onSuccess {
-                println(it)
+                println("save persondebate success")
             }.onFailure {
                 it.printStackTrace()
             }
@@ -233,7 +232,6 @@ class DebateViewModel : ViewModel(), CoroutineScope {
             val personRightsJsonList = findPersonsOfDebate(list, it)
             resultList.add(DebateWithPersons(it, personRightsJsonList))
         }
-        println(resultList)
         return resultList
     }
 

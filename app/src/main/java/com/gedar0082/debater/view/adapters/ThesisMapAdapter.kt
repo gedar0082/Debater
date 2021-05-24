@@ -17,7 +17,7 @@ class ThesisMapAdapter(
     list : List<ThesisJson>,
     debate : DebateJson,
     private val clickListener: (ThesisJson)->Unit,
-    private val longClickListener: (ThesisJson, Int)->Unit
+    private val longClickListener: (ThesisJson)->Unit
 ): GraphAdapter<GraphView.ViewHolder>(graphInit(list, debate)) {
 
 
@@ -52,7 +52,7 @@ class ThesisMapAdapter(
     class SimpleViewHolder(private val binding: ThesisMapNodeBinding) :
         GraphView.ViewHolder(binding.root) {
 
-        fun bind(data: Any, clickListener: (ThesisJson) -> Unit, longClickListener: (ThesisJson, Int) -> Unit, position: Int){
+        fun bind(data: Any, clickListener: (ThesisJson) -> Unit, longClickListener: (ThesisJson) -> Unit, position: Int){
 
             val thesisText = textCutter(if (data is Node) (data.data as ThesisJson).intro else "nothing")
             val thesisTextFormat = thesisText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
@@ -68,21 +68,14 @@ class ThesisMapAdapter(
                 clickListener((data as Node).data as ThesisJson)
             }
             binding.tmNode.setOnLongClickListener{
-                val type = when{
-                    position == 0 -> 1
-                    position % 2 == 1 -> 2
-                    position % 2 == 0 -> 3
-                    else -> 1
-                }
-
-                longClickListener((data as Node).data as ThesisJson, type)
+                longClickListener((data as Node).data as ThesisJson)
                 return@setOnLongClickListener true
             }
 
-            when {
-                position == 0 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.grey, null))
-                position % 2 == 1 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.green, null))
-                position % 2 == 0 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.red, null))
+            when(if (data is Node) (data.data as ThesisJson).type else 1) {
+                1 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.grey, null))
+                2 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.green, null))
+                3 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.red, null))
             }
         }
 
@@ -106,7 +99,7 @@ fun graphInit(list: List<ThesisJson>?, debate: DebateJson): Graph{
     val parent = Node(
         ThesisJson(0, debate.name, debate.description, null, null,
         null, null,  0, null,
-        null, null, Util.getCurrentDate())
+        null, null, Util.getCurrentDate(), 1)
     )
     println("parent = $parent")
     val leftX = 100.0f

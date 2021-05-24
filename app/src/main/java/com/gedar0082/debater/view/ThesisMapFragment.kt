@@ -76,14 +76,23 @@ class ThesisMapFragment : Fragment() {
         thesisMapViewModel.res = context?.resources!!
         thesisMapViewModel.theses.observe(viewLifecycleOwner, {
             it?.let {
-                binding.graph.adapter = ThesisMapAdapter(it, thesisMapViewModel.debateWithPersons.first().debate, { selected: ThesisJson ->
-                    thesisMapViewModel.openThesis(selected, navController)
-                }, { selected: ThesisJson, type: Int ->
-                    if (thesisMapViewModel.checkRights()){
-                        thesisMapViewModel.createNewThesis(selected, navController, type)
-                    }else Toast.makeText(context, "You haven`t rights to write", Toast.LENGTH_SHORT).show()
+                binding.graph.adapter = ThesisMapAdapter(
+                    it,
+                    thesisMapViewModel.debateWithPersons.first().debate,
+                    { selected: ThesisJson ->
+                        thesisMapViewModel.openThesis(selected, navController)
+                    },
+                    { selected: ThesisJson ->
+                        if (thesisMapViewModel.checkRights()) {
+                            thesisMapViewModel.createNewThesis(selected, navController)
 
-                })
+                        } else Toast.makeText(
+                            context,
+                            "You haven`t rights to write",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    })
 
             }
         })
@@ -93,7 +102,7 @@ class ThesisMapFragment : Fragment() {
         super.onViewStateRestored(savedInstanceState)
         if (InterScreenController.chooseAnswerArg == 2){
             InterScreenController.chooseAnswerArg = 3
-            thesisMapViewModel.createNewThesis(InterScreenController.thesisPressed!!, navController, InterScreenController.type)
+            thesisMapViewModel.createNewThesis(InterScreenController.thesisPressed!!, navController)
         }
     }
 
@@ -106,8 +115,8 @@ class ThesisMapFragment : Fragment() {
         binding.graph.adapter =
             ThesisMapAdapter(listOf(), thesisMapViewModel.debateWithPersons.first().debate, { selected: ThesisJson ->
                 println(selected.intro)
-            }, { selected: ThesisJson, type: Int? ->
-                println(selected.intro + type)
+            }, { selected: ThesisJson ->
+                println(selected.intro )
             })
     }
 

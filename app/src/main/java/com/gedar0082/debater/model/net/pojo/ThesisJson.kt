@@ -15,5 +15,6 @@ data class ThesisJson (
     @JsonProperty("answer_id") val answer: ThesisJson?,
     @JsonProperty("debate_id") val debate: DebateJson?,
     @JsonProperty("person_id") val person: PersonJson?,
-    @JsonProperty("date_time") val dateTime: Timestamp?
+    @JsonProperty("date_time") val dateTime: Timestamp?,
+    @JsonProperty("type") val type: Int?
 )

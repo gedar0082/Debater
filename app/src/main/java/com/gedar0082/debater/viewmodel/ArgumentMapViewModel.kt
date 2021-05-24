@@ -73,7 +73,7 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
                             thesisId,
                             CurrentUser.id,
                             Util.getCurrentDate(),
-                            InterScreenController.type
+                            InterScreenController.thesisPressed?.type ?: 1
                         )
                     )
                     dialog.cancel()
@@ -124,7 +124,6 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
     fun getArguments(id: Long) {
         launch {
             runCatching { apiFactory.getArgumentsByDebateId(id) }.onSuccess {
-                println(it.toString())
                 arguments.postValue(it)
             }.onFailure { it.printStackTrace() }
         }

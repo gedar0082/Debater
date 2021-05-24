@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,6 +40,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     lateinit var res: Resources
     var theses = MutableLiveData<List<ThesisJson>>()
     var debateId: Long = 0
+    var tId: Long = 0
 
     override val coroutineContext: CoroutineContext
         get() = Job()
@@ -56,6 +58,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     fun getTheses(id: Long){
         launch {
             kotlin.runCatching { apiFactory.getThesesByDebateId(id) }.onSuccess {
+                tId = id
                 theses.postValue(it)
             }.onFailure {
                 it.printStackTrace()
@@ -90,6 +93,12 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
             layoutManager = myLayoutManager
             addItemDecoration(itemDecoration)
         }
+
+        val exit = promptView.findViewById<Button>(R.id.thesis_options_exit)
+        exit.setOnClickListener {
+            deletePersonDebate(debateId,  getPersonRights(debateWithPersons.first().personsWithRights), CurrentUser.id)
+            Toast.makeText(context, "Successfully exit", Toast.LENGTH_SHORT).show()
+        }
         creatorEmailView.text = debateWithPersons.first().findCreator()!!.email
         creatorNameView.text = debateWithPersons.first().findCreator()!!.nickname
         confirm.setCancelable(true)
@@ -97,10 +106,16 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
 
     }
 
-    fun createNewThesis(thesis: ThesisJson, navController: NavController, type: Int?) {
+    fun getPersonRights(personRights: List<PersonRightsJson>): Long{
+        personRights.forEach { if (it.person.id == CurrentUser.id) return it.rights.id }
+        return 1
+    }
+
+    fun createNewThesis(thesis: ThesisJson, navController: NavController) {
         val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
         val li = LayoutInflater.from(context)
         val promptView: View = li.inflate(R.layout.dialog_new_thesis, null)
+        val linearLayout = promptView.findViewById<LinearLayout>(R.id.dialog_new_thesis_linear)
         confirm.setView(promptView)
 
         val thesisIntroInput: EditText = promptView.findViewById(R.id.thesis_intro_input)
@@ -111,11 +126,6 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         val thesisCaseDescInput: EditText = promptView.findViewById(R.id.thesis_case_description_input)
 
         val thesisResponse : TextView = promptView.findViewById(R.id.thesis_response)
-
-        val answerArg1: TextView = promptView.findViewById(R.id.text_answer_for1)
-        val answerArg2: TextView = promptView.findViewById(R.id.text_answer_for2)
-        val answerArg3: TextView = promptView.findViewById(R.id.text_answer_for3)
-
         thesisResponse.text = thesis.intro
 
         thesisResponse.setOnClickListener {
@@ -137,59 +147,24 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                 thesisCaseIntroInput.setText(thesisCaseIntroLive.value ?: "")
                 thesisCaseDescInput.setText(thesisCaseDescLive.value ?: "")
 
-                when (ArgumentList.argumentList.size) {
-                    0 -> {
-                        answerArg1.text = ""
-                        answerArg2.text = ""
-                        answerArg3.text = ""
-                    }
-                    1 -> {
-                        answerArg1.text = String.format(res.getString(R.string.argument_in_thesis_text),
-                            ArgumentList.argumentList[0].statement,
-                            ArgumentList.argumentList[0].clarification,
-                            ArgumentList.argumentList[0].evidence,
-                            ArgumentList.argumentList[0].summary)
-                        answerArg2.text = ""
-                        answerArg3.text = ""
-                    }
-                    2 -> {
-                        answerArg1.text = String.format(res.getString(R.string.argument_in_thesis_text),
-                            ArgumentList.argumentList[0].statement,
-                            ArgumentList.argumentList[0].clarification,
-                            ArgumentList.argumentList[0].evidence,
-                            ArgumentList.argumentList[0].summary)
-                        answerArg2.text = String.format(res.getString(R.string.argument_in_thesis_text),
-                            ArgumentList.argumentList[1].statement,
-                            ArgumentList.argumentList[1].clarification,
-                            ArgumentList.argumentList[1].evidence,
-                            ArgumentList.argumentList[1].summary)
-                        answerArg3.text = ""
-                    }
-                    else -> {
-                        answerArg1.text = String.format(res.getString(R.string.argument_in_thesis_text),
-                            ArgumentList.argumentList[0].statement,
-                            ArgumentList.argumentList[0].clarification,
-                            ArgumentList.argumentList[0].evidence,
-                            ArgumentList.argumentList[0].summary)
-                        answerArg2.text = String.format(res.getString(R.string.argument_in_thesis_text),
-                            ArgumentList.argumentList[1].statement,
-                            ArgumentList.argumentList[1].clarification,
-                            ArgumentList.argumentList[1].evidence,
-                            ArgumentList.argumentList[1].summary)
-                        answerArg3.text = String.format(res.getString(R.string.argument_in_thesis_text),
-                            ArgumentList.argumentList[2].statement,
-                            ArgumentList.argumentList[2].clarification,
-                            ArgumentList.argumentList[2].evidence,
-                            ArgumentList.argumentList[2].summary)
-                    }
+
+                ArgumentList.argumentList.forEach {
+                    val answerTextView = TextView(context)
+                    answerTextView.textSize = 20F
+                    answerTextView.setTextColor(ResourcesCompat.getColor(res, R.color.grey, null))
+                    answerTextView.text = String.format(res.getString(R.string.argument_in_thesis_text),
+                            it.statement,
+                            it.clarification,
+                            it.evidence,
+                            it.summary)
+                    linearLayout.addView(answerTextView)
                 }
+
             }
             InterScreenController.chooseAnswerArg =0
         }
 
         val argBtn1 = promptView.findViewById<Button>(R.id.btn_answer1)
-        val argBtn2 = promptView.findViewById<Button>(R.id.btn_answer2)
-        val argBtn3 = promptView.findViewById<Button>(R.id.btn_answer3)
 
         confirm.setCancelable(false)
             .setPositiveButton("Create") { dialog, _ ->
@@ -211,7 +186,8 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                             thesis.id,
                             debateId,
                             CurrentUser.id,
-                            Util.getCurrentDate())
+                            Util.getCurrentDate(),
+                            getAnswerType(thesis))
 
                         val currentThesisId = if(thesis.id == 0L){
                             saveThesis2(newThesisRaw)
@@ -231,7 +207,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                                         currentThesisId,
                                         CurrentUser.id,
                                         it.date_time,
-                                        it.type ?: 1)
+                                        getAnswerType(thesis))
                                     )
                                 else saveArgument(ArgumentJsonRaw(
                                     0,
@@ -244,7 +220,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                                     currentThesisId,
                                     CurrentUser.id,
                                     it.date_time,
-                                    it.type ?: 1)
+                                    getAnswerType(thesis))
                                 )
                             }
                         }
@@ -262,9 +238,16 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         confirm.create().apply {
             setOnShowListener { dialog ->
                 argBtn1.setOnClickListener{
+
+
+
+
                     InterScreenController.chooseAnswerArg = 1
                     InterScreenController.thesisPressed = thesis
-                    InterScreenController.type = if (type == 1 || type ==3) 2 else 3
+
+
+
+
 
                     thesisIntroLive.postValue(thesisIntroInput.text.toString())
                     thesisDefinitionLive.postValue(thesisDefinitionInput.text.toString())
@@ -272,40 +255,6 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                     thesisPlanLive.postValue(thesisPlanInput.text.toString())
                     thesisCaseIntroLive.postValue(thesisCaseIntroInput.text.toString())
                     thesisCaseDescLive.postValue(thesisCaseDescInput.text.toString())
-
-                    val bundle = bundleOf(Pair("debate_id", debateId))
-                    navController.saveState()
-                    navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
-                    dialog.cancel()
-                }
-                argBtn2.setOnClickListener{
-
-                    thesisIntroLive.postValue(thesisIntroInput.text.toString())
-                    thesisDefinitionLive.postValue(thesisDefinitionInput.text.toString())
-                    thesisProblemLive.postValue(thesisProblemInput.text.toString())
-                    thesisPlanLive.postValue(thesisPlanInput.text.toString())
-                    thesisCaseIntroLive.postValue(thesisCaseIntroInput.text.toString())
-                    thesisCaseDescLive.postValue(thesisCaseDescInput.text.toString())
-
-                    InterScreenController.chooseAnswerArg = 1
-                    InterScreenController.thesisPressed = thesis
-
-                    val bundle = bundleOf(Pair("debate_id", debateId))
-                    navController.saveState()
-                    navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
-                    dialog.cancel()
-                }
-                argBtn3.setOnClickListener{
-
-                    thesisIntroLive.postValue(thesisIntroInput.text.toString())
-                    thesisDefinitionLive.postValue(thesisDefinitionInput.text.toString())
-                    thesisProblemLive.postValue(thesisProblemInput.text.toString())
-                    thesisPlanLive.postValue(thesisPlanInput.text.toString())
-                    thesisCaseIntroLive.postValue(thesisCaseIntroInput.text.toString())
-                    thesisCaseDescLive.postValue(thesisCaseDescInput.text.toString())
-
-                    InterScreenController.chooseAnswerArg = 1
-                    InterScreenController.thesisPressed = thesis
 
                     val bundle = bundleOf(Pair("debate_id", debateId))
                     navController.saveState()
@@ -316,6 +265,10 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
             show()
         }
     }
+
+    private fun getAnswerType(thesis: ThesisJson) : Int =
+        if (thesis.type == 1 || thesis.type == 3) 2 else 3
+
 
 
     fun openThesis(thesis: ThesisJson, navController: NavController){
@@ -334,7 +287,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
 
         val btn = promptView.findViewById<Button>(R.id.btn_answer)
         btn.setOnClickListener {
-            createNewThesis(thesis, navController, null)
+            createNewThesis(thesis, navController)
         }
 
         textIntro.text = thesis.intro
@@ -529,6 +482,19 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
             }
         }
     }
+
+    private fun deletePersonDebate(debateId: Long, rightsIdOld: Long, personId: Long){
+        launch {
+            runCatching {
+                apiFactory.deletePersonDebate(PersonDebateRawJson(debateId, personId,rightsIdOld))
+            }.onSuccess {
+                println("successful deletePersonDebate")
+            }.onFailure {
+                it.printStackTrace()
+            }
+        }
+    }
+
 
     private fun savePersonDebate(debateId: Long, rightsId: Long, personId: Long) {
         launch {
