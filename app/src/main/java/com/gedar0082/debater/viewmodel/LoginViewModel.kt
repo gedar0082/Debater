@@ -26,13 +26,41 @@ class LoginViewModel : ViewModel(), CoroutineScope, Observable {
     @Bindable val diagnosticText = MutableLiveData<String>()
     lateinit var prefs : SharedPreferences
     lateinit var navController: NavController
+    val loginLiveData = MutableLiveData<String>()
+    val registrationLiveData = MutableLiveData<String>()
+
+    companion object ActPressed{
+        var registrationPressed = false
+        var loginPressed = false
+    }
+
 
     override val coroutineContext: CoroutineContext
         get() = Job()
 
     private val apiFactory = ApiFactory.service
 
+
     fun login(){
+        if (!ActPressed.loginPressed){
+            loginLiveData.postValue("login")
+            ActPressed.loginPressed = true
+        }else{
+            loginAct()
+        }
+    }
+
+    fun registration(){
+        if (!ActPressed.registrationPressed){
+            registrationLiveData.postValue("registration")
+            ActPressed.registrationPressed = true
+        }else{
+            registrationAct()
+        }
+
+    }
+
+    private fun loginAct(){
         val paj = getPersonAuthenticationJson()
         val request = checkAuthentication(paj)
         if (request) {
@@ -45,7 +73,7 @@ class LoginViewModel : ViewModel(), CoroutineScope, Observable {
         }
     }
 
-    fun registration(){
+    private fun registrationAct(){
         val paj = getPersonAuthenticationJson()
         val request = checkRegistration(paj)
         if (request){

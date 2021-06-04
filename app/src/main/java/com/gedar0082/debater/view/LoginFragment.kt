@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.FragmentLoginBinding
 import com.gedar0082.debater.viewmodel.LoginViewModel
+import kotlinx.android.synthetic.main.fragment_login.*
 
 
 class LoginFragment : Fragment() {
@@ -40,6 +42,32 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
+        binding.hintEmailAddress.visibility = View.INVISIBLE
+        binding.editTextTextEmailAddress.visibility = View.INVISIBLE
+        binding.hintPassword.visibility = View.INVISIBLE
+        binding.editTextTextPassword.visibility = View.INVISIBLE
+        binding.hintUsername.visibility = View.INVISIBLE
+        binding.editTextTextPersonName.visibility = View.INVISIBLE
+
+        val loginObserver = Observer<String>{
+            binding.hintEmailAddress.visibility = View.VISIBLE
+            binding.editTextTextEmailAddress.visibility = View.VISIBLE
+            binding.hintPassword.visibility = View.VISIBLE
+            binding.editTextTextPassword.visibility = View.VISIBLE
+            binding.btnRegister.visibility = View.INVISIBLE
+        }
+        loginViewModel.loginLiveData.observe(viewLifecycleOwner, loginObserver)
+
+        val registrationObserver = Observer<String>{
+            binding.hintEmailAddress.visibility = View.VISIBLE
+            binding.editTextTextEmailAddress.visibility = View.VISIBLE
+            binding.hintPassword.visibility = View.VISIBLE
+            binding.editTextTextPassword.visibility = View.VISIBLE
+            binding.hintUsername.visibility = View.VISIBLE
+            binding.editTextTextPersonName.visibility = View.VISIBLE
+            btn_login.visibility = View.INVISIBLE
+        }
+        loginViewModel.registrationLiveData.observe(viewLifecycleOwner, registrationObserver)
 
         val pref = activity?.getPreferences(Context.MODE_PRIVATE)
         loginViewModel.prefs = pref!!
