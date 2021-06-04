@@ -83,6 +83,9 @@ class ArgumentMapFragment : Fragment() {
         displayTempGraph()
     }
 
+    /**
+     * set adapter as empty plug-graph
+     */
     private fun displayTempGraph() {
         binding.argumentMapGraph.adapter = ArgumentMapAdapter(listOf(), { selected: ArgumentJson ->
             println(selected.statement)
@@ -91,7 +94,10 @@ class ArgumentMapFragment : Fragment() {
         })
     }
 
-
+    /**
+     * observe liveData of theses. When notification is received, in FirebaseService we post to
+     * this liveData value and this handler update theses data
+     */
     private fun observeNotifications(id: Long) {
         NotificationEvent.thesisEvent.observe(viewLifecycleOwner, {
             argumentMapViewModel.getArguments(id)

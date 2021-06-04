@@ -2,6 +2,9 @@ package com.gedar0082.debater.util
 
 
 @Suppress("SpellCheckingInspection")
+/**
+ * Firebase constants
+ */
 class Constants {
     companion object{
         const val BASE_URL = "https://fcm.googleapis.com"

@@ -19,9 +19,25 @@ import kotlin.random.Random
 
 private const val CHANNEL_ID = "my_channel"
 
+/**
+ * Firebase service realization.
+ * It is necessary to subscribe in the fragment class at the beginning of the life cycle.
+ * If there is a need to unsubscribe, so that there are no notifications when the application
+ * is not on the screen, unsubscribe at the end of the life cycle
+ */
+
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class FirebaseService : FirebaseMessagingService() {
 
+    /**
+     * The alert message has a date field. When sending an alert, the information necessary
+     * for parsing the incoming alert is put there. Here, the alert information is viewed and,
+     * depending on the data, a branch is selected in when
+     *
+     * The NotificationEvent class contains a LiveData, updating which in a specific context starts
+     * the process of receiving updated information about the debate.
+     * Therefore, in the thread, when receiving a notification, a post is made to this LiveData
+     */
     override fun onMessageReceived(message: RemoteMessage) {
         println("message data from firebase receive " + message.data)
         when {

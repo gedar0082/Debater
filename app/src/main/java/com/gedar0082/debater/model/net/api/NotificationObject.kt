@@ -6,6 +6,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import java.util.concurrent.TimeUnit
 
+/**
+ * Retrofit builder to post Google FCM notifications. Access is from service variable
+ */
+
 object NotificationObject {
     val service : ApiService = getBuilder().create(ApiService::class.java)
 

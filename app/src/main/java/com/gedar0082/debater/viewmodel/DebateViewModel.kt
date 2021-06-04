@@ -206,7 +206,7 @@ class DebateViewModel : ViewModel(), CoroutineScope {
                 val personDebateRawJson = PersonDebateRawJson(debateId, CurrentUser.id, rightsId)
                 apiFactory.insertRawPersonDebate(personDebateRawJson)
             }.onSuccess {
-                println("save persondebate success")
+                println("save personDebate success")
             }.onFailure {
                 it.printStackTrace()
             }

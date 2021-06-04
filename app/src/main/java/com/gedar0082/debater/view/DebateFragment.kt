@@ -68,6 +68,9 @@ class DebateFragment : Fragment() {
         })
     }
 
+    /**
+     * adding an observer on liveData with debates, that updates on notification receiving
+     */
     private fun displayDiscussions() {
         val observer = Observer<List<DebateWithPersons>> {
             binding.debateRecycle.adapter =

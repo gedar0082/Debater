@@ -9,6 +9,9 @@ import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.DebateCardBinding
 import com.gedar0082.debater.model.net.pojo.DebateWithPersons
 
+/**
+ * The class accepts an array of data to display and clickListener to place on each object.
+ */
 class DebateAdapter(
     private val debates: List<DebateWithPersons>,
     private val clickListener: (DebateWithPersons) -> Unit

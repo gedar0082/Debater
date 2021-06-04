@@ -1,5 +1,4 @@
 @file:Suppress("unused")
-
 package com.gedar0082.debater.model.net.api
 
 import com.gedar0082.debater.model.net.notification.PushNotification
@@ -10,7 +9,10 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
 
-
+/**
+ * REST service for communication with the server
+ * First POST is for Google FCM and is using in NotificationObject
+ */
 interface ApiService {
 
     /*

@@ -1,9 +1,7 @@
 package com.gedar0082.debater.view.adapters
 
-import android.content.res.Resources
 import android.text.Html
 import android.view.*
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.gedar0082.debater.R
@@ -12,6 +10,10 @@ import com.gedar0082.debater.model.net.pojo.DebateJson
 import com.gedar0082.debater.model.net.pojo.ThesisJson
 import com.gedar0082.debater.util.Util
 import de.blox.graphview.*
+
+/**
+ * The class accepts an array of data to display and clickListeners to place on each object.
+ */
 
 class ThesisMapAdapter(
     list : List<ThesisJson>,
@@ -58,8 +60,6 @@ class ThesisMapAdapter(
             val thesisTextFormat = thesisText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
 
             binding.nodeText.text = Html.fromHtml(thesisTextFormat)
-//            binding.nodeDesc.text = if (data is Node) stringCutter((data.data as ThesisJson).definition ?: "") else "nothing"
-//            binding.author.text = if (data is Node) (data.data as ThesisJson).person?.nickname ?: "debate" else "nothing"
             binding.author.text = String.format(
                 binding.root.resources.getString(R.string.debate_card_created_by),
                 if (data is Node) (data.data as ThesisJson).person?.nickname ?: "debate" else "nothing")

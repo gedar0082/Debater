@@ -40,7 +40,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     lateinit var res: Resources
     var theses = MutableLiveData<List<ThesisJson>>()
     var debateId: Long = 0
-    var tId: Long = 0
+    private var tId: Long = 0
 
     override val coroutineContext: CoroutineContext
         get() = Job()
@@ -99,14 +99,14 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
             deletePersonDebate(debateId,  getPersonRights(debateWithPersons.first().personsWithRights), CurrentUser.id)
             Toast.makeText(context, "Successfully exit", Toast.LENGTH_SHORT).show()
         }
-        creatorEmailView.text = debateWithPersons.first().findCreator()!!.email
-        creatorNameView.text = debateWithPersons.first().findCreator()!!.nickname
+        creatorEmailView.text = debateWithPersons.first().findCreator()?.email ?: "do not exist"
+        creatorNameView.text = debateWithPersons.first().findCreator()?.nickname ?: "do not exist"
         confirm.setCancelable(true)
         confirm.create().show()
 
     }
 
-    fun getPersonRights(personRights: List<PersonRightsJson>): Long{
+    private fun getPersonRights(personRights: List<PersonRightsJson>): Long{
         personRights.forEach { if (it.person.id == CurrentUser.id) return it.rights.id }
         return 1
     }

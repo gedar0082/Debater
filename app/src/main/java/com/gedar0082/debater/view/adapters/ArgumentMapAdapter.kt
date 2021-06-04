@@ -8,9 +8,12 @@ import androidx.databinding.DataBindingUtil
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.ArgumentMapNodeBinding
 import com.gedar0082.debater.model.net.pojo.ArgumentJson
-import com.gedar0082.debater.model.net.pojo.ThesisJson
 import de.blox.graphview.*
 
+
+/**
+ * The class accepts an array of data to display and clickListeners to place on each object.
+ */
 class ArgumentMapAdapter(
     list: List<ArgumentJson>,
     private val clickListener: (ArgumentJson) -> Unit,
@@ -51,11 +54,9 @@ class ArgumentMapAdapter(
             fun bind(data: Any, clickListener: (ArgumentJson) -> Unit, longClickListener: (ArgumentJson) -> Unit){
 
                 val argumentText = textCutter(if (data is Node) (data.data as ArgumentJson).statement else "nothing")
-                val argumentTextFormat = argumentText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
+                val argumentTextFormat = argumentText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")// temporary hardcoded color
 
                 binding.argumentNodeText.text = Html.fromHtml(argumentTextFormat)
-//                binding.argumentNodeText.text = if (data is Node) (data.data as ArgumentJson).statement else "nothing"
-//                binding.argumentNodeDesc.text = if (data is Node) (data.data as ArgumentJson).person_id?.nickname ?: "Arguments" else "nothing"
                 binding.amNode.setOnClickListener {
                     clickListener((data as Node).data as ArgumentJson)
                 }
@@ -82,7 +83,9 @@ class ArgumentMapAdapter(
     }
 }
 
-
+/**
+ * Method returns graph with calculated edges
+ */
 fun graphInit(argumentList : List<ArgumentJson>?): Graph{
     val strictArgumentList : List<ArgumentJson>
     var parentName = "main arg"
@@ -121,7 +124,9 @@ fun graphInit(argumentList : List<ArgumentJson>?): Graph{
 
 }
 
-
+/**
+ * Method finds a parent Node of current node from list of nodes and return it or null
+ */
 fun getParentEdge(node : Node, nodes: List<Node>) : Edge?{
     if ((node.data as ArgumentJson).answer_id == null) {
         return if ((node.data as ArgumentJson) != (nodes.first().data as ArgumentJson)){

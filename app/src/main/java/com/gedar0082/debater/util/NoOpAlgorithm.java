@@ -5,7 +5,6 @@ import android.graphics.Paint;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.blox.graphview.Edge;
@@ -45,6 +44,13 @@ public class NoOpAlgorithm implements Layout {
         return new Size(right - left+400, bottom - top+400);
     }
 
+    /**
+     *
+     * @param graph graph of nodes, where we calculating cords and edges.
+     * @param v not using
+     * @param v1 not using
+     * @return nothing
+     */
     @NotNull
     @Override
     public Size run(@NotNull Graph graph, float v, float v1) {
@@ -85,7 +91,6 @@ public class NoOpAlgorithm implements Layout {
         }
 
         Graph newGraph = new Graph();
-//        newGraph.addNodes((Node[]) nodes.toArray());//dont know
         newGraph.addNodes(ar);
 
         newGraph.addEdges(ed);
