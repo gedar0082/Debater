@@ -32,6 +32,7 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
     lateinit var context: Context
     lateinit var navController: NavController
     lateinit var topic: String
+    var ruleType = 0
     var arguments = MutableLiveData<List<ArgumentJson>>()
     var debateId: Long = 0
     var thesisId: Long = 0

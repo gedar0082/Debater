@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +40,7 @@ class ArgumentMapFragment : Fragment() {
         )
         argumentMapViewModel = ViewModelProvider(this).get(ArgumentMapViewModel::class.java)
         binding.vm = argumentMapViewModel
+        argumentMapViewModel.ruleType = arguments?.getInt("ruleType", 1)!!
         argumentMapViewModel.debateId = arguments?.getLong("debate_id", 1)!!
         argumentMapViewModel.thesisId = arguments?.getLong("thesis_id", 1)!!
         val topic = "argument${argumentMapViewModel.debateId}"
@@ -67,7 +69,17 @@ class ArgumentMapFragment : Fragment() {
                             argumentMapViewModel.openArgument(selected)
                         }
                     }, { selected: ArgumentJson ->
-                        argumentMapViewModel.createNewArgument(selected)
+                        if (InterScreenController.chooseAnswerArg == 1){
+                            Toast.makeText(context, "Try usual click, not long", Toast.LENGTH_SHORT).show()
+                        }else{
+                            if (argumentMapViewModel.ruleType == 1){
+                                Toast.makeText(context, "You can past arguments only to confirm your thesis in classic mode", Toast.LENGTH_SHORT).show()
+                            }else{
+                                argumentMapViewModel.createNewArgument(selected)
+                            }
+
+                        }
+
                     })
             }
         })

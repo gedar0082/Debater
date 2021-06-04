@@ -224,8 +224,13 @@ class DebateViewModel : ViewModel(), CoroutineScope {
 
     private fun navigate(debateJson: DebateWithPersons) {
         val bundle: Bundle =
-            bundleOf(Pair("id", debateJson.debate.id), Pair("name", debateJson.debate.name))
-        navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
+            bundleOf(Pair("debate_id", debateJson.debate.id), Pair("name", debateJson.debate.name), Pair("ruleType", debateJson.debate.regulations.ruleType))
+        if (debateJson.debate.regulations.ruleType == 3){
+            navController.navigate(R.id.action_debateFragment_to_argumentMapFragment, bundle)
+        }else{
+            navController.navigate(R.id.action_debateFragment_to_thesisMapFragment, bundle)
+        }
+
     }
 
     private fun getListOfUniqueDebatesWithPersons(list: List<PersonDebateJson>): List<DebateWithPersons> {

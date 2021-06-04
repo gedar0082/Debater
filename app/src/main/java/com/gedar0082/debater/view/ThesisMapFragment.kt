@@ -28,6 +28,7 @@ class ThesisMapFragment : Fragment() {
     private lateinit var binding: FragmentThesisMapBinding
     private lateinit var thesisMapViewModel: ThesisMapViewModel
     private lateinit var navController: NavController
+    var debateId = 0L
     private var debateName = ""
     private var rule = 0
 
@@ -42,7 +43,8 @@ class ThesisMapFragment : Fragment() {
             container,
             false
         )
-        val debateId = arguments?.getLong("id")!!
+        debateId = arguments?.getLong("debate_id")!!
+        Log.e("debate_id", debateId.toString())
         val topic = "/topics/debate$debateId"
         FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/myTopic")
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
@@ -50,8 +52,7 @@ class ThesisMapFragment : Fragment() {
         binding.vm = thesisMapViewModel
         thesisMapViewModel.topic = topic
         thesisMapViewModel.getPersonDebate(debateId)
-        val ruleInt = thesisMapViewModel.debateWithPersons.first().debate.regulations.ruleType
-        rule = ruleInt
+        rule = arguments?.getInt("ruleType", 1)!!
         binding.lifecycleOwner = this
         initGraph()
 
@@ -60,21 +61,31 @@ class ThesisMapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        thesisMapViewModel.debateId = arguments?.getLong("id")!!
+
+        thesisMapViewModel.debateId = debateId
         debateName = arguments?.getString("name")!!
         Log.e("id", "${thesisMapViewModel.debateId}")
         navController = view.findNavController()
         thesisMapViewModel.getTheses(thesisMapViewModel.debateId)
+
+        thesisMapViewModel.rule = rule
         observeNotifications(thesisMapViewModel.debateId)
 
         if (rule == 3){
-            val bundle = bundleOf(Pair("debate_id", thesisMapViewModel.debateId))
+            val bundle = bundleOf(Pair("debate_id", thesisMapViewModel.debateId), Pair("ruleType", rule))
             navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
         }
 
         thesisMapViewModel.context = requireContext()
         thesisMapViewModel.res = context?.resources!!
         thesisMapViewModel.theses.observe(viewLifecycleOwner, {
+            if (it != null){
+                if ( it.size %2 == 0){
+                    Toast.makeText(context, "The command \"For\" answers", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(context, "The command \"Against\" answers", Toast.LENGTH_SHORT).show()
+                }
+            }
             it?.let {
                 binding.graph.adapter = ThesisMapAdapter(
                     it,

@@ -42,6 +42,8 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     var debateId: Long = 0
     private var tId: Long = 0
 
+    var rule = 0
+
     val exceptionLiveData = MutableLiveData<String>()
 
     override val coroutineContext: CoroutineContext
@@ -243,7 +245,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                     thesisTitleLive.postValue(thesisTitleInput.text.toString())
                     thesisShortLive.postValue(thesisShortInput.text.toString())
                     thesisStatementLive.postValue(thesisStatementInput.text.toString())
-                    val bundle = bundleOf(Pair("debate_id", debateId))
+                    val bundle = bundleOf(Pair("debate_id", debateId), Pair("ruleType", rule))
                     navController.saveState()
                     navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
                     dialog.cancel()
@@ -357,7 +359,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     private fun getOnSwipeTouchListener(context: Context, navController: NavController, thesisId: Long, listener: DialogInterface)
     = object : OnSwipeTouchListener(context) {
         override fun onSwipeLeft() {
-            val bundle = bundleOf(Pair("debate_id", debateId), Pair("thesis_id", thesisId))
+            val bundle = bundleOf(Pair("debate_id", debateId), Pair("thesis_id", thesisId), Pair("ruleType", rule))
             navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
             listener.cancel()
         }
