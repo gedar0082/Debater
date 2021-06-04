@@ -41,7 +41,7 @@ public class NoOpAlgorithm implements Layout {
             bottom = (int) Math.max(bottom, node.getY() + node.getHeight());
         }
 
-        return new Size(right - left+400, bottom - top+400);
+        return new Size(right - left+1000, bottom - top+400);
     }
 
     /**
@@ -57,7 +57,7 @@ public class NoOpAlgorithm implements Layout {
 
         List<Node> nodes = graph.getNodes();
 
-        nodes.get(0).setX(nodes.get(0).getWidth() + 100);
+        nodes.get(0).setX(nodes.get(0).getWidth());
         nodes.get(0).setY(0F);
         float verticalLevel = nodes.get(0).getHeight() + 100F;
 

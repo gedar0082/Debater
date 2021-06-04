@@ -48,15 +48,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment?
-//        val navHostFragment : NavHostFragment = fragment as NavHostFragment //получаем контейнер навграфа
         val mFrag = navHostFragment!!.childFragmentManager.fragments[0] // получаем фрагмент, активный в данный момент
         when (item.itemId) {
-            R.id.item_settings ->
+            R.id.item_settings ->{
                 if (mFrag is DebateFragment)
                     navController.navigate(R.id.action_debateFragment_to_settingsFragment)
-            R.id.item_discussions ->
+                if (mFrag is ThesisMapFragment)
+                    navController.navigate(R.id.action_thesisMapFragment_to_settingsFragment)
+                if (mFrag is ArgumentMapFragment)
+                    navController.navigate(R.id.action_argumentMapFragment_to_settingsFragment)
+            }
+            R.id.item_discussions ->{
                 if (mFrag is SettingsFragment)
                     navController.navigate(R.id.action_settingsFragment_to_debateFragment)
+                if (mFrag is ThesisMapFragment)
+                    navController.navigate(R.id.action_thesisMapFragment_to_debateFragment)
+                if (mFrag is ArgumentMapFragment)
+                    navController.navigate(R.id.action_argumentMapFragment_to_debateFragment)
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
