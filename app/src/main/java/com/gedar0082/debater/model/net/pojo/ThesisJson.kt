@@ -5,12 +5,9 @@ import java.sql.Timestamp
 
 data class ThesisJson (
     @JsonProperty("id") val id: Long,
-    @JsonProperty("intro") val intro: String,
-    @JsonProperty("definition") val definition: String?,
-    @JsonProperty("problem") val problem: String?,
-    @JsonProperty("plan") val plan: String?,
-    @JsonProperty("case_intro") val caseIntro: String?,
-    @JsonProperty("case_desc") val caseDesc: String?,
+    @JsonProperty("title") val title: String,
+    @JsonProperty("shrt") val shrt: String,
+    @JsonProperty("statement") val statement: String,
     @JsonProperty("round_number") val roundNumber: Long,
     @JsonProperty("answer_id") val answer: ThesisJson?,
     @JsonProperty("debate_id") val debate: DebateJson?,

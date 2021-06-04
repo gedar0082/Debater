@@ -42,15 +42,14 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     var debateId: Long = 0
     private var tId: Long = 0
 
+    val exceptionLiveData = MutableLiveData<String>()
+
     override val coroutineContext: CoroutineContext
         get() = Job()
 
-    private val thesisIntroLive = MutableLiveData<String>()
-    private val thesisDefinitionLive = MutableLiveData<String>()
-    private val thesisProblemLive = MutableLiveData<String>()
-    private val thesisPlanLive = MutableLiveData<String>()
-    private val thesisCaseIntroLive = MutableLiveData<String>()
-    private val thesisCaseDescLive = MutableLiveData<String>()
+    private val thesisTitleLive = MutableLiveData<String>()
+    private val thesisShortLive = MutableLiveData<String>()
+    private val thesisStatementLive = MutableLiveData<String>()
 
     private val apiFactory = ApiFactory.service
     private val notificationObject = NotificationObject.service
@@ -62,14 +61,22 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                 theses.postValue(it)
             }.onFailure {
                 it.printStackTrace()
+                exceptionLiveData.postValue("exception")
             }
         }
     }
 
     fun getPersonDebate(id : Long) {
-        val a = getDebateWithPersons(id)
-        val b = getListOfUniqueDebatesWithPersons(a)
-        debateWithPersons = b
+        try {
+            val a = getDebateWithPersons(id)
+            val b = getListOfUniqueDebatesWithPersons(a)
+            debateWithPersons = b
+        }catch (e: Exception){
+            e.printStackTrace()
+            exceptionLiveData.postValue("exception")
+        }
+
+
     }
 
     fun thesisOptions(){
@@ -118,15 +125,12 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         val linearLayout = promptView.findViewById<LinearLayout>(R.id.dialog_new_thesis_linear)
         confirm.setView(promptView)
 
-        val thesisIntroInput: EditText = promptView.findViewById(R.id.thesis_intro_input)
-        val thesisDefinitionInput: EditText = promptView.findViewById(R.id.thesis_definition_input)
-        val thesisProblemInput: EditText = promptView.findViewById(R.id.thesis_problem_input)
-        val thesisPlanInput: EditText = promptView.findViewById(R.id.thesis_plan_input)
-        val thesisCaseIntroInput: EditText = promptView.findViewById(R.id.thesis_case_intro_input)
-        val thesisCaseDescInput: EditText = promptView.findViewById(R.id.thesis_case_description_input)
+        val thesisTitleInput: EditText = promptView.findViewById(R.id.thesis_title_input)
+        val thesisShortInput: EditText = promptView.findViewById(R.id.thesis_short_input)
+        val thesisStatementInput: EditText = promptView.findViewById(R.id.thesis_statement_input)
 
         val thesisResponse : TextView = promptView.findViewById(R.id.thesis_response)
-        thesisResponse.text = thesis.intro
+        thesisResponse.text = thesis.title
 
         thesisResponse.setOnClickListener {
             if (thesis.person != null) openThesis(thesis, navController)
@@ -140,23 +144,18 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         if (InterScreenController.chooseAnswerArg == 3){
             InterScreenController.argumentPressed?.let {
 
-                thesisIntroInput.setText(thesisIntroLive.value ?: "")
-                thesisDefinitionInput.setText(thesisDefinitionLive.value ?: "")
-                thesisProblemInput.setText(thesisProblemLive.value ?: "")
-                thesisPlanInput.setText(thesisPlanLive.value ?: "")
-                thesisCaseIntroInput.setText(thesisCaseIntroLive.value ?: "")
-                thesisCaseDescInput.setText(thesisCaseDescLive.value ?: "")
-
+                thesisTitleInput.setText(thesisTitleLive.value ?: "")
+                thesisShortInput.setText(thesisShortLive.value ?: "")
+                thesisStatementInput.setText(thesisStatementLive.value ?: "")
 
                 ArgumentList.argumentList.forEach {
                     val answerTextView = TextView(context)
                     answerTextView.textSize = 20F
                     answerTextView.setTextColor(ResourcesCompat.getColor(res, R.color.grey, null))
                     answerTextView.text = String.format(res.getString(R.string.argument_in_thesis_text),
-                            it.statement,
-                            it.clarification,
-                            it.evidence,
-                            it.summary)
+                            it.title,
+                            it.statement
+                    )
                     linearLayout.addView(answerTextView)
                 }
 
@@ -175,13 +174,9 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                         dialog.cancel()
                     }else{
                         val newThesisRaw = ThesisJsonRaw(0,
-                            stringCutter1024(thesisIntroInput.text.toString()),
-                            stringCutter1024(thesisDefinitionInput.text.toString()),
-                            stringCutter1024(thesisProblemInput.text.toString()),
-                            stringCutter1024(thesisPlanInput.text.toString()),
-                            stringCutter1024(thesisCaseIntroInput.text.toString()),
-                            stringCutter1024(thesisCaseDescInput.text.toString()),
-                            "",
+                            stringCutter1024(thesisTitleInput.text.toString()),
+                            stringCutter1024(thesisShortInput.text.toString()),
+                            stringCutter1024(thesisStatementInput.text.toString()),
                             getRoundNumber(),
                             thesis.id,
                             debateId,
@@ -190,19 +185,17 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                             getAnswerType(thesis))
 
                         val currentThesisId = if(thesis.id == 0L){
-                            saveThesis2(newThesisRaw)
+                            saveThesis(newThesisRaw)
                         } else saveThesis(newThesisRaw)
                         if (ArgumentList.argumentList.isNotEmpty()){
                             ArgumentList.argumentList.forEach {
                                 if (it.answer_id == null || it.answer_id == 0L || it.answer_id == Long.MAX_VALUE)
-                                    saveArgumentWithoutAnswer(
+                                    saveArgument(
                                         ArgumentJsonRaw(
                                         0,
+                                        it.title,
                                         it.statement,
-                                        it.clarification,
-                                        it.evidence,
-                                        it.summary,
-                                        it.answer_id,
+                                        0,
                                         it.debate_id,
                                         currentThesisId,
                                         CurrentUser.id,
@@ -211,10 +204,8 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                                     )
                                 else saveArgument(ArgumentJsonRaw(
                                     0,
+                                    it.title,
                                     it.statement,
-                                    it.clarification,
-                                    it.evidence,
-                                    it.summary,
                                     it.answer_id,
                                     it.debate_id,
                                     currentThesisId,
@@ -249,13 +240,9 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
 
 
 
-                    thesisIntroLive.postValue(thesisIntroInput.text.toString())
-                    thesisDefinitionLive.postValue(thesisDefinitionInput.text.toString())
-                    thesisProblemLive.postValue(thesisProblemInput.text.toString())
-                    thesisPlanLive.postValue(thesisPlanInput.text.toString())
-                    thesisCaseIntroLive.postValue(thesisCaseIntroInput.text.toString())
-                    thesisCaseDescLive.postValue(thesisCaseDescInput.text.toString())
-
+                    thesisTitleLive.postValue(thesisTitleInput.text.toString())
+                    thesisShortLive.postValue(thesisShortInput.text.toString())
+                    thesisStatementLive.postValue(thesisStatementInput.text.toString())
                     val bundle = bundleOf(Pair("debate_id", debateId))
                     navController.saveState()
                     navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
@@ -278,24 +265,18 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         confirm.setView(promptView)
         confirm.setCancelable(true)
 
-        val textIntro = promptView.findViewById<TextView>(R.id.thesis_open_intro)
-        val textDefinition = promptView.findViewById<TextView>(R.id.thesis_open_definition)
-        val textProblem = promptView.findViewById<TextView>(R.id.thesis_open_problem)
-        val textPlan = promptView.findViewById<TextView>(R.id.thesis_open_plan)
-        val textCaseIntro = promptView.findViewById<TextView>(R.id.thesis_open_case_intro)
-        val textCaseDesc = promptView.findViewById<TextView>(R.id.thesis_open_case_desc)
+        val textTitle = promptView.findViewById<TextView>(R.id.thesis_open_title)
+        val textShort = promptView.findViewById<TextView>(R.id.thesis_open_short)
+        val textStatement = promptView.findViewById<TextView>(R.id.thesis_open_statement)
 
         val btn = promptView.findViewById<Button>(R.id.btn_answer)
         btn.setOnClickListener {
             createNewThesis(thesis, navController)
         }
 
-        textIntro.text = thesis.intro
-        textDefinition.text = thesis.definition
-        textProblem.text = thesis.problem
-        textPlan.text = thesis.plan
-        textCaseIntro.text = thesis.caseIntro
-        textCaseDesc.text = thesis.caseDesc
+        textTitle.text = thesis.title
+        textShort.text = thesis.shrt
+        textStatement.text = thesis.statement
 
         confirm.create().apply {
             setOnShowListener { dialog ->
@@ -434,16 +415,8 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         saveThesisAsync(thesis).await()
     }
 
-    private fun saveThesis2(thesis: ThesisJsonRaw): Long = runBlocking {
-        saveThesisWithoutAnswerAsync(thesis).await()
-    }
-
     private fun saveThesisAsync(thesis: ThesisJsonRaw) = async{
         return@async apiFactory.insertThesisRaw(thesis)
-    }
-
-    private fun saveThesisWithoutAnswerAsync(thesis: ThesisJsonRaw) = async{
-        return@async apiFactory.insertThesisRaw2(thesis)
     }
 
     private fun getDebateWithPersons(id: Long) : List<PersonDebateJson> = runBlocking {
@@ -462,14 +435,6 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         return@async apiFactory.insertArgumentRaw(argumentJsonRaw)
     }
 
-    private fun saveArgumentWithoutAnswer(argumentJsonRaw: ArgumentJsonRaw): Long = runBlocking {
-        saveArgumentWithoutAnswerAsync(argumentJsonRaw).await()
-    }
-
-    private fun saveArgumentWithoutAnswerAsync(argumentJsonRaw: ArgumentJsonRaw) = async {
-        return@async apiFactory.insertArgumentWithoutAnswerRaw(argumentJsonRaw)
-    }
-
     private fun deletePersonDebate(debateId: Long, rightsIdOld: Long, rightsIdNew: Long, personId: Long){
         launch {
             runCatching {
@@ -479,6 +444,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                 savePersonDebate(debateId, rightsIdNew, personId)
             }.onFailure {
                 it.printStackTrace()
+                exceptionLiveData.postValue("exception")
             }
         }
     }
@@ -491,6 +457,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                 println("successful deletePersonDebate")
             }.onFailure {
                 it.printStackTrace()
+                exceptionLiveData.postValue("exception")
             }
         }
     }
@@ -505,6 +472,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                 println("successful savePersonDebate")
             }.onFailure {
                 it.printStackTrace()
+                exceptionLiveData.postValue("exception")
             }
         }
     }

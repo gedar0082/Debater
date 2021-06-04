@@ -6,8 +6,7 @@
 
     <string name="argument_in_thesis_text">%1$s
         %2$s
-        %3$s
-        %4$s</string>
+        </string>
 
     <string name="debate_card_created_by">Created by %1$s</string>
 

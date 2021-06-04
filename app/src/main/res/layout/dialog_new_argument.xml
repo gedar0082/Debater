@@ -33,6 +33,34 @@
                 android:textSize="28sp" />
 
             <TextView
+                android:id="@+id/argument_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/argument_statement_text"
+                android:fontFamily="@font/stix"
+                android:gravity="start"
+                android:textColor="@color/textPrimaryDark"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/argument_title_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"
+                android:autofillHints="Thesis name"
+                android:fontFamily="@font/stix"
+                android:inputType="textCapSentences|textMultiLine"
+                android:isScrollContainer="true"
+                android:shadowColor="@color/colorAccent"
+                android:textColor="@color/textPrimary"
+                android:textColorHighlight="@color/textPrimary"
+                android:hint="@string/argument_statement_input"/>
+
+            <TextView
                 android:id="@+id/argument_statement_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -59,88 +87,6 @@
                 android:textColor="@color/textPrimary"
                 android:textColorHighlight="@color/textPrimary"
                 android:hint="@string/argument_statement_input"/>
-
-            <TextView
-                android:id="@+id/argument_clarification_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/argument_clarification_text"
-                android:fontFamily="@font/stix"
-                android:gravity="start"
-                android:textColor="@color/textPrimaryDark"
-                android:textSize="20sp"
-                />
-
-            <EditText
-                android:id="@+id/argument_clarification_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="16dp"
-                android:autofillHints="Thesis description"
-                android:fontFamily="@font/stix"
-                android:inputType="textCapSentences|textMultiLine"
-                android:isScrollContainer="true"
-                android:shadowColor="@color/colorAccent"
-                android:textColor="@color/textPrimaryDark"
-                android:hint="@string/argument_clarification_input"/>
-
-            <TextView
-                android:id="@+id/argument_evidence_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/argument_evidence_text"
-                android:fontFamily="@font/stix"
-                android:gravity="start"
-                android:textColor="@color/textPrimaryDark"
-                android:textSize="20sp"
-                />
-
-            <EditText
-                android:id="@+id/argument_evidence_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="16dp"
-                android:autofillHints="Thesis description"
-                android:fontFamily="@font/stix"
-                android:inputType="textCapSentences|textMultiLine"
-                android:isScrollContainer="true"
-                android:shadowColor="@color/colorAccent"
-                android:textColor="@color/textPrimaryDark"
-                android:hint="@string/argument_evidence_input"
-                />
-
-            <TextView
-                android:id="@+id/argument_summary_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/argument_summary_text"
-                android:fontFamily="@font/stix"
-                android:gravity="start"
-                android:textColor="@color/textPrimaryDark"
-                android:textSize="20sp"
-                />
-
-            <EditText
-                android:id="@+id/argument_summary_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="16dp"
-                android:autofillHints="Thesis description"
-                android:fontFamily="@font/stix"
-                android:inputType="textCapSentences|textMultiLine"
-                android:isScrollContainer="true"
-                android:shadowColor="@color/colorAccent"
-                android:textColor="@color/textPrimaryDark"
-                android:hint="@string/argument_summary_input"/>
 
             <TextView
                 android:id="@+id/argument_response_text"

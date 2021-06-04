@@ -5,10 +5,8 @@ import java.sql.Timestamp
 
 data class ArgumentJson (
     @JsonProperty("id") val id: Long,
+    @JsonProperty("title") val title: String,
     @JsonProperty("statement") val statement: String,
-    @JsonProperty("clarification") val clarification: String?,
-    @JsonProperty("evidence") val evidence: String?,
-    @JsonProperty("summary") val summary: String?,
     @JsonProperty("answer") val answer_id: ArgumentJson?,
     @JsonProperty("debate_id") val debate_id: DebateJson?,
     @JsonProperty("thesis_id") val thesis_id: ThesisJson?,
@@ -22,10 +20,8 @@ data class ArgumentJson (
 
     override fun hashCode(): Int {
         var result = id.hashCode()
+        result = 31 * result + title.hashCode()
         result = 31 * result + statement.hashCode()
-        result = 31 * result + (clarification?.hashCode() ?: 0)
-        result = 31 * result + (evidence?.hashCode() ?: 0)
-        result = 31 * result + (summary?.hashCode() ?: 0)
         result = 31 * result + (answer_id?.hashCode() ?: 0)
         result = 31 * result + (debate_id?.hashCode() ?: 0)
         result = 31 * result + (thesis_id?.hashCode() ?: 0)

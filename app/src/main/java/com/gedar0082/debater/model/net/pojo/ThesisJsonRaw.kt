@@ -5,13 +5,9 @@ import java.sql.Timestamp
 
 data class ThesisJsonRaw (
     @JsonProperty("id") val id: Long,
-    @JsonProperty("intro") val intro: String,
-    @JsonProperty("definition") val definition: String?,
-    @JsonProperty("problem") val problem: String?,
-    @JsonProperty("plan") val plan: String?,
-    @JsonProperty("case_intro") val case_intro: String?,
-    @JsonProperty("case_desc") val case_desc: String?,
-    @JsonProperty("idea") val idea: String?,
+    @JsonProperty("title") val title: String,
+    @JsonProperty("shrt") val shrt: String,
+    @JsonProperty("statement") val statement: String,
     @JsonProperty("round_number") val round_number: Int,
     @JsonProperty("answer_id") val answer_id: Long?,
     @JsonProperty("debate_id") val debate_id: Long,

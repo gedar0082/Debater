@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -51,6 +52,11 @@ class DebateFragment : Fragment() {
         debateViewModel.navController = navController
         debateViewModel.context = requireContext()
         debateViewModel.getPersonDebate()
+
+        val exceptionObserver = Observer<String> {
+            Toast.makeText(context, "Network unreachable. Try later.", Toast.LENGTH_SHORT).show()
+        }
+        debateViewModel.exceptionLiveData.observe(viewLifecycleOwner, exceptionObserver)
     }
 
     private fun initRecyclerView() {
@@ -74,7 +80,7 @@ class DebateFragment : Fragment() {
     private fun displayDiscussions() {
         val observer = Observer<List<DebateWithPersons>> {
             binding.debateRecycle.adapter =
-                DebateAdapter(it) { selectedItem: DebateWithPersons ->
+                DebateAdapter(it.reversed()) { selectedItem: DebateWithPersons ->
                     run {
                         debateViewModel.openDebate(selectedItem)
                     }

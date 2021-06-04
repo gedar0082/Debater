@@ -31,7 +31,7 @@
                     android:textSize="28sp" />
 
                 <TextView
-                    android:id="@+id/thesis_intro_text"
+                    android:id="@+id/thesis_title_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/thesis_intro_text"
@@ -42,7 +42,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/thesis_intro_input"
+                    android:id="@+id/thesis_title_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -59,10 +59,10 @@
                     android:hint="@string/thesis_intro_input"/>
 
                 <TextView
-                    android:id="@+id/thesis_definition_text"
+                    android:id="@+id/thesis_short_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/thesis_definition_text"
+                    android:text="@string/thesis_intro_text"
                     android:fontFamily="@font/stix"
                     android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
@@ -70,26 +70,27 @@
                     />
 
                 <EditText
-                    android:id="@+id/thesis_definition_input"
+                    android:id="@+id/thesis_short_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="4dp"
-                    android:layout_marginBottom="16dp"
-                    android:autofillHints="Thesis description"
+                    android:layout_marginBottom="4dp"
+                    android:autofillHints="Thesis name"
                     android:fontFamily="@font/stix"
                     android:inputType="textCapSentences|textMultiLine"
                     android:isScrollContainer="true"
                     android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark"
-                    android:hint="@string/thesis_definition_input"/>
+                    android:textColor="@color/textPrimary"
+                    android:textColorHighlight="@color/textPrimary"
+                    android:hint="@string/thesis_intro_input"/>
 
                 <TextView
-                    android:id="@+id/thesis_problem_text"
+                    android:id="@+id/thesis_statement_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/thesis_problem_text"
+                    android:text="@string/thesis_intro_text"
                     android:fontFamily="@font/stix"
                     android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
@@ -97,101 +98,21 @@
                     />
 
                 <EditText
-                    android:id="@+id/thesis_problem_input"
+                    android:id="@+id/thesis_statement_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="4dp"
-                    android:layout_marginBottom="16dp"
-                    android:autofillHints="Thesis description"
+                    android:layout_marginBottom="4dp"
+                    android:autofillHints="Thesis name"
                     android:fontFamily="@font/stix"
                     android:inputType="textCapSentences|textMultiLine"
                     android:isScrollContainer="true"
                     android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark"
-                    android:hint="@string/thesis_problem_input"/>
-
-                <TextView
-                    android:id="@+id/thesis_plan_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/thesis_plan_text"
-                    android:fontFamily="@font/stix"
-                    android:gravity="start"
-                    android:textColor="@color/textPrimaryDark"
-                    android:textSize="20sp"
-                    />
-
-                <EditText
-                    android:id="@+id/thesis_plan_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="16dp"
-                    android:autofillHints="Thesis description"
-                    android:fontFamily="@font/stix"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:isScrollContainer="true"
-                    android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark"
-                    android:hint="@string/thesis_plan_input"/>
-
-                <TextView
-                    android:id="@+id/thesis_case_intro_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/thesis_case_intro_text"
-                    android:fontFamily="@font/stix"
-                    android:gravity="start"
-                    android:textColor="@color/textPrimaryDark"
-                    android:textSize="20sp"
-                    />
-
-                <EditText
-                    android:id="@+id/thesis_case_intro_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="16dp"
-                    android:autofillHints="Thesis description"
-                    android:fontFamily="@font/stix"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:isScrollContainer="true"
-                    android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark"
-                    android:hint="@string/thesis_case_intro_input"/>
-
-                <TextView
-                    android:id="@+id/thesis_case_description_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/thesis_case_desc_text"
-                    android:fontFamily="@font/stix"
-                    android:gravity="start"
-                    android:textColor="@color/textPrimaryDark"
-                    android:textSize="20sp"
-                    />
-
-                <EditText
-                    android:id="@+id/thesis_case_description_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="16dp"
-                    android:autofillHints="Thesis description"
-                    android:fontFamily="@font/stix"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:isScrollContainer="true"
-                    android:shadowColor="@color/colorAccent"
-                    android:textColor="@color/textPrimaryDark"
-                    android:hint="@string/thesis_case_desc_input"/>
+                    android:textColor="@color/textPrimary"
+                    android:textColorHighlight="@color/textPrimary"
+                    android:hint="@string/thesis_intro_input"/>
 
                 <TextView
                     android:id="@+id/thesis_response_to_text"

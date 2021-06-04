@@ -56,7 +56,7 @@ class ThesisMapAdapter(
 
         fun bind(data: Any, clickListener: (ThesisJson) -> Unit, longClickListener: (ThesisJson) -> Unit, position: Int){
 
-            val thesisText = textCutter(if (data is Node) (data.data as ThesisJson).intro else "nothing")
+            val thesisText = textCutter(if (data is Node) (data.data as ThesisJson).title else "nothing")
             val thesisTextFormat = thesisText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
 
             binding.nodeText.text = Html.fromHtml(thesisTextFormat)
@@ -97,9 +97,9 @@ fun graphInit(list: List<ThesisJson>?, debate: DebateJson): Graph{
     }
 
     val parent = Node(
-        ThesisJson(0, debate.name, debate.description, null, null,
-        null, null,  0, null,
-        null, null, Util.getCurrentDate(), 1)
+        ThesisJson(0, debate.name, debate.description, "",
+          0, null,
+        null, null, null, 1)
     )
     println("parent = $parent")
     val leftX = 100.0f

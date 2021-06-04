@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -68,6 +69,11 @@ class LoginFragment : Fragment() {
             btn_login.visibility = View.INVISIBLE
         }
         loginViewModel.registrationLiveData.observe(viewLifecycleOwner, registrationObserver)
+
+        val exceptionObserver = Observer<String> {
+            Toast.makeText(context, "Network unreachable. Try later", Toast.LENGTH_SHORT).show()
+        }
+        loginViewModel.exceptionLiveData.observe(viewLifecycleOwner, exceptionObserver)
 
         val pref = activity?.getPreferences(Context.MODE_PRIVATE)
         loginViewModel.prefs = pref!!

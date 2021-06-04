@@ -4,6 +4,5 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class RegulationsJson (
     @JsonProperty("id") val id: Long,
-    @JsonProperty("ruleType") val ruleType: Int,
-    @JsonProperty("hasReferee") val hasReferee: Int
-        )
+    @JsonProperty("ruleType") val ruleType: Int
+)

@@ -122,14 +122,8 @@ interface ApiService {
     @GET("getThesesByDebateId")
     suspend fun getThesesByDebateId(@Query("id") id: Long) : List<ThesisJson>
 
-    @POST("insertThesis")
-    suspend fun insertThesis(@Body thesisJson: ThesisJson) : ThesisJson
-
     @POST("insertThesisRaw")
     suspend fun insertThesisRaw(@Body thesisJsonRaw: ThesisJsonRaw): Long
-
-    @POST("insertThesisRaw2")
-    suspend fun insertThesisRaw2(@Body thesisJsonRaw: ThesisJsonRaw): Long
 
 
     /*
@@ -142,6 +136,4 @@ interface ApiService {
     @POST("insertArgumentRaw")
     suspend fun insertArgumentRaw(@Body argumentJsonRaw: ArgumentJsonRaw) : Long
 
-    @POST("insertArgumentWithoutAnswerRaw")
-    suspend fun insertArgumentWithoutAnswerRaw(@Body argumentJsonRaw: ArgumentJsonRaw): Long
 }

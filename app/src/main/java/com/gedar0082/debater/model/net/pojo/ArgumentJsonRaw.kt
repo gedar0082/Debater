@@ -5,10 +5,8 @@ import java.sql.Timestamp
 
 data class ArgumentJsonRaw (
     @JsonProperty("id") val id: Long,
+    @JsonProperty("title") val title: String,
     @JsonProperty("statement") val statement: String,
-    @JsonProperty("clarification") val clarification: String?,
-    @JsonProperty("evidence") val evidence: String?,
-    @JsonProperty("summary") val summary: String?,
     @JsonProperty("answer_id") val answer_id: Long?,
     @JsonProperty("debate_id") val debate_id: Long?,
     @JsonProperty("thesis_id") val thesis_id: Long?,

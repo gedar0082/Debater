@@ -41,15 +41,16 @@ class DebateViewModel : ViewModel(), CoroutineScope {
     var rule = "classic"
 
     val debateWithPersons = MutableLiveData<List<DebateWithPersons>>()
+    val exceptionLiveData = MutableLiveData<String>()
 
 
     fun getPersonDebate() {
         launch {
             runCatching { apiFactory.getPersonDebate() }.onSuccess {
-
                 debateWithPersons.postValue(getListOfUniqueDebatesWithPersons(it))
             }.onFailure {
                 it.printStackTrace()
+                exceptionLiveData.postValue("exception")
             }
         }
     }
@@ -65,17 +66,22 @@ class DebateViewModel : ViewModel(), CoroutineScope {
         confirm.setCancelable(true)
             .setPositiveButton("Create") { dialog, _ ->
                 run {
-                    val hasReferee = promptView.findViewById<CheckBox>(R.id.debate_hasReferee).isChecked
                     val debateJson = DebateJson(
                         0,
                         stringCutter(promptView.findViewById<EditText>(R.id.debate_name).text.toString()),
                         stringCutter(promptView.findViewById<EditText>(R.id.debate_description).text.toString()),
                         getCurrentDate(),
-                        getRegulationsJsonFromRule(rule, hasReferee)
+                        getRegulationsJsonFromRule(rule)
                     )
-                    val id = saveDebate(debateJson)
-                    savePersonDebate(id.id, 6)
-                    sendNotification(newNotification())
+                    try {
+                        val id = saveDebate(debateJson)
+                        savePersonDebate(id.id, 6)
+                        sendNotification(newNotification())
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                        exceptionLiveData.postValue("exception")
+                    }
+
                     dialog.cancel()
                 }
             }
@@ -122,7 +128,6 @@ class DebateViewModel : ViewModel(), CoroutineScope {
     private fun getStringRules(rule : Int): String{
         when(rule){
             1 -> return "classic"
-            2 -> return "british"
             3 -> return "free"
         }
         return "free"
@@ -136,7 +141,7 @@ class DebateViewModel : ViewModel(), CoroutineScope {
     }
 
     private fun getSpinnerAdapter(): ArrayAdapter<String> {
-        val spinnerList = listOf("classic", "british", "free")
+        val spinnerList = listOf("classic", "free")
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, spinnerList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         return adapter
@@ -164,15 +169,14 @@ class DebateViewModel : ViewModel(), CoroutineScope {
         return Timestamp.valueOf(simpleDateFormat.format(System.currentTimeMillis())) // кажется вставляет локальное время, а не GMT. Надо будет проверить.
     }
 
-    private fun getRegulationsJsonFromRule(stringRule: String, hasReferee: Boolean): RegulationsJson {
-        val hasRefereeInt = if (hasReferee) 1 else 0
+    private fun getRegulationsJsonFromRule(stringRule: String): RegulationsJson {
         val ruleType: Int = when (stringRule) {
             "classic" -> 1
             "british" -> 2
             "free" -> 3
             else -> 3
         }
-        return RegulationsJson(0, ruleType, hasRefereeInt)
+        return RegulationsJson(0, ruleType)
     }
 
     private fun sendNotification(notification: PushNotification) {

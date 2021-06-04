@@ -114,9 +114,9 @@ class ThesisMapFragment : Fragment() {
     private fun displayTempGraph() {
         binding.graph.adapter =
             ThesisMapAdapter(listOf(), thesisMapViewModel.debateWithPersons.first().debate, { selected: ThesisJson ->
-                println(selected.intro)
+                println(selected.title)
             }, { selected: ThesisJson ->
-                println(selected.intro )
+                println(selected.title )
             })
     }
 

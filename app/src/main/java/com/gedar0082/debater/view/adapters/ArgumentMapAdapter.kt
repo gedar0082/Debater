@@ -53,7 +53,7 @@ class ArgumentMapAdapter(
 
             fun bind(data: Any, clickListener: (ArgumentJson) -> Unit, longClickListener: (ArgumentJson) -> Unit){
 
-                val argumentText = textCutter(if (data is Node) (data.data as ArgumentJson).statement else "nothing")
+                val argumentText = textCutter(if (data is Node) (data.data as ArgumentJson).title else "nothing")
                 val argumentTextFormat = argumentText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")// temporary hardcoded color
 
                 binding.argumentNodeText.text = Html.fromHtml(argumentTextFormat)
@@ -97,8 +97,8 @@ fun graphInit(argumentList : List<ArgumentJson>?): Graph{
         }
     }
     val parentArgument = ArgumentJson(Long.MAX_VALUE, parentName, parentDescription,
-        "","", null, null,
-        null, null, null, 1)
+        null,null, null, null,
+        null, 1)
     val graph = Graph()
     if(argumentList == null || argumentList.isEmpty()){
         graph.addNode(Node(parentArgument))

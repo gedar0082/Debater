@@ -35,7 +35,6 @@ class ThesisOptionsAdapter(private val personList: List<PersonRightsJson>,
     private fun getRightsInString(rights: RightJson): String{
         var result = ""
         if (rights.creator == 1) result += "creator "
-        if (rights.referee == 1) result += "referee "
         if (rights.read == 1) result += "read "
         if (rights.write == 1) result += "write"
         return result

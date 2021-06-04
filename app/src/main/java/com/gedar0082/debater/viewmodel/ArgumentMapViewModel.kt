@@ -50,10 +50,8 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
         confirm.setView(promptView)
         confirm.setCancelable(true)
 
+        val title = promptView.findViewById<EditText>(R.id.argument_title_input)
         val statement = promptView.findViewById<EditText>(R.id.argument_statement_input)
-        val clarification = promptView.findViewById<EditText>(R.id.argument_clarification_input)
-        val evidence = promptView.findViewById<EditText>(R.id.argument_evidence_input)
-        val summary = promptView.findViewById<EditText>(R.id.argument_summary_input)
 
         val spinner = promptView.findViewById<Spinner>(R.id.argument_spinner)
         spinner.adapter = getSpinnerAdapter()
@@ -64,10 +62,9 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
                 if (InterScreenController.chooseAnswerArg == 1) {
                     ArgumentList.argumentList.add(
                         ArgumentJsonRaw(
-                            0, statement.text.toString(),
-                            clarification.text.toString(),
-                            evidence.text.toString(),
-                            summary.text.toString(),
+                            0,
+                            title.text.toString(),
+                            statement.text.toString(),
                             argument!!.id,
                             debateId,
                             thesisId,
@@ -82,17 +79,18 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
                 } else {
                     val newArgument = ArgumentJsonRaw(
                         0,
+                        title.text.toString(),
                         statement.text.toString(),
-                        clarification.text.toString(),
-                        evidence.text.toString(),
-                        summary.text.toString(),
-                        argument!!.id, debateId,
+                        if (argument!!.id == Long.MAX_VALUE) 0 else argument.id,
+                        debateId,
                         null,
                         CurrentUser.id,
                         Util.getCurrentDate(),
                         getIntType()
                     )
-                    if (argument.id == Long.MAX_VALUE) saveArgumentWithoutAnswer(newArgument)
+                    if (argument.id == 0L){
+                        saveArgument(newArgument)
+                    }
                     else saveArgument(newArgument)
                     getArguments(debateId)
                     dialog.cancel()
@@ -109,14 +107,10 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
         val promptView: View = li.inflate(R.layout.argument_open, null)
         confirm.setView(promptView)
         confirm.setCancelable(true)
+        val titleText = promptView.findViewById<TextView>(R.id.arg_title)
         val statementText = promptView.findViewById<TextView>(R.id.arg_statement)
-        val clarificationText = promptView.findViewById<TextView>(R.id.arg_clarification)
-        val evidenceText = promptView.findViewById<TextView>(R.id.arg_evidence)
-        val summaryText = promptView.findViewById<TextView>(R.id.arg_summary)
+        titleText.text = argument.title
         statementText.text = argument.statement
-        clarificationText.text = argument.clarification
-        evidenceText.text = argument.evidence
-        summaryText.text = argument.summary
         confirm.create()
         confirm.show()
     }
@@ -168,15 +162,6 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
 
     private fun saveArgumentAsync(argumentJsonRaw: ArgumentJsonRaw) = async {
         return@async apiFactory.insertArgumentRaw(argumentJsonRaw)
-    }
-
-    private fun saveArgumentWithoutAnswer(argumentJsonRaw: ArgumentJsonRaw): Long = runBlocking {
-        sendNotification(newNotification())
-        saveArgumentWithoutAnswerAsync(argumentJsonRaw).await()
-    }
-
-    private fun saveArgumentWithoutAnswerAsync(argumentJsonRaw: ArgumentJsonRaw) = async {
-        return@async apiFactory.insertArgumentWithoutAnswerRaw(argumentJsonRaw)
     }
 
     private fun newNotification(): PushNotification {

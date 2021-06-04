@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/thesis_open_intro"
+                android:id="@+id/thesis_open_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/stix"
@@ -31,7 +31,7 @@
                 />
 
             <TextView
-                android:id="@+id/thesis_open_definition"
+                android:id="@+id/thesis_open_short"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/stix"
@@ -42,7 +42,7 @@
                 />
 
             <TextView
-                android:id="@+id/thesis_open_problem"
+                android:id="@+id/thesis_open_statement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/stix"
@@ -51,38 +51,6 @@
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="10dp"
                 />
-
-            <TextView
-                android:id="@+id/thesis_open_plan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/stix"
-                android:textSize="14sp"
-                android:textColor="@color/textPrimary"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginVertical="10dp"
-                />
-
-            <TextView
-                android:id="@+id/thesis_open_case_intro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/stix"
-                android:textSize="14sp"
-                android:textColor="@color/textPrimary"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginVertical="10dp"
-                />
-
-            <TextView
-                android:id="@+id/thesis_open_case_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/stix"
-                android:textSize="14sp"
-                android:textColor="@color/textPrimary"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginVertical="10dp"/>
 
             <Button
                 android:id="@+id/btn_answer"

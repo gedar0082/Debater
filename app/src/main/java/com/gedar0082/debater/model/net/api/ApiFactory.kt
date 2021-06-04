@@ -16,7 +16,7 @@ object ApiFactory {
 
     private fun getBuilder(): Retrofit = Retrofit.Builder()
         .client(buildClient())
-        .baseUrl("http://134.0.118.137:8080/api/")
+        .baseUrl("http://192.168.1.249:8080/api/")
         .addConverterFactory(JacksonConverterFactory.create())
         .build()
 

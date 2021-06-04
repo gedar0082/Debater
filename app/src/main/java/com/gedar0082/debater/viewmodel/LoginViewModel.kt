@@ -28,6 +28,7 @@ class LoginViewModel : ViewModel(), CoroutineScope, Observable {
     lateinit var navController: NavController
     val loginLiveData = MutableLiveData<String>()
     val registrationLiveData = MutableLiveData<String>()
+    val exceptionLiveData = MutableLiveData<String>()
 
     companion object ActPressed{
         var registrationPressed = false
@@ -46,7 +47,13 @@ class LoginViewModel : ViewModel(), CoroutineScope, Observable {
             loginLiveData.postValue("login")
             ActPressed.loginPressed = true
         }else{
-            loginAct()
+            try {
+                loginAct()
+            }catch (e: Exception){
+                e.printStackTrace()
+                exceptionLiveData.postValue("exception")
+            }
+
         }
     }
 
@@ -55,12 +62,18 @@ class LoginViewModel : ViewModel(), CoroutineScope, Observable {
             registrationLiveData.postValue("registration")
             ActPressed.registrationPressed = true
         }else{
-            registrationAct()
+            try {
+                registrationAct()
+            }catch (e: Exception){
+                e.printStackTrace()
+                exceptionLiveData.postValue("exception")
+            }
+
         }
 
     }
 
-    private fun loginAct(){
+    private fun loginAct() {
         val paj = getPersonAuthenticationJson()
         val request = checkAuthentication(paj)
         if (request) {
@@ -68,7 +81,7 @@ class LoginViewModel : ViewModel(), CoroutineScope, Observable {
             println("successfully authentication")
             getPerson(paj)
             navigationToDebate()
-        }else{
+        } else {
             println("something went wrong")
         }
     }

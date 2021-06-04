@@ -65,14 +65,6 @@
             android:id="@+id/debate_rule">
         </Spinner>
 
-        <CheckBox
-            android:id="@+id/debate_hasReferee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/stix"
-            android:text="@string/debate_hasReferee"
-            android:textColor="@color/textPrimary" />
-
 
 
     </LinearLayout>
