@@ -57,6 +57,7 @@ class ArgumentMapViewModel : ViewModel(), CoroutineScope {
         val spinner = promptView.findViewById<Spinner>(R.id.argument_spinner)
         spinner.adapter = getSpinnerAdapter()
         spinner.onItemSelectedListener = getSpinnerOnItemSelectedListener()
+        if (ruleType == 1) spinner.visibility = View.INVISIBLE
 
         confirm.setPositiveButton("Create") { dialog, _ ->
             run {

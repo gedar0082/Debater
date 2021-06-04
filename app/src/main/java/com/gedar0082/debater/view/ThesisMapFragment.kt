@@ -95,7 +95,14 @@ class ThesisMapFragment : Fragment() {
                     },
                     { selected: ThesisJson ->
                         if (thesisMapViewModel.checkRights()) {
-                            thesisMapViewModel.createNewThesis(selected, navController)
+                            if (!scanningChildren(selected, it)){
+                                thesisMapViewModel.createNewThesis(selected, navController)
+                            }else Toast.makeText(
+                                context,
+                                "This thesis has already been answered",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
 
                         } else Toast.makeText(
                             context,
@@ -107,6 +114,12 @@ class ThesisMapFragment : Fragment() {
 
             }
         })
+    }
+
+    private fun scanningChildren(thesis: ThesisJson, theses: List<ThesisJson>) : Boolean{
+        var hasChild = false
+        theses.forEach { if (it.answer != null && it.answer == thesis) hasChild = true }
+        return hasChild
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
