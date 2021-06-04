@@ -269,10 +269,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         val textShort = promptView.findViewById<TextView>(R.id.thesis_open_short)
         val textStatement = promptView.findViewById<TextView>(R.id.thesis_open_statement)
 
-        val btn = promptView.findViewById<Button>(R.id.btn_answer)
-        btn.setOnClickListener {
-            createNewThesis(thesis, navController)
-        }
+
 
         textTitle.text = thesis.title
         textShort.text = thesis.shrt
@@ -280,6 +277,11 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
 
         confirm.create().apply {
             setOnShowListener { dialog ->
+                val btn = promptView.findViewById<Button>(R.id.btn_answer)
+                btn.setOnClickListener {
+                    createNewThesis(thesis, navController)
+                    dialog.cancel()
+                }
                 promptView.setOnTouchListener(getOnSwipeTouchListener(context, navController, thesis.id, dialog))
             }
             show()
