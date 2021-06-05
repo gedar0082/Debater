@@ -36,7 +36,7 @@
                 android:id="@+id/argument_title_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/argument_statement_text"
+                android:text="@string/argument_title_text"
                 android:fontFamily="@font/stix"
                 android:gravity="start"
                 android:textColor="@color/textPrimaryDark"
@@ -58,7 +58,7 @@
                 android:shadowColor="@color/colorAccent"
                 android:textColor="@color/textPrimary"
                 android:textColorHighlight="@color/textPrimary"
-                android:hint="@string/argument_statement_input"/>
+                android:hint="@string/argument_title_input"/>
 
             <TextView
                 android:id="@+id/argument_statement_text"

@@ -17,14 +17,10 @@
 
     <!--  dialog_new_argument  -->
     <string name="create_new">Create New</string>
+    <string name="argument_title_text">Argument title</string>
+    <string name="argument_title_input">Write here your title</string>
     <string name="argument_statement_text">Argument statement</string>
     <string name="argument_statement_input">Write here your statement</string>
-    <string name="argument_clarification_text">Argument clarification</string>
-    <string name="argument_clarification_input">Write here your clarification</string>
-    <string name="argument_evidence_text">Argument evidence</string>
-    <string name="argument_evidence_input">Write here your evidence</string>
-    <string name="argument_summary_text">Argument summary</string>
-    <string name="argument_summary_input">Write here your summary</string>
     <string name="argument_response_text">Responding to</string>
 
     <!--  dialog_new_debate  -->
@@ -35,18 +31,12 @@
 
     <!--  dialog_new_thesis  -->
     <string name="Dialog_text_new_thesis">Create new</string>
-    <string name="thesis_intro_text">Thesis intro</string>
-    <string name="thesis_intro_input">Write your intro here</string>
-    <string name="thesis_definition_text">Thesis definition</string>
-    <string name="thesis_definition_input">Write your definition here</string>
-    <string name="thesis_problem_text">Thesis problem</string>
-    <string name="thesis_problem_input">Write your problem here</string>
-    <string name="thesis_plan_text">Thesis plan</string>
-    <string name="thesis_plan_input">Write your plan here</string>
-    <string name="thesis_case_intro_text">Thesis case introduce</string>
-    <string name="thesis_case_intro_input">Write your case introduce here</string>
-    <string name="thesis_case_desc_text">Thesis case description</string>
-    <string name="thesis_case_desc_input">Write your case description here</string>
+    <string name="thesis_title_text">Thesis title</string>
+    <string name="thesis_title_input">Write your title here</string>
+    <string name="thesis_short_text">Thesis short description</string>
+    <string name="thesis_short_input">Write your abstract here</string>
+    <string name="thesis_statement_text">Thesis statement</string>
+    <string name="thesis_statement_input">Write your statement here</string>
     <string name="thesis_response_to_text">Answering to</string>
     <string name="thesis_args_text">Thesis arguments</string>
     <string name="btn_answer1">Response to first argument</string>
@@ -86,6 +76,7 @@
     <string name="thesis_change_rights_write_checkbox">Write rights</string>
     <string name="thesis_change_rights_no">No</string>
     <string name="thesis_change_rights_ok">OK</string>
+    <string name="thesis_change_rights_exit">Exit from discussion</string>
 
     <!--  thesis_open  -->
     <string name="btn_answer">Give a response</string>
@@ -100,4 +91,5 @@
     <!--  nav_draw_items  -->
     <string name="item_settings">Settings</string>
     <string name="item_discussions">Discussions</string>
+
 </resources>

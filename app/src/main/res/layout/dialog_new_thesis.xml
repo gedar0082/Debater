@@ -34,7 +34,7 @@
                     android:id="@+id/thesis_title_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/thesis_intro_text"
+                    android:text="@string/thesis_title_text"
                     android:fontFamily="@font/stix"
                     android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
@@ -56,13 +56,13 @@
                     android:shadowColor="@color/colorAccent"
                     android:textColor="@color/textPrimary"
                     android:textColorHighlight="@color/textPrimary"
-                    android:hint="@string/thesis_intro_input"/>
+                    android:hint="@string/thesis_title_input"/>
 
                 <TextView
                     android:id="@+id/thesis_short_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/thesis_intro_text"
+                    android:text="@string/thesis_short_text"
                     android:fontFamily="@font/stix"
                     android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
@@ -84,13 +84,13 @@
                     android:shadowColor="@color/colorAccent"
                     android:textColor="@color/textPrimary"
                     android:textColorHighlight="@color/textPrimary"
-                    android:hint="@string/thesis_intro_input"/>
+                    android:hint="@string/thesis_short_input"/>
 
                 <TextView
                     android:id="@+id/thesis_statement_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/thesis_intro_text"
+                    android:text="@string/thesis_statement_text"
                     android:fontFamily="@font/stix"
                     android:gravity="start"
                     android:textColor="@color/textPrimaryDark"
@@ -112,7 +112,7 @@
                     android:shadowColor="@color/colorAccent"
                     android:textColor="@color/textPrimary"
                     android:textColorHighlight="@color/textPrimary"
-                    android:hint="@string/thesis_intro_input"/>
+                    android:hint="@string/thesis_statement_input"/>
 
                 <TextView
                     android:id="@+id/thesis_response_to_text"

@@ -60,6 +60,7 @@
                 android:background="@drawable/btn_round"
                 android:fontFamily="@font/stix"
                 android:textColor="@color/colorPrimaryDark"
+                android:visibility="invisible"
                 android:text="@string/btn_answer">
 
             </Button>

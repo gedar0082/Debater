@@ -66,6 +66,7 @@ class ThesisMapFragment : Fragment() {
         debateName = arguments?.getString("name")!!
         Log.e("id", "${thesisMapViewModel.debateId}")
         navController = view.findNavController()
+        thesisMapViewModel.navController = navController
         thesisMapViewModel.getTheses(thesisMapViewModel.debateId)
 
         thesisMapViewModel.rule = rule

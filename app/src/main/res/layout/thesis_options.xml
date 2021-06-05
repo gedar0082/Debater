@@ -17,15 +17,17 @@
 
             <Button
                 android:id="@+id/thesis_options_exit"
-                android:layout_width="60dp"
+                android:layout_width="120dp"
                 android:layout_height="60dp"
-                android:background="@drawable/ic_close"
-
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/card_round10"
+                android:text="@string/thesis_change_rights_exit"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/stix"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/thesis_options_text1"

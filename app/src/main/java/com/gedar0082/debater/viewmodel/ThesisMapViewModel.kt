@@ -49,6 +49,8 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Job()
 
+    lateinit var navController: NavController
+
     private val thesisTitleLive = MutableLiveData<String>()
     private val thesisShortLive = MutableLiveData<String>()
     private val thesisStatementLive = MutableLiveData<String>()
@@ -104,15 +106,41 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         }
 
         val exit = promptView.findViewById<Button>(R.id.thesis_options_exit)
-        exit.setOnClickListener {
-            deletePersonDebate(debateId,  getPersonRights(debateWithPersons.first().personsWithRights), CurrentUser.id)
-            Toast.makeText(context, "Successfully exit", Toast.LENGTH_SHORT).show()
-        }
+
         creatorEmailView.text = debateWithPersons.first().findCreator()?.email ?: "do not exist"
         creatorNameView.text = debateWithPersons.first().findCreator()?.nickname ?: "do not exist"
         confirm.setCancelable(true)
-        confirm.create().show()
+        confirm.create().apply {
+            setOnShowListener { dialog ->
+                exit.setOnClickListener {
+                    discussionExitApprove(dialog)
 
+                }
+            }
+            show()
+        }
+
+    }
+
+    private fun discussionExitApprove(dialogInterface: DialogInterface){
+        val alertDialog = AlertDialog.Builder(context, R.style.myDialogStyle)
+        alertDialog.setTitle("Exit from discussion")
+            .setMessage("Are you sure?")
+            .setPositiveButton("Yse"){ approveDialog, _ ->
+                if (debateWithPersons.first().findCreator()!!.id != CurrentUser.id) {
+                    deletePersonDebate(debateId,  getPersonRights(debateWithPersons.first().personsWithRights), CurrentUser.id)
+                }
+                Toast.makeText(context, "Successfully exit", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.action_thesisMapFragment_to_debateFragment)
+                dialogInterface.cancel()
+                approveDialog.cancel()
+            }
+            .setNegativeButton("No"){ approveDialog, _ ->
+                approveDialog.cancel()
+                dialogInterface.cancel()
+            }
+            .create()
+            .show()
     }
 
     private fun getPersonRights(personRights: List<PersonRightsJson>): Long{
@@ -155,8 +183,8 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                     answerTextView.textSize = 20F
                     answerTextView.setTextColor(ResourcesCompat.getColor(res, R.color.grey, null))
                     answerTextView.text = String.format(res.getString(R.string.argument_in_thesis_text),
-                            it.title,
-                            it.statement
+                            it.title + "\n",
+                            it.statement + "\n"
                     )
                     linearLayout.addView(answerTextView)
                 }
@@ -232,15 +260,8 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
             setOnShowListener { dialog ->
                 argBtn1.setOnClickListener{
 
-
-
-
                     InterScreenController.chooseAnswerArg = 1
                     InterScreenController.thesisPressed = thesis
-
-
-
-
 
                     thesisTitleLive.postValue(thesisTitleInput.text.toString())
                     thesisShortLive.postValue(thesisShortInput.text.toString())
@@ -292,7 +313,9 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
 
     private fun changeRights(personRightsJson: PersonRightsJson){
         if (CurrentUser.id != debateWithPersons.first().findCreator()!!.id){
-            Toast.makeText(context, "you don't allow to change users' rights ", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "You don't allow to change users' rights", Toast.LENGTH_SHORT).show()
+        }else if(CurrentUser.id == personRightsJson.person.id){
+            Toast.makeText(context, "You can not change your rights", Toast.LENGTH_SHORT).show()
         }else{
             val confirm = AlertDialog.Builder(context, R.style.myDialogStyle)
             val li = LayoutInflater.from(context)

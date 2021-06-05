@@ -47,7 +47,7 @@ class DebateViewModel : ViewModel(), CoroutineScope {
     fun getPersonDebate() {
         launch {
             runCatching { apiFactory.getPersonDebate() }.onSuccess {
-                debateWithPersons.postValue(getListOfUniqueDebatesWithPersons(it))
+                debateWithPersons.postValue(getListOfUniqueDebatesWithPersons(it)) // тут ошибка
             }.onFailure {
                 it.printStackTrace()
                 exceptionLiveData.postValue("exception")
