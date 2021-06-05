@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.DebateCardBinding
 import com.gedar0082.debater.model.net.pojo.DebateWithPersons
+import com.gedar0082.debater.util.Util
 
 /**
  * The class accepts an array of data to display and clickListener to place on each object.
@@ -45,7 +46,7 @@ class DebateAdapter(
             val nDebateName = debateName.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
             binding.disNameText.text = Html.fromHtml(nDebateName)
 //            binding.disDescriptionText.text = debate.debate.description
-            binding.debateDateStart.text = debate.debate.dateStart.toString()
+            binding.debateDateStart.text = Util.getLocalTimeFromGMTTimestamp(debate.debate.dateStart)
             binding.debateCardCreatedBy.text = String.format(
                 binding.root.resources.getString(R.string.debate_card_created_by),
                 debate.findCreator()?.nickname ?: "nobody")

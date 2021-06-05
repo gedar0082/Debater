@@ -56,21 +56,39 @@ class ThesisMapAdapter(
 
         fun bind(data: Any, clickListener: (ThesisJson) -> Unit, longClickListener: (ThesisJson) -> Unit, position: Int){
 
-            val thesisText = textCutter(if (data is Node) (data.data as ThesisJson).title else "nothing")
-            val thesisTextFormat = thesisText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
+            val thesisJson = if (data is Node) (data.data as ThesisJson) else null
 
-            binding.nodeText.text = Html.fromHtml(thesisTextFormat)
-            binding.author.text = String.format(
-                binding.root.resources.getString(R.string.debate_card_created_by),
-                if (data is Node) (data.data as ThesisJson).person?.nickname ?: "debate" else "nothing")
-            binding.nodeDate.text = if (data is Node) (data.data as ThesisJson).dateTime.toString() else "nothing"
-            binding.tmNode.setOnClickListener {
-                clickListener((data as Node).data as ThesisJson)
+            thesisJson?.let {
+                val thesisText = textCutter(it.title)
+                val thesisTextFormat = thesisText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
+                binding.nodeText.text = Html.fromHtml(thesisTextFormat)
+                binding.author.text = String.format(
+                    binding.root.resources.getString(R.string.debate_card_created_by), it.person?.nickname ?: "debate")
+                binding.nodeDate.text = Util.getLocalTimeFromGMTTimestamp(it.dateTime!!)
+                binding.tmNode.setOnClickListener {
+                    clickListener(thesisJson)
+                }
+                binding.tmNode.setOnLongClickListener{
+                    longClickListener(thesisJson)
+                    return@setOnLongClickListener true
+                }
             }
-            binding.tmNode.setOnLongClickListener{
-                longClickListener((data as Node).data as ThesisJson)
-                return@setOnLongClickListener true
-            }
+
+//            val thesisText = textCutter(if (data is Node) (data.data as ThesisJson).title else "nothing")
+//            val thesisTextFormat = thesisText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
+//
+//            binding.nodeText.text = Html.fromHtml(thesisTextFormat)
+//            binding.author.text = String.format(
+//                binding.root.resources.getString(R.string.debate_card_created_by),
+//                if (data is Node) (data.data as ThesisJson).person?.nickname ?: "debate" else "nothing")
+//            binding.nodeDate.text = if (data is Node) Util.getLocalTimeFromGMTTimestamp((data.data as ThesisJson).dateTime) else "nothing"
+//            binding.tmNode.setOnClickListener {
+//                clickListener((data as Node).data as ThesisJson)
+//            }
+//            binding.tmNode.setOnLongClickListener{
+//                longClickListener((data as Node).data as ThesisJson)
+//                return@setOnLongClickListener true
+//            }
 
             when(if (data is Node) (data.data as ThesisJson).type else 1) {
                 1 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.grey, null))
@@ -99,7 +117,7 @@ fun graphInit(list: List<ThesisJson>?, debate: DebateJson): Graph{
     val parent = Node(
         ThesisJson(0, debate.name, debate.description, "",
           0, null,
-        null, null, null, 1)
+        null, null, debate.dateStart, 1)
     )
     println("parent = $parent")
     val leftX = 100.0f
