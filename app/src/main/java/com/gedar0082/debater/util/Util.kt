@@ -1,6 +1,7 @@
 package com.gedar0082.debater.util
 
 
+import android.util.Log
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -15,10 +16,17 @@ object Util {
         return Timestamp(System.currentTimeMillis())
     }
 
-    fun getLocalTimeFromGMTTimestamp(timestamp: Timestamp) : String{
-        val zonedDateTime = timestamp.toInstant().atZone(ZoneId.systemDefault())
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm")
-        return zonedDateTime.format(formatter)
+    fun getLocalTimeFromGMTTimestamp(timestamp: Timestamp?) : String?{
+        return if (timestamp == null) {
+            null
+        }
+        else{
+            val zonedDateTime = timestamp.toInstant().atZone(ZoneId.systemDefault())
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm")
+            zonedDateTime.format(formatter)
+        }
+
+
     }
 
 

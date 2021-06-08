@@ -26,7 +26,19 @@ data class ArgumentJson (
         result = 31 * result + (debate_id?.hashCode() ?: 0)
         result = 31 * result + (thesis_id?.hashCode() ?: 0)
         result = 31 * result + (person_id?.hashCode() ?: 0)
-        result = 31 * result + (date_time?.hashCode() ?: 0)
+        result = 31 * result + (date_time.hashCode() ?: 0)
         return result
+    }
+
+    override fun toString(): String {
+        return "id = ${id}\n " +
+                "title = ${title}\n" +
+                "statement = ${statement}\n" +
+                "answer = ${answer_id}\n" +
+                "debate_id = ${debate_id}\n" +
+                "thesis_id = ${thesis_id}\n" +
+                "person_id = ${person_id}\n" +
+                "date_time = ${date_time}\n" +
+                "type = ${type}\n"
     }
 }

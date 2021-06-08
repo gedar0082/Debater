@@ -74,24 +74,8 @@ class ThesisMapAdapter(
                 }
             }
 
-//            val thesisText = textCutter(if (data is Node) (data.data as ThesisJson).title else "nothing")
-//            val thesisTextFormat = thesisText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")//временно захардкожен цвет
-//
-//            binding.nodeText.text = Html.fromHtml(thesisTextFormat)
-//            binding.author.text = String.format(
-//                binding.root.resources.getString(R.string.debate_card_created_by),
-//                if (data is Node) (data.data as ThesisJson).person?.nickname ?: "debate" else "nothing")
-//            binding.nodeDate.text = if (data is Node) Util.getLocalTimeFromGMTTimestamp((data.data as ThesisJson).dateTime) else "nothing"
-//            binding.tmNode.setOnClickListener {
-//                clickListener((data as Node).data as ThesisJson)
-//            }
-//            binding.tmNode.setOnLongClickListener{
-//                longClickListener((data as Node).data as ThesisJson)
-//                return@setOnLongClickListener true
-//            }
-
             when(if (data is Node) (data.data as ThesisJson).type else 1) {
-                1 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.grey, null))
+                1 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.blue, null))
                 2 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.green, null))
                 3 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.red, null))
             }

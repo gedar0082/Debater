@@ -31,6 +31,7 @@ class ThesisMapFragment : Fragment() {
     var debateId = 0L
     private var debateName = ""
     private var rule = 0
+    var topic = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +46,7 @@ class ThesisMapFragment : Fragment() {
         )
         debateId = arguments?.getLong("debate_id")!!
         Log.e("debate_id", debateId.toString())
-        val topic = "/topics/debate$debateId"
+        topic = "/topics/debate$debateId"
         FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/myTopic")
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
         thesisMapViewModel = ViewModelProvider(this).get(ThesisMapViewModel::class.java)
@@ -68,12 +69,12 @@ class ThesisMapFragment : Fragment() {
         navController = view.findNavController()
         thesisMapViewModel.navController = navController
         thesisMapViewModel.getTheses(thesisMapViewModel.debateId)
-
+        thesisMapViewModel.debateName = debateName
         thesisMapViewModel.rule = rule
         observeNotifications(thesisMapViewModel.debateId)
 
         if (rule == 3){
-            val bundle = bundleOf(Pair("debate_id", thesisMapViewModel.debateId), Pair("ruleType", rule))
+            val bundle = bundleOf(Pair("debate_id", thesisMapViewModel.debateId), Pair("ruleType", rule), Pair("debate_name", debateName))
             navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
         }
 
@@ -149,6 +150,16 @@ class ThesisMapFragment : Fragment() {
         NotificationEvent.thesisEvent.observe(viewLifecycleOwner, {
             thesisMapViewModel.getTheses(id)
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
     }
 
 }

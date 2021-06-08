@@ -97,23 +97,11 @@ interface ApiService {
     @HTTP(method = "DELETE", path = "deletePersonDebate", hasBody = true)
     suspend fun deletePersonDebate(@Body personDebateRawJson: PersonDebateRawJson)
 
-//    @DELETE("deletePersonDebate")
-//    suspend fun deletePersonDebate(@Body personDebateRawJson: PersonDebateRawJson)
-
     @PUT("updatePersonDebate")
     suspend fun updatePersonDebate(@Body personDebateJson: PersonDebateJson)
 
     @POST("insertRawPersonDebate")
     suspend fun insertRawPersonDebate(@Body personDebateRawJson: PersonDebateRawJson)
-
-
-
-    /*
-    rights block
-     */
-
-    @DELETE("deleteRightById")
-    suspend fun deleteRightById(@Query("id") id: Long)
 
     /*
     thesis block
@@ -124,7 +112,6 @@ interface ApiService {
 
     @POST("insertThesisRaw")
     suspend fun insertThesisRaw(@Body thesisJsonRaw: ThesisJsonRaw): Long
-
 
     /*
     argument block

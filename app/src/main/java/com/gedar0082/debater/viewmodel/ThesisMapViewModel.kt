@@ -39,6 +39,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     lateinit var topic : String
     lateinit var res: Resources
     var theses = MutableLiveData<List<ThesisJson>>()
+    lateinit var debateName: String
     var debateId: Long = 0
     private var tId: Long = 0
 
@@ -81,6 +82,11 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
         }
 
 
+    }
+
+    fun toArgumentMap(){
+        val bundle = bundleOf(Pair("debate_id", debateId), Pair("ruleType", rule), Pair("debate_name", debateName))
+        navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
     }
 
     fun thesisOptions(){
@@ -204,9 +210,9 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                         dialog.cancel()
                     }else{
                         val newThesisRaw = ThesisJsonRaw(0,
-                            stringCutter1024(thesisTitleInput.text.toString()),
-                            stringCutter1024(thesisShortInput.text.toString()),
-                            stringCutter1024(thesisStatementInput.text.toString()),
+                            thesisTitleInput.text.toString(),
+                            thesisShortInput.text.toString(),
+                            thesisStatementInput.text.toString(),
                             getRoundNumber(),
                             thesis.id,
                             debateId,
@@ -266,7 +272,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                     thesisTitleLive.postValue(thesisTitleInput.text.toString())
                     thesisShortLive.postValue(thesisShortInput.text.toString())
                     thesisStatementLive.postValue(thesisStatementInput.text.toString())
-                    val bundle = bundleOf(Pair("debate_id", debateId), Pair("ruleType", rule))
+                    val bundle = bundleOf(Pair("debate_id", debateId), Pair("ruleType", rule), Pair("debate_name", debateName))
                     navController.saveState()
                     navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
                     dialog.cancel()
@@ -382,7 +388,7 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
     private fun getOnSwipeTouchListener(context: Context, navController: NavController, thesisId: Long, listener: DialogInterface)
     = object : OnSwipeTouchListener(context) {
         override fun onSwipeLeft() {
-            val bundle = bundleOf(Pair("debate_id", debateId), Pair("thesis_id", thesisId), Pair("ruleType", rule))
+            val bundle = bundleOf(Pair("debate_id", debateId), Pair("thesis_id", thesisId), Pair("ruleType", rule), Pair("debate_name", debateName))
             navController.navigate(R.id.action_thesisMapFragment_to_argumentMapFragment, bundle)
             listener.cancel()
         }
@@ -404,11 +410,6 @@ class ThesisMapViewModel : ViewModel(), CoroutineScope {
                 Log.e("notification Error", st)
             }
         }
-    }
-
-    private fun stringCutter1024(target: String): String{
-        return if(target.length > 1024) target.substring(0, 1024)
-        else target
     }
 
     private fun getListOfUniqueDebatesWithPersons(list: List<PersonDebateJson>): List<DebateWithPersons> {

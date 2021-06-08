@@ -39,6 +39,7 @@ class DebateViewModel : ViewModel(), CoroutineScope {
     private val apiFactory = ApiFactory.service
     private val notificationObject = NotificationObject.service
     var rule = "classic"
+    var debateCreator = ""
 
     val debateWithPersons = MutableLiveData<List<DebateWithPersons>>()
     val exceptionLiveData = MutableLiveData<String>()
@@ -68,8 +69,8 @@ class DebateViewModel : ViewModel(), CoroutineScope {
                 run {
                     val debateJson = DebateJson(
                         0,
-                        stringCutter(promptView.findViewById<EditText>(R.id.debate_name).text.toString()),
-                        stringCutter(promptView.findViewById<EditText>(R.id.debate_description).text.toString()),
+                        promptView.findViewById<EditText>(R.id.debate_name).text.toString(),
+                        promptView.findViewById<EditText>(R.id.debate_description).text.toString(),
                         getCurrentDate(),
                         getRegulationsJsonFromRule(rule)
                     )
@@ -87,11 +88,6 @@ class DebateViewModel : ViewModel(), CoroutineScope {
             }
         confirm.create()
         confirm.show()
-    }
-
-    private fun stringCutter(target: String): String{
-        return if(target.length > 254) target.substring(0, 253)
-        else target
     }
 
     fun openDebate(debateJson: DebateWithPersons) {
@@ -224,7 +220,8 @@ class DebateViewModel : ViewModel(), CoroutineScope {
 
     private fun navigate(debateJson: DebateWithPersons) {
         val bundle: Bundle =
-            bundleOf(Pair("debate_id", debateJson.debate.id), Pair("name", debateJson.debate.name), Pair("ruleType", debateJson.debate.regulations.ruleType))
+            bundleOf(Pair("debate_id", debateJson.debate.id), Pair("name", debateJson.debate.name),
+                Pair("ruleType", debateJson.debate.regulations.ruleType))
         if (debateJson.debate.regulations.ruleType == 3){
             navController.navigate(R.id.action_debateFragment_to_argumentMapFragment, bundle)
         }else{

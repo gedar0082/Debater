@@ -39,7 +39,7 @@
     <string name="thesis_statement_input">Write your statement here</string>
     <string name="thesis_response_to_text">Answering to</string>
     <string name="thesis_args_text">Thesis arguments</string>
-    <string name="btn_answer1">Response to first argument</string>
+    <string name="btn_answer1">Write argument</string>
     <string name="btn_answer2">Response to second argument</string>
     <string name="btn_answer3">Response to third argument</string>
 

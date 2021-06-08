@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import com.gedar0082.debater.R
 import com.gedar0082.debater.databinding.ArgumentMapNodeBinding
 import com.gedar0082.debater.model.net.pojo.ArgumentJson
+import com.gedar0082.debater.model.net.pojo.DebateJson
+import com.gedar0082.debater.util.Util
 import de.blox.graphview.*
 
 
@@ -16,9 +18,10 @@ import de.blox.graphview.*
  */
 class ArgumentMapAdapter(
     list: List<ArgumentJson>,
+    debate : DebateJson,
     private val clickListener: (ArgumentJson) -> Unit,
     private val longClickListener: (ArgumentJson) -> Unit
-): GraphAdapter<GraphView.ViewHolder>(graphInit(list)) {
+): GraphAdapter<GraphView.ViewHolder>(graphInit(list, debate)) {
 
     override fun getCount(): Int {
         return graph.nodes.size
@@ -53,22 +56,28 @@ class ArgumentMapAdapter(
 
             fun bind(data: Any, clickListener: (ArgumentJson) -> Unit, longClickListener: (ArgumentJson) -> Unit){
 
-                val argumentText = textCutter(if (data is Node) (data.data as ArgumentJson).title else "nothing")
-                val argumentTextFormat = argumentText.replace("Read more", "<font color='#c7934a'>"+"Read more"+"</font>")// temporary hardcoded color
-
-                binding.argumentNodeText.text = Html.fromHtml(argumentTextFormat)
-                binding.amNode.setOnClickListener {
-                    clickListener((data as Node).data as ArgumentJson)
-                }
-                binding.amNode.setOnLongClickListener{
-                    longClickListener((data as Node).data as ArgumentJson)
-                    return@setOnLongClickListener true
+                val argumentJson = if (data is Node) (data.data as ArgumentJson) else null
+                argumentJson?.let{
+                    val argumentText = textCutter(it.title)
+                    val argumentTextFormat = argumentText.replace(
+                        "Read more", "<font color='#c7934a'>"+"Read more"+"</font>")// temporary hardcoded color
+                    binding.argumentNodeText.text = Html.fromHtml(argumentTextFormat)
+                    binding.amNode.setOnClickListener {
+                        clickListener(argumentJson)
+                    }
+                    binding.amNode.setOnLongClickListener{
+                        longClickListener(argumentJson)
+                        return@setOnLongClickListener true
+                    }
+                    binding.author.text = textCutter(it.person_id?.nickname ?: "")
+                    binding.nodeDate.text = Util.getLocalTimeFromGMTTimestamp(it.date_time)
                 }
 
                 when(if (data is Node ) (data.data as ArgumentJson).type ?: 1 else 1) {
-                    1 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.grey, null))
+                    1 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.blue, null))
                     2 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.green, null))
                     3 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.red, null))
+                    4 -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.orange, null))
                     else -> binding.nodeColor.setBackgroundColor(ResourcesCompat.getColor(binding.root.resources, R.color.grey, null))
                 }
             }
@@ -86,19 +95,22 @@ class ArgumentMapAdapter(
 /**
  * Method returns graph with calculated edges
  */
-fun graphInit(argumentList : List<ArgumentJson>?): Graph{
+fun graphInit(argumentList : List<ArgumentJson>?, debate: DebateJson): Graph{
     val strictArgumentList : List<ArgumentJson>
-    var parentName = "main arg"
-    var parentDescription = "parent description"
+    var parentName = "Starting discussion"
+    var parentDescription = ""
     if (argumentList != null){
-        if (argumentList.isNotEmpty()){
-            parentName = argumentList.first().debate_id!!.name
-            parentDescription = argumentList.first().debate_id!!.description
-        }
+//        if (argumentList.isNotEmpty()){
+////            parentName = argumentList.first().debate_id!!.name
+////            parentDescription = argumentList.first().debate_id!!.description
+//
+//        }
+        parentName = debate.name
+        parentDescription = debate.description
     }
     val parentArgument = ArgumentJson(Long.MAX_VALUE, parentName, parentDescription,
         null,null, null, null,
-        null, 1)
+        debate.dateStart, 1)
     val graph = Graph()
     if(argumentList == null || argumentList.isEmpty()){
         graph.addNode(Node(parentArgument))
@@ -108,12 +120,14 @@ fun graphInit(argumentList : List<ArgumentJson>?): Graph{
     val edges = mutableListOf<Edge>()
     val nodes = mutableListOf<Node>()
 
+
     strictArgumentList.forEach { nodes.add(Node(it)) }
     nodes.forEach {
         getParentEdge(it, nodes)?.let { edge ->
             edges.add(edge)
         }
     }
+//    nodes.forEach { println("node ${(it.data as ArgumentJson)}" ) }
     return if(edges.isEmpty()){
         graph.addNode(Node(parentArgument))
         graph

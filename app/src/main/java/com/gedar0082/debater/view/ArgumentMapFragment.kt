@@ -1,6 +1,7 @@
 package com.gedar0082.debater.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class ArgumentMapFragment : Fragment() {
     private lateinit var binding: FragmentArgumentMapBinding
     private lateinit var argumentMapViewModel: ArgumentMapViewModel
     private lateinit var navController: NavController
+    var topic = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +45,14 @@ class ArgumentMapFragment : Fragment() {
         argumentMapViewModel.ruleType = arguments?.getInt("ruleType", 1)!!
         argumentMapViewModel.debateId = arguments?.getLong("debate_id", 1)!!
         argumentMapViewModel.thesisId = arguments?.getLong("thesis_id", 1)!!
-        val topic = "argument${argumentMapViewModel.debateId}"
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/$topic")
-        argumentMapViewModel.topic = topic
+//        argumentMapViewModel.debateName = arguments?.getString("debate_name", "debate")!!
+        val debateId = arguments?.getLong("debate_id", 88)!!
+        topic = "/topics/argument$debateId"
+        Log.e("fcm", topic)
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+
         binding.lifecycleOwner = this
+        argumentMapViewModel.getPersonDebate(argumentMapViewModel.debateId)
         initGraph()
         return binding.root
     }
@@ -54,14 +60,17 @@ class ArgumentMapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
+        argumentMapViewModel.topic = topic
         argumentMapViewModel.context = requireContext()
         argumentMapViewModel.getArguments(argumentMapViewModel.debateId)
+        argumentMapViewModel.getPersonDebate(argumentMapViewModel.debateId)
         argumentMapViewModel.navController = navController
+        if (argumentMapViewModel.ruleType == 1) binding.argumentOptions.visibility = View.INVISIBLE
         observeNotifications(argumentMapViewModel.debateId)
         argumentMapViewModel.arguments.observe(viewLifecycleOwner, {
             it?.let {
                 binding.argumentMapGraph.adapter =
-                    ArgumentMapAdapter(it, { selected: ArgumentJson ->
+                    ArgumentMapAdapter(it, argumentMapViewModel.debateWithPersons.first().debate, { selected: ArgumentJson ->
                         if (InterScreenController.chooseAnswerArg == 1) {
                             InterScreenController.argumentPressed = selected
                             argumentMapViewModel.createNewArgument(selected)
@@ -89,7 +98,7 @@ class ArgumentMapFragment : Fragment() {
     private fun initGraph() {
         val config = SugiyamaConfiguration.Builder()
             .setLevelSeparation(100)
-            .setNodeSeparation(100)
+            .setNodeSeparation(200)
             .build()
         binding.argumentMapGraph.setLayout(SugiyamaAlgorithm(config))
         displayTempGraph()
@@ -99,7 +108,7 @@ class ArgumentMapFragment : Fragment() {
      * set adapter as empty plug-graph
      */
     private fun displayTempGraph() {
-        binding.argumentMapGraph.adapter = ArgumentMapAdapter(listOf(), { selected: ArgumentJson ->
+        binding.argumentMapGraph.adapter = ArgumentMapAdapter(listOf(), argumentMapViewModel.debateWithPersons.first().debate, { selected: ArgumentJson ->
             println(selected.statement)
         }, { selected: ArgumentJson ->
             println(selected.statement)
@@ -111,9 +120,21 @@ class ArgumentMapFragment : Fragment() {
      * this liveData value and this handler update theses data
      */
     private fun observeNotifications(id: Long) {
-        NotificationEvent.thesisEvent.observe(viewLifecycleOwner, {
+        NotificationEvent.argumentEvent.observe(viewLifecycleOwner, {
+            Log.e("fcm", "arguments observed")
             argumentMapViewModel.getArguments(id)
         })
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
     }
 
 
