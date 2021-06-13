@@ -116,12 +116,11 @@ class ArgumentMapFragment : Fragment() {
     }
 
     /**
-     * observe liveData of theses. When notification is received, in FirebaseService we post to
+     * observe liveData of arguments. When notification is received, in FirebaseService we post to
      * this liveData value and this handler update theses data
      */
     private fun observeNotifications(id: Long) {
         NotificationEvent.argumentEvent.observe(viewLifecycleOwner, {
-            Log.e("fcm", "arguments observed")
             argumentMapViewModel.getArguments(id)
         })
     }

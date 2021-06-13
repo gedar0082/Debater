@@ -39,7 +39,6 @@ class FirebaseService : FirebaseMessagingService() {
      * Therefore, in the thread, when receiving a notification, a post is made to this LiveData
      */
     override fun onMessageReceived(message: RemoteMessage) {
-        println("message data from firebase receive " + message.data)
         when {
             message.data["title"] == "debate" -> {
                 NotificationEvent.serviceEvent.postValue("message")
